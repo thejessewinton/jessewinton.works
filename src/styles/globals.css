@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@-ms-viewport {
+  width: device-width;
+}
+
+@-o-viewport {
+  width: device-width;
+}
+
+@viewport {
+  width: device-width;
+}
+
+html,
+body {
+  @apply min-h-screen bg-gray-100 font-sans text-base lg:text-lg selection:bg-gray-400 selection:text-gray-100;
+}
+
+html {
+  @apply w-screen overflow-x-hidden overflow-y-scroll box-border antialiased;
+}
+
+body {
+  @apply relative m-0 w-screen font-light text-white leading-6;
+}
+
+img {
+  @apply block max-w-full h-auto;
+}
+
+table {
+  @apply min-w-full !border-collapse;
+}
+
+input,
+textarea,
+select {
+  @apply text-gray-500 placeholder:text-gray-500;
+}
+
+a {
+  @apply no-underline text-white transition-colors;
+}
+
+h1 {
+  @apply text-h1;
+}
+
+h2 {
+  @apply text-h2;
+}
+
+h3 {
+  @apply text-h3;
+}
+
+h4 {
+  @apply text-h4;
+}
+
+h5 {
+  @apply text-h5;
+}
+
+h6 {
+  @apply text-h6;
+}
