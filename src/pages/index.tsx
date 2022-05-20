@@ -1,6 +1,7 @@
-import { Head } from 'components/Head';
-import type { NextPage } from 'next';
-import { Button } from 'elements/Button';
+import type { NextPage } from "next";
+
+import { Head } from "components/Head";
+import { Button } from "elements/Button";
 
 const Index: NextPage = () => {
   return (
