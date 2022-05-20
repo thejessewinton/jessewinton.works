@@ -6,7 +6,7 @@ import { Button } from "elements/Button";
 const Index: NextPage = () => {
   return (
     <>
-      <Head title="Full-stack front-end engineer." />
+      <Head title="Full-stack front-end engineer in New York, NY" />
       <div className="container">
         <div className="flex flex-col gap-6 max-w-2xl mx-auto">
           <h1 className="leading-tight mb-6">Next.js, baby!</h1>
