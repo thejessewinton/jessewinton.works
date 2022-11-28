@@ -7,7 +7,7 @@ import classNames from 'classnames';
 const inter = Inter();
 
 const Layout = ({ children }: { children: ReactNode }) => {
-  const title = 'Jesse Winton - Full Stack Software Engineer';
+  const title = 'Jesse Winton';
   const description =
     'Full-stack web developer with a passion for building beautiful, performant, and accessible websites. Head of engineering at VeroSkills.com';
   return (
