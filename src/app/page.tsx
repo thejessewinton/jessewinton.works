@@ -1,6 +1,5 @@
 import { HTMLAttributeAnchorTarget } from 'react';
 
-import type { NextPage } from 'next';
 import Link from 'next/link';
 
 const Button = ({
@@ -24,7 +23,7 @@ const Button = ({
   );
 };
 
-const Index: NextPage = () => {
+const Index = async () => {
   return (
     <>
       <div className="container">

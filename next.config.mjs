@@ -17,6 +17,9 @@ export default defineNextConfig({
   swcMinify: true,
   experimental: {
     appDir: true,
+    fontLoaders: [
+      { loader: '@next/font/google', options: { subsets: ['latin'] } },
+    ],
   },
   i18n: {
     locales: ['en'],
