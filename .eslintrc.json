@@ -19,25 +19,6 @@
     "react/react-in-jsx-scope": "off",
     "react/jsx-uses-react": "error",
     "react/jsx-uses-vars": "error",
-    "prefer-const": "error",
-    "import/order": [
-      "error",
-      {
-        "groups": ["builtin", "external", "internal", ["parent", "sibling"]],
-        "pathGroups": [
-          {
-            "pattern": "react",
-            "group": "external",
-            "position": "before"
-          }
-        ],
-        "pathGroupsExcludedImportTypes": ["react"],
-        "newlines-between": "always",
-        "alphabetize": {
-          "order": "asc",
-          "caseInsensitive": true
-        }
-      }
-    ]
+    "prefer-const": "error"
   }
 }
