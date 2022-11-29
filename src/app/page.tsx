@@ -16,14 +16,14 @@ const Button = ({
       href={href}
       target={target}
       rel="noopener noreferrer"
-      className="py-3 px-6 max-h-12 font-semibold cursor-pointer flex items-center justify-center rounded transition-all bg-gray-100 text-neutral-900 gap-3 text-xs lg:text-lg hover:bg-transparent hover:text-white hover:border-white border border-solid border-transparent relative overflow-hidden  disabled:cursor-not-allowed"
+      className="py-1 px-4 max-h-fit font-semibold cursor-pointer flex items-center justify-center rounded transition-all bg-gray-100 text-neutral-900 gap-3 text-xs lg:text-lg hover:bg-transparent hover:text-white hover:border-white border border-solid border-transparent relative overflow-hidden  disabled:cursor-not-allowed"
     >
       {children}
     </Link>
   );
 };
 
-const Index = async () => {
+const Index = () => {
   return (
     <>
       <div className="container">
@@ -33,7 +33,7 @@ const Index = async () => {
           <p>
             I am a NYC based full-stack engineer specializing in creating
             exceptional user experiences and user interfaces with modern
-            Javascript frameworks.
+            Javascript frameworks. Typescript diehard. Working on a personal app
           </p>
 
           <p>
@@ -42,7 +42,10 @@ const Index = async () => {
           </p>
 
           <div className="flex items-center gap-3 mt-6">
-            <Button href="mailto:jwinton@veroskills.com">Get in Touch</Button>
+            <Button href="https://jessewinton.com" target="_blank">
+              Personal Site
+            </Button>
+            <Button href="mailto:jrandallwinton@gmail.com">Get in Touch</Button>
             <Button href="https://veroskills.com" target="_blank">
               Check out VeroSkills
             </Button>
