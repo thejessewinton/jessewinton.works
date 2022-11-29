@@ -33,7 +33,7 @@ const Index = () => {
           <p>
             I am a NYC based full-stack engineer specializing in creating
             exceptional user experiences and user interfaces with modern
-            Javascript frameworks. Typescript diehard. Working on a personal app
+            Javascript frameworks. Typescript and typesafety diehard.
           </p>
 
           <p>
