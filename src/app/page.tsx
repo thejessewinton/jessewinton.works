@@ -10,7 +10,7 @@ const Index = async () => {
         <p>
           I am an East Coast based <em>full-stack engineer</em> specializing in
           creating exceptional user experiences and user interfaces with modern
-          Javascript frameworks. Typescript and typesafety diehard.
+          Javascript frameworks. Typescript and type-safety diehard.
         </p>
         <br />
         <p>
