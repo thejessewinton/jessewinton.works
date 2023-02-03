@@ -1,58 +1,24 @@
-import { HTMLAttributeAnchorTarget } from 'react';
+export const revalidate = 3600;
 
-import Link from 'next/link';
-
-const Button = ({
-  href,
-  target = '_self',
-  children,
-}: {
-  href: string;
-  target?: HTMLAttributeAnchorTarget;
-  children: React.ReactNode;
-}) => {
+const Index = async () => {
   return (
-    <Link
-      href={href}
-      target={target}
-      rel="noopener noreferrer"
-      className="py-1 px-4 max-h-fit font-semibold cursor-pointer flex items-center justify-center rounded transition-all bg-gray-100 text-neutral-900 gap-3 text-xs lg:text-lg hover:bg-transparent hover:text-white hover:border-white border border-solid border-transparent relative overflow-hidden  disabled:cursor-not-allowed"
-    >
-      {children}
-    </Link>
-  );
-};
-
-const Index = () => {
-  return (
-    <>
-      <div className="container">
-        <div className="flex flex-col gap-6 max-w-2xl mx-auto">
-          <h1 className="leading-tight mb-6 text-6xl">Next.js, baby!</h1>
-
-          <p>
-            I am a NYC based full-stack engineer specializing in creating
-            exceptional user experiences and user interfaces with modern
-            Javascript frameworks. Typescript and typesafety diehard.
-          </p>
-
-          <p>
-            Co-founder and Head of Engineering at VeroSkills, based out of
-            Birmingham, AL.
-          </p>
-
-          <div className="flex items-center gap-3 mt-6">
-            <Button href="https://jessewinton.com" target="_blank">
-              Personal Site
-            </Button>
-            <Button href="mailto:jrandallwinton@gmail.com">Get in Touch</Button>
-            <Button href="https://veroskills.com" target="_blank">
-              Check out VeroSkills
-            </Button>
-          </div>
-        </div>
+    <div className="flex flex-col gap-2 pt-32 pb-4">
+      <h1 className="group relative inline-block max-w-xs font-medium">
+        Jesse Winton
+      </h1>
+      <div className="mt-8">
+        <p>
+          I am an East Coast based <em>full-stack engineer</em> specializing in
+          creating exceptional user experiences and user interfaces with modern
+          Javascript frameworks. Typescript and typesafety diehard.
+        </p>
+        <br />
+        <p>
+          Currently on the hunt to join a team of passionate and talented
+          engineers to build beautiful and performant web applications.
+        </p>
       </div>
-    </>
+    </div>
   );
 };
 
