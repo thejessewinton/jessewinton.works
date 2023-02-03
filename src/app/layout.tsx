@@ -1,45 +1,29 @@
-import { ReactNode } from 'react';
+import { Inter, Newsreader } from '@next/font/google';
+import { Footer } from 'components/footer/Footer';
+import type { ReactNode } from 'react';
 
-import { Inter } from '@next/font/google';
-import '../styles/globals.css';
-import classNames from 'classnames';
+import 'styles/globals.css';
 
-const inter = Inter();
+const inter = Inter({ variable: '--font-inter', display: 'optional' });
+const newsreader = Newsreader({
+  variable: '--font-newsreader',
+  display: 'optional',
+  style: 'italic',
+});
 
-const Layout = ({ children }: { children: ReactNode }) => {
-  const title = 'Jesse Winton';
-  const description =
-    'Full-stack web developer with a passion for building beautiful, performant, and accessible websites. Head of engineering at VeroSkills.com';
+const RootLayout = async ({ children }: { children: ReactNode }) => {
   return (
-    <html
-      className={classNames(
-        inter.className,
-        'min-h-screen bg-neutral-900 font-sans text-base lg:text-lg selection:bg-gray-400 selection:text-gray-100 w-screen overflow-x-hidden overflow-y-scroll box-border antialiased'
-      )}
-    >
-      <head>
-        <title>{title}</title>
-        <link rel="shortcut icon" href="" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content={description}></meta>
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:site_name" content={title} />
-        <meta property="twitter:card" content="summary" />
-        <meta property="twitter:title" content={title} />
-        <meta property="twitter:description" content={description} />
-      </head>
-
-      <body className="relative m-0 w-screen text-white leading-6">
-        <main>
-          <div className="min-h-screen flex flex-col items-center justify-center">
-            {children}
-          </div>
+    <html lang="en" className={`${inter.variable} ${newsreader.variable}`}>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link href="/favicon.ico" rel="shortcut icon" />
+      <body className="flex min-h-screen flex-col scroll-smooth leading-loose antialiased selection:bg-neutral-800 dark:bg-neutral-900 dark:text-neutral-200">
+        <main className="mx-auto flex w-full max-w-3xl flex-grow flex-col px-8 pt-24 lg:pt-48">
+          {children}
         </main>
+        <Footer />
       </body>
     </html>
   );
 };
 
-export default Layout;
+export default RootLayout;

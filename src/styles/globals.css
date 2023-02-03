@@ -2,20 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-@-ms-viewport {
-  width: device-width;
-}
-
-@-o-viewport {
-  width: device-width;
-}
-
-@viewport {
-  width: device-width;
-}
-
 @layer base {
-  [data-nextjs-scroll-focus-boundary] {
-    display: contents;
+  i,
+  em {
+    @apply italic font-serif;
   }
 }
