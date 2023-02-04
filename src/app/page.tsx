@@ -10,9 +10,17 @@ const Index = async () => {
       </h1>
       <div className="mt-8">
         <p>
-          I am an East Coast based <em>full-stack engineer</em> specializing in
-          creating exceptional user experiences and user interfaces with modern
-          Javascript frameworks. Typescript and type-safety diehard.
+          I am an East Coast based{' '}
+          <Link
+            href="https://github.com/thejessewinton"
+            target="_blank"
+            className="underline-offset-4 decoration-neutral-700 underline"
+          >
+            <em>full-stack engineer</em>
+          </Link>{' '}
+          specializing in creating exceptional user experiences and user
+          interfaces with modern Javascript frameworks. Typescript and
+          type-safety diehard.
         </p>
         <br />
         <p>
@@ -25,11 +33,19 @@ const Index = async () => {
           <Link
             href="https://veroskills.com"
             target="_blank"
-            className="underline-offset-4 underline italic font-serif"
+            className="underline-offset-4 decoration-neutral-700 underline"
           >
-            VeroSkills
+            <em>VeroSkills</em>
           </Link>
-          .
+          . Also, take a second and checkout{' '}
+          <Link
+            href="/docs/resume.pdf"
+            target="_blank"
+            className="underline-offset-4 decoration-neutral-700 underline"
+          >
+            <em>my resume</em>
+          </Link>
+          , I put a lot of time into it.
         </p>
       </div>
     </div>
