@@ -4,7 +4,7 @@ export const revalidate = 3600;
 
 const Index = async () => {
   return (
-    <div className="flex flex-col gap-2 pt-32 pb-4">
+    <div className="flex flex-col gap-2 pb-4">
       <h1 className="group relative inline-block max-w-xs font-medium">
         Jesse Winton
       </h1>
