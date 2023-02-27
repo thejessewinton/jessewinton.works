@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Jesse Winton",
+    "description": "Actor, playwright, and award-winning musician living and working outside Boston, MA.",
+    "body": {
+      "raw": "\nI am an East Coast based *[full-stack engineer](https://github.com/thejessewinton)* specializing in creating exceptional user experiences and user interfaces with modern Javascript frameworks. Typescript and type-safety diehard.\n\n\nCurrently on the hunt to join a new team of passionate and talented engineers to build beautiful and performant web applications.\n\n\nFormerly head of engineering at *[VeroSkills](https://veroskills.com)*. Also, take a second and checkout *[my resume](/docs/resume.pdf)*, I put a lot of time into it.",
+      "html": "<p>I am an East Coast based <em><a href=\"https://github.com/thejessewinton\">full-stack engineer</a></em> specializing in creating exceptional user experiences and user interfaces with modern Javascript frameworks. Typescript and type-safety diehard.</p>\n<p>Currently on the hunt to join a new team of passionate and talented engineers to build beautiful and performant web applications.</p>\n<p>Formerly head of engineering at <em><a href=\"https://veroskills.com\">VeroSkills</a></em>. Also, take a second and checkout <em><a href=\"/docs/resume.pdf\">my resume</a></em>, I put a lot of time into it.</p>"
+    },
+    "_id": "index.md",
+    "_raw": {
+      "sourceFilePath": "index.md",
+      "sourceFileName": "index.md",
+      "sourceFileDir": ".",
+      "contentType": "markdown",
+      "flattenedPath": ""
+    },
+    "type": "Index",
+    "slug": "/"
+  }
+]

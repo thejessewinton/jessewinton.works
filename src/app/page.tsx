@@ -1,52 +1,28 @@
-import Link from 'next/link';
+import type { Metadata } from 'next';
+import { getIndex } from 'utils/content';
 
-export const revalidate = 3600;
+export const generateMetadata = (): Metadata => {
+  const data = getIndex();
+  return {
+    title: data.title,
+    description:
+      'Full-stack web developer with a passion for building beautiful, performant, and accessible websites and apps. Looking for the next gig.Full-stack web developer with a passion for building beautiful, performant, and accessible websites and apps. Looking for the next gig.',
+  };
+};
 
-const Index = async () => {
+const Index = () => {
+  const data = getIndex();
   return (
     <div className="flex flex-col gap-2 pb-4">
-      <h1 className="group relative inline-block max-w-xs font-medium">
-        Jesse Winton
-      </h1>
-      <div className="mt-8">
-        <p>
-          I am an East Coast based{' '}
-          <Link
-            href="https://github.com/thejessewinton"
-            target="_blank"
-            className="underline-offset-4 decoration-neutral-700 underline"
-          >
-            <em>full-stack engineer</em>
-          </Link>{' '}
-          specializing in creating exceptional user experiences and user
-          interfaces with modern Javascript frameworks. Typescript and
-          type-safety diehard.
-        </p>
-        <br />
-        <p>
-          Currently on the hunt to join a new team of passionate and talented
-          engineers to build beautiful and performant web applications.
-        </p>
-        <br />
-        <p>
-          Formerly head of engineering at{' '}
-          <Link
-            href="https://veroskills.com"
-            target="_blank"
-            className="underline-offset-4 decoration-neutral-700 underline"
-          >
-            <em>VeroSkills</em>
-          </Link>
-          . Also, take a second and checkout{' '}
-          <Link
-            href="/docs/resume.pdf"
-            target="_blank"
-            className="underline-offset-4 decoration-neutral-700 underline"
-          >
-            <em>my resume</em>
-          </Link>
-          , I put a lot of time into it.
-        </p>
+      <div className="relative z-50 animate-enter">
+        <h1 className="group relative mb-4 inline-block w-full max-w-xs cursor-pointer font-medium">
+          <>{data.title}</>
+        </h1>
+
+        <div
+          className="font-light"
+          dangerouslySetInnerHTML={{ __html: data.body.html }}
+        />
       </div>
     </div>
   );

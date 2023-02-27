@@ -21,7 +21,7 @@ const links = [
 
 export const Footer = () => {
   return (
-    <footer className="mb-0 mt-auto flex h-14 w-full items-center border-t border-t-neutral-700">
+    <footer className="mb-0 mt-auto animate-blur flex h-14 w-full items-center border-t border-t-neutral-700">
       <div className="mx-auto flex w-full max-w-3xl flex-row items-center justify-between gap-4 px-8 text-neutral-400">
         <nav className="flex items-center justify-between gap-6 text-sm">
           {links.map((link) => (
