@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../contentlayer.config.ts"],
+  "sourcesContent": ["import type { ComputedFields } from 'contentlayer/source-files';\nimport { defineDocumentType, makeSource } from 'contentlayer/source-files';\n\nconst computedFields: ComputedFields = {\n  slug: {\n    type: 'string',\n    resolve: (doc) => `/${doc._raw.flattenedPath}`,\n  },\n};\n\nexport const Index = defineDocumentType(() => ({\n  name: 'Index',\n  filePathPattern: 'index.md',\n  contentType: 'markdown',\n  fields: {\n    title: {\n      type: 'string',\n      required: true,\n    },\n    description: {\n      type: 'string',\n    },\n  },\n  computedFields,\n}));\n\nexport default makeSource({\n  contentDirPath: './src/content',\n  documentTypes: [Index],\n});\n"],
+  "mappings": ";AACA,SAAS,oBAAoB,kBAAkB;AAE/C,IAAM,iBAAiC;AAAA,EACrC,MAAM;AAAA,IACJ,MAAM;AAAA,IACN,SAAS,CAAC,QAAQ,IAAI,IAAI,KAAK;AAAA,EACjC;AACF;AAEO,IAAM,QAAQ,mBAAmB,OAAO;AAAA,EAC7C,MAAM;AAAA,EACN,iBAAiB;AAAA,EACjB,aAAa;AAAA,EACb,QAAQ;AAAA,IACN,OAAO;AAAA,MACL,MAAM;AAAA,MACN,UAAU;AAAA,IACZ;AAAA,IACA,aAAa;AAAA,MACX,MAAM;AAAA,IACR;AAAA,EACF;AAAA,EACA;AACF,EAAE;AAEF,IAAO,8BAAQ,WAAW;AAAA,EACxB,gBAAgB;AAAA,EAChB,eAAe,CAAC,KAAK;AACvB,CAAC;",
+  "names": []
+}

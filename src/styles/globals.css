@@ -3,8 +3,12 @@
 @tailwind utilities;
 
 @layer base {
-  i,
-  em {
-    @apply italic font-serif;
+  p {
+    @apply mb-8;
+  }
+
+  em,
+  i {
+    @apply font-serif font-normal italic;
   }
 }
