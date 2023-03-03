@@ -15,13 +15,24 @@ export type Index = {
   type: 'Index'
   title: string
   description?: string | undefined
+  works?: Works[] | undefined
   /** Markdown file body */
   body: Markdown
   slug: string
 }  
 
 /** Nested types */
-  
+export type Works = {
+  /** File path relative to `contentDirPath` */
+  _id: string
+  _raw: Local.RawDocumentData
+  type: 'Works'
+  label: string
+  title: string
+  description: string
+  url?: string | undefined
+
+}  
 
 /** Helper types */
 
@@ -31,8 +42,8 @@ export type AllTypeNames = DocumentTypeNames | NestedTypeNames
 export type DocumentTypes = Index
 export type DocumentTypeNames = 'Index'
 
-export type NestedTypes = never
-export type NestedTypeNames = never
+export type NestedTypes = Works
+export type NestedTypeNames = 'Works'
 
 
 export interface ContentlayerGenTypes {
@@ -54,7 +65,7 @@ export type DocumentTypeMap = {
 }
 
 export type NestedTypeMap = {
-
+  Works: Works
 }
 
  
