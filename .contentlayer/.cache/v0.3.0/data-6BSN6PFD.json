@@ -5,8 +5,8 @@
         "title": "Jesse Winton",
         "description": "Actor, playwright, and award-winning musician living and working outside Boston, MA.",
         "body": {
-          "raw": "\nI am an East Coast based *[full-stack engineer](https://github.com/thejessewinton)* specializing in creating exceptional user experiences and user interfaces with modern Javascript frameworks. Typescript and type-safety diehard.\n\n\nCurrently on the hunt to join a new team of passionate and talented engineers to build beautiful and performant web applications.\n\n\nFormerly head of engineering at *[VeroSkills](https://veroskills.com)*. Also, take a second and checkout *[my resume](/docs/resume.pdf)*, I put a lot of time into it.",
-          "html": "<p>I am an East Coast based <em><a href=\"https://github.com/thejessewinton\">full-stack engineer</a></em> specializing in creating exceptional user experiences and user interfaces with modern Javascript frameworks. Typescript and type-safety diehard.</p>\n<p>Currently on the hunt to join a new team of passionate and talented engineers to build beautiful and performant web applications.</p>\n<p>Formerly head of engineering at <em><a href=\"https://veroskills.com\">VeroSkills</a></em>. Also, take a second and checkout <em><a href=\"/docs/resume.pdf\">my resume</a></em>, I put a lot of time into it.</p>"
+          "raw": "\nI am an East Coast based _[full-stack engineer](https://github.com/thejessewinton)_ specializing in creating exceptional user experiences and user interfaces with modern Javascript frameworks. Typescript and type-safety diehard.\n\nCurrently on the hunt to join a new team of passionate and talented engineers to build beautiful and performant web applications.\n\nFormerly head of engineering at _[VeroSkills](https://veroskills.com)_. Also, take a second and checkout _[my resume](/docs/resume.pdf)_, I put a lot of time into it.\n\nLeftist and [_artist too_](https://jessewinton.com).\n",
+          "html": "<p>I am an East Coast based <em><a href=\"https://github.com/thejessewinton\">full-stack engineer</a></em> specializing in creating exceptional user experiences and user interfaces with modern Javascript frameworks. Typescript and type-safety diehard.</p>\n<p>Currently on the hunt to join a new team of passionate and talented engineers to build beautiful and performant web applications.</p>\n<p>Formerly head of engineering at <em><a href=\"https://veroskills.com\">VeroSkills</a></em>. Also, take a second and checkout <em><a href=\"/docs/resume.pdf\">my resume</a></em>, I put a lot of time into it.</p>\n<p>Leftist and <a href=\"https://jessewinton.com\"><em>artist too</em></a>.</p>"
         },
         "_id": "index.md",
         "_raw": {
@@ -19,7 +19,7 @@
         "type": "Index",
         "slug": "/"
       },
-      "documentHash": "1677478099044",
+      "documentHash": "1677855856178",
       "hasWarnings": false,
       "documentTypeName": "Index"
     }
