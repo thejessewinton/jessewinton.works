@@ -36,7 +36,7 @@ export const Footer = () => {
           ))}
         </nav>
 
-        <em>{new Date().getFullYear()}</em>
+        <span className="text-sm">{new Date().getFullYear()}</span>
       </div>
     </footer>
   );
