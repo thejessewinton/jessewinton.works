@@ -1,5 +1,9 @@
-import type { ComputedFields } from 'contentlayer/source-files';
-import { defineDocumentType, makeSource } from 'contentlayer/source-files';
+import {
+  defineDocumentType,
+  makeSource,
+  defineNestedType,
+  type ComputedFields,
+} from 'contentlayer/source-files';
 
 const computedFields: ComputedFields = {
   slug: {
@@ -19,6 +23,24 @@ export const Index = defineDocumentType(() => ({
     },
     description: {
       type: 'string',
+    },
+    works: {
+      type: 'list',
+      of: defineNestedType(() => ({
+        name: 'Works',
+        fields: {
+          label: { type: 'string', required: true },
+          title: { type: 'string', required: true },
+          description: {
+            type: 'string',
+            required: true,
+          },
+          url: {
+            type: 'string',
+            required: false,
+          },
+        },
+      })),
     },
   },
   computedFields,

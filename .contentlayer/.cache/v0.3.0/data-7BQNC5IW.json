@@ -1,0 +1,53 @@
+{
+  "cacheItemsMap": {
+    "index.md": {
+      "document": {
+        "title": "Jesse Winton",
+        "description": "Actor, playwright, and award-winning musician living and working outside Boston, MA.",
+        "works": [
+          {
+            "label": "Before",
+            "title": "VeroSkills",
+            "description": "Fully remote head of engineering.",
+            "url": "/docs/resume.pdf",
+            "type": "Works",
+            "_raw": {}
+          },
+          {
+            "label": "Now",
+            "title": "Joining a Team",
+            "description": "Take a look at my resumé and bring me on.",
+            "url": "/docs/resume.pdf",
+            "type": "Works",
+            "_raw": {}
+          },
+          {
+            "label": "Other",
+            "title": "tinylight",
+            "description": "Lightweight, unstyled lightbox primitives.",
+            "url": "https://github.com/thejessewinton/tinylight",
+            "type": "Works",
+            "_raw": {}
+          }
+        ],
+        "body": {
+          "raw": "\nI am an East Coast based _full-stack engineer_ specializing in creating exceptional user experiences and user interfaces with modern Javascript frameworks. Typescript and type-safety diehard. Currently on the hunt to join a new team of passionate and talented engineers to build beautiful and performant web applications.\n\nLeftist and [_artist too_](https://jessewinton.com).\n",
+          "html": "<p>I am an East Coast based <em>full-stack engineer</em> specializing in creating exceptional user experiences and user interfaces with modern Javascript frameworks. Typescript and type-safety diehard. Currently on the hunt to join a new team of passionate and talented engineers to build beautiful and performant web applications.</p>\n<p>Leftist and <a href=\"https://jessewinton.com\"><em>artist too</em></a>.</p>"
+        },
+        "_id": "index.md",
+        "_raw": {
+          "sourceFilePath": "index.md",
+          "sourceFileName": "index.md",
+          "sourceFileDir": ".",
+          "contentType": "markdown",
+          "flattenedPath": ""
+        },
+        "type": "Index",
+        "slug": "/"
+      },
+      "documentHash": "1677856370557",
+      "hasWarnings": false,
+      "documentTypeName": "Index"
+    }
+  }
+}
