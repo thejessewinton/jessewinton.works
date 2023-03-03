@@ -5,14 +5,14 @@ description: 'Actor, playwright, and award-winning musician living and working o
 works:
   - label: 'Before'
     title: 'VeroSkills'
-    description: 'Fully remote head of engineering.'
-    url: '/docs/resume.pdf'
+    description: 'Fully-remote head of engineering.'
+    url: 'https://veroskills.com'
   - label: 'Now'
     title: 'Joining a Team'
     description: 'Take a look at my resumé and bring me on.'
     url: '/docs/resume.pdf'
   - label: 'Other'
-    title: 'tinylight'
+    title: 'tinylight (beta)'
     description: 'Lightweight, unstyled lightbox primitives.'
     url: 'https://github.com/thejessewinton/tinylight'
 ---
