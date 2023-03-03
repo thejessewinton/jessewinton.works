@@ -25,7 +25,12 @@ export const Footer = () => {
       <div className="mx-auto flex w-full max-w-3xl flex-row items-center justify-between gap-4 px-8 text-neutral-400">
         <nav className="flex items-center justify-between gap-6 text-sm">
           {links.map((link) => (
-            <Link href={link.href} key={link.label} target="_blank">
+            <Link
+              href={link.href}
+              key={link.label}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {link.label}
             </Link>
           ))}
