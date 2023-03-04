@@ -4,10 +4,11 @@ import { getIndex } from 'utils/content';
 
 export const generateMetadata = (): Metadata => {
   const data = getIndex();
+
   return {
     title: data.title,
     description:
-      'Full-stack web developer with a passion for building beautiful, performant, and accessible websites and apps. Looking for the next gig.Full-stack web developer with a passion for building beautiful, performant, and accessible websites and apps. Looking for the next gig.',
+      'Full-stack web developer with a passion for building beautiful, performant, and accessible websites and apps. Looking for the next gig.',
   };
 };
 
