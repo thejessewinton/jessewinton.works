@@ -13,9 +13,9 @@
       },
       {
         "label": "Now",
-        "title": "Joining a Team",
-        "description": "Check out my resumé. Let's talk.",
-        "url": "/docs/resume.pdf",
+        "title": "PlanetScale",
+        "description": "Senior Design Engineer, building a better database.",
+        "url": "https://planetscale.com",
         "type": "Works",
         "_raw": {}
       },
