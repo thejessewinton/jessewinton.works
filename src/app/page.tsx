@@ -8,7 +8,7 @@ export const generateMetadata = (): Metadata => {
   return {
     title: data.title,
     description:
-      'Full-stack web developer with a passion for building beautiful, performant, and accessible websites and apps. Looking for the next gig.',
+      'Full-stack web developer with a passion for building beautiful, performant, and accessible websites and apps. Senior Design Engineer at PlanetScale.',
   };
 };
 
