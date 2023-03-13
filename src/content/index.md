@@ -9,7 +9,7 @@ works:
     url: 'https://veroskills.com'
   - label: 'Now'
     title: 'PlanetScale'
-    description: 'Senior Design Engineer, building a better database.'
+    description: 'Helping build an end-game database platform.'
     url: 'https://planetscale.com'
   - label: 'Other'
     title: 'tinylight'
@@ -17,6 +17,6 @@ works:
     url: 'https://tinylight.jessewinton.dev'
 ---
 
-I am an East Coast based _full-stack engineer_ specializing in creating exceptional user experiences and user interfaces with modern Javascript frameworks. Typescript and type-safety diehard. Senior design engineer at PlanetScale, building a better database.
+I am an East Coast based _full-stack engineer_ specializing in creating exceptional user experiences and user interfaces with modern Javascript frameworks. Typescript and type-safety diehard. Senior design engineer at PlanetScale, crafting interfaces with the brand team.
 
 Leftist. [_Artist too_](https://jessewinton.com).
