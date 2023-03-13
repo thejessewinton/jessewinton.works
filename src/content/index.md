@@ -13,7 +13,7 @@ works:
     url: 'https://planetscale.com'
   - label: 'Contact'
     title: 'Get in Touch'
-    description: 'Reach out and say hello.'
+    description: 'Reach out and say hello, I'd love to hear from you.'
     url: 'mailto:jesse@jessewinton.dev'
 ---
 
