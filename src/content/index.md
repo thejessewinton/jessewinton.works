@@ -10,7 +10,7 @@ works:
   - label: 'Now'
     title: 'Open to Work'
     description: 'Hit me with the next big opportunity.'
-    url: 'https://planetscale.com'
+    url: "https://planetscale.com"
   - label: 'Contact'
     title: 'Get in Touch'
     description: 'Reach out and let's connect.'
