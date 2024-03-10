@@ -1,9 +1,9 @@
+import { index } from '~/contentlayer';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getIndex } from 'utils/content';
 
 export const generateMetadata = (): Metadata => {
-  const data = getIndex();
+  const data = index;
 
   return {
     title: data.title,
@@ -13,24 +13,22 @@ export const generateMetadata = (): Metadata => {
 };
 
 const Index = () => {
-  const data = getIndex();
-
   return (
     <div className="flex flex-col gap-2 pb-4">
       <div className="relative z-50 animate-enter">
         <h1 className="group relative mb-4 inline-block w-full max-w-xs cursor-pointer font-medium">
-          <>{data.title}</>
+          {index.title}
         </h1>
 
         <div
           className="font-light"
-          dangerouslySetInnerHTML={{ __html: data.body.html }}
+          dangerouslySetInnerHTML={{ __html: index.body.html }}
         />
       </div>
 
-      {data.works ? (
+      {index.works ? (
         <div className="group pointer-events-none relative mt-8 mb-12 grid animate-enter gap-12 animation-delay-300 sm:grid-cols-3">
-          {data.works.map((work) => (
+          {index.works.map((work) => (
             <Link
               key={work.label}
               href={work.url || ''}
