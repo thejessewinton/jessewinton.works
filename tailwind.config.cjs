@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const plugin = require('tailwindcss/plugin');
-const defaultTheme = require('tailwindcss/defaultTheme');
+const plugin = require('tailwindcss/plugin')
+const defaultTheme = require('tailwindcss/defaultTheme')
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -8,57 +8,57 @@ module.exports = {
   theme: {
     container: {
       center: true,
-      padding: '1.25rem',
+      padding: '1.25rem'
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-inter)', ...defaultTheme.fontFamily.sans],
-        serif: ['var(--font-newsreader)', ...defaultTheme.fontFamily.serif],
+        sans: ['var(--font-sans)', ...defaultTheme.fontFamily.sans],
+        serif: ['var(--font-serif)', ...defaultTheme.fontFamily.serif]
       },
       blur: {
-        xs: '2px',
+        xs: '2px'
       },
       keyframes: (theme) => ({
         'animate-blur': {
           '0%': {
-            filter: 'blur(5px)',
+            filter: 'blur(5px)'
           },
           '100%': {
-            filter: 'blur(0px)',
-          },
+            filter: 'blur(0px)'
+          }
         },
         'animate-up': {
           '0%': {
-            transform: `translateY(${theme('spacing.4')})`,
+            transform: `translateY(${theme('spacing.4')})`
           },
           '100%': {
-            transform: 'translateY(0px)',
-          },
+            transform: 'translateY(0px)'
+          }
         },
         'animate-scale': {
           '0%': {
-            transform: `scale(${theme('scale.105')})`,
+            transform: `scale(${theme('scale.105')})`
           },
           '100%': {
-            transform: 'translateY(0px)',
-          },
+            transform: 'translateY(0px)'
+          }
         },
         'animate-opacity': {
           '0%': {
-            opacity: 0,
+            opacity: 0
           },
           '100%': {
-            opacity: 1,
-          },
-        },
+            opacity: 1
+          }
+        }
       }),
       animation: {
         enter:
           'animate-scale 0.75s ease-in-out both, animate-blur 0.75s ease-in-out both, animate-opacity 0.75s ease-in-out both',
         up: 'animate-up 0.75s ease-in-out both',
-        blur: 'animate-blur 0.75s ease-in-out both, animate-opacity 0.75s ease-in-out both',
-      },
-    },
+        blur: 'animate-blur 0.75s ease-in-out both, animate-opacity 0.75s ease-in-out both'
+      }
+    }
   },
   plugins: [
     plugin(({ matchUtilities, theme }) => {
@@ -66,14 +66,14 @@ module.exports = {
         {
           'animation-delay': (value) => {
             return {
-              'animation-delay': value,
-            };
-          },
+              'animation-delay': value
+            }
+          }
         },
         {
-          values: theme('transitionDelay'),
+          values: theme('transitionDelay')
         }
-      );
-    }),
-  ],
-};
+      )
+    })
+  ]
+}
