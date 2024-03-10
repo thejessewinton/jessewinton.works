@@ -5,10 +5,11 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "content": ["../.contentlayer/generated"],
-      "content/types": ["../.contentlayer/generated/types"]
+      "~/*": ["./src/*"],
+      "~/contentlayer": ["./.contentlayer/generated"],
+      "~/public/*": ["./public/*"]
     },
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,

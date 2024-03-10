@@ -16,6 +16,7 @@ export const Index = defineDocumentType(() => ({
   name: 'Index',
   filePathPattern: 'index.md',
   contentType: 'markdown',
+  isSingleton: true,
   fields: {
     title: {
       type: 'string',
