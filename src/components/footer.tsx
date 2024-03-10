@@ -6,16 +6,12 @@ const links = [
     href: 'https://github.com/thejessewinton',
   },
   {
-    label: 'Twitter',
-    href: 'https://twitter.com/jessewinton',
-  },
-  {
     label: 'LinkedIn',
     href: 'https://www.linkedin.com/in/jrandallw',
   },
   {
     label: 'Instagram',
-    href: 'https://www.instagram.com/in/jrandallw',
+    href: 'https://www.instagram.com/thejessewinton',
   },
 ];
 

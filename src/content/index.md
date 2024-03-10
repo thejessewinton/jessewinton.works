@@ -1,16 +1,16 @@
 ---
-title: "Jesse Winton"
-description: "Actor, playwright, and award-winning musician living and working outside Boston, MA."
+title: 'Jesse Winton'
+description: 'Actor, playwright, and award-winning musician living and working outside Boston, MA.'
 
 works:
-  - label: 'Projects'
-    title: 'tinylight'
-    description: 'Lightweight, unstyled lightbox primitives.'
-    url: 'https://tinylight.jessewinton.dev'
-  - label: 'Now'
+  - label: 'Before'
     title: 'PlanetScale'
-    description: 'Helping build an end-game database platform.'
+    description: 'Helped to build an end-game database platform.'
     url: 'https://planetscale.com'
+  - label: 'Now'
+    title: 'The Next Thing'
+    description: 'Looking for a new role. Let’s talk.'
+    url: 'mailto:jesse@jessewinton.dev'
   - label: 'Contact'
     title: 'Get in Touch'
     description: "Reach out and let's connect."

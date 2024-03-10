@@ -1,9 +1,9 @@
 import { Inter, Newsreader } from 'next/font/google';
-import { Footer } from 'components/footer/Footer';
+import { Footer } from '~/components/footer';
 import type { ReactNode } from 'react';
 import type { Metadata } from 'next';
 
-import 'styles/globals.css';
+import '~/styles/globals.css';
 
 const inter = Inter({
   variable: '--font-inter',
