@@ -1,6 +1,6 @@
 ---
 title: 'Jesse Winton'
-description: 'Actor, playwright, and award-winning musician living and working outside Boston, MA.'
+description: 'NYC based full-stack engineer, specializing in creating exceptional UI & UX with modern frameworks'
 
 works:
   - label: 'Projects'
@@ -17,6 +17,6 @@ works:
     url: 'mailto:jesse@jessewinton.dev'
 ---
 
-I am an East Coast based _full-stack engineer_ specializing in creating exceptional UI x UX with modern frameworks. Typescript and type-safety diehard. _Former_ Senior Design Engineer at PlanetScale, crafting interfaces with the brand team. Looking for the next thing.
+NYC based _full-stack engineer_ specializing in creating exceptional UI & UX with modern frameworks. Typescript and type-safety diehard. _Former_ Senior Design Engineer at PlanetScale, crafting interfaces with the brand team. Looking for the next thing.
 
 Leftist. [_Artist too_](https://jessewinton.com).
