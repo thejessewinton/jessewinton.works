@@ -1,4 +1,4 @@
-# jessewinton.works & jessewinton.dev
+# jessewinton.works
 
 * Next.js
 * tailwindcss
