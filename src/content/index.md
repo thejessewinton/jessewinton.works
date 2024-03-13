@@ -14,7 +14,7 @@ works:
   - label: 'Now'
     title: 'The Next Thing'
     description: 'Looking for a new role. Let’s talk.'
-    url: 'mailto:jesse@jessewinton.dev'
+    url: '/docs/resume.pdf'
 ---
 
 Engineer who designs. Designer who codes. _NYC._ Specializing in creating exceptional UI & UX with modern frameworks. Typescript and type-safety diehard. _Former_ Senior Design Engineer at PlanetScale, crafting interfaces with the brand team. Looking for the next thing.
