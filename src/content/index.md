@@ -17,4 +17,4 @@ works:
     url: '/docs/resume.pdf'
 ---
 
-Engineer who designs. Designer who codes. _NYC._ Specializing in creating exceptional UI & UX with modern frameworks. Typescript and type-safety diehard. _Former_ Senior Design Engineer at [PlanetScale](https://planetscale.com), crafting interfaces with the brand team. Looking for the next thing.
+Engineer who designs. Designer who codes. _NYC._ Specializing in creating exceptional UI & UX with modern frameworks. Typescript and type-safety diehard. Former Senior Design Engineer at [PlanetScale](https://planetscale.com), crafting interfaces with the brand team. Looking for the next thing.
