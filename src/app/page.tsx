@@ -18,7 +18,7 @@ const Index = () => {
       <div className='relative z-50 animate-enter'>
         <h1 className='group relative mb-4 inline-block w-full max-w-xs cursor-pointer font-medium'>{index.title}</h1>
 
-        <div className='font-light [&>a]:underline [&>a]:decoration-wavy' dangerouslySetInnerHTML={{ __html: index.body.html }} />
+        <div className='font-light' dangerouslySetInnerHTML={{ __html: index.body.html }} />
       </div>
 
       {index.works ? (
