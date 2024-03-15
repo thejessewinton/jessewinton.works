@@ -9,7 +9,7 @@ works:
     url: 'https://github.com/thejessewinton/rupture'
   - label: 'Before'
     title: 'PlanetScale'
-    description: 'Helped to build an end-game database platform.'
+    description: 'Helped to brand an end-game database platform.'
     url: 'https://planetscale.com'
   - label: 'Now'
     title: 'The Next Thing'
@@ -17,4 +17,4 @@ works:
     url: '/docs/resume.pdf'
 ---
 
-Engineer who designs. Designer who codes. _NYC._ Specializing in creating exceptional UI & UX with modern frameworks. Typescript and type-safety diehard. _Former_ Senior Design Engineer at PlanetScale, crafting interfaces with the brand team. Looking for the next thing.
+Engineer who designs. Designer who codes. _NYC._ Specializing in creating exceptional UI & UX with modern frameworks. Typescript and type-safety diehard. _Former_ Senior Design Engineer at [PlanetScale](https://planetscale.com), crafting interfaces with the brand team. Looking for the next thing.
