@@ -1,0 +1,10 @@
+---
+title: 'For the Tailwind Team'
+description: 'Breaking down some of what I built here!'
+---
+
+Hi, I’m super excited to be writing this up for you; I’ve used Tailwind on every single project that I’ve bootstrapped since the first time I installed it in 2022. I used SCSS modules before, and I’ve never looked back. In sharing a bit about me, I want to break down a few of the things you suggested in the job listing, by talking about a project I’m proud of (coincidentally, built with Tailwind!)
+
+For my developer website, [jessewinton.works](https://jessewinton.works), I wanted to build something sleek and minimal; when I first started the build, my idea was for everything to animate in from a scaled up and blurred state, almost as if you were pulling in focus on a camera to reveal the content of the site. I spent a few hours tweaking it using Framer motion, but I couldn’t get something that felt pixel perfect, it was stuttering, and the overhead of the client-side JS bundle was more than I needed for a simple site. So, I rebuilt the animations in Tailwind, added a custom plugin to my Tailwind config that gave me an animation-delay property, and I shipped it. 
+
+I ended up applying the exact same animations to my personal website (I’m also an actor and playwright here in New York City, and my BA is in Musical Theatre), and I haven’t changed the style of either site since I shipped them. I love the way that Tailwind made it easy to create beautiful, performant animations without bundling needless code, and just by creating reusable classes. I wrote the animations once, applied the utility classes to all of the elements where it was needed, and added a simple plugin that created even more reusable utility classes, all to generate native CSS. You can [browse the source-code here](https://github.com/thejessewinton/jessewinton.works/blob/main/tailwind.config.cjs)!
