@@ -3,16 +3,15 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const generateMetadata = (): Metadata => {
-  const data = index
 
   return {
-    title: data.title,
+    title: index.title,
     description:
       'Full-stack web developer with a passion for building beautiful, performant, and accessible websites and apps. Senior Design Engineer at PlanetScale.'
   }
 }
 
-const Index = () => {
+export default function Index(){
   return (
     <div className='flex flex-col gap-2 pb-4'>
       <div className='relative z-50 animate-enter'>
@@ -42,5 +41,3 @@ const Index = () => {
     </div>
   )
 }
-
-export default Index
