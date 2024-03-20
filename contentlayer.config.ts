@@ -47,25 +47,8 @@ export const Index = defineDocumentType(() => ({
   computedFields,
 }));
 
-export const Tailwind = defineDocumentType(() => ({
-  name: 'Tailwind',
-  filePathPattern: 'tailwind.md',
-  contentType: 'markdown',
-  isSingleton: true,
-  fields: {
-    title: {
-      type: 'string',
-      required: true,
-    },
-    description: {
-      type: 'string',
-    },
-
-  },
-  computedFields,
-}));
 
 export default makeSource({
   contentDirPath: './src/content',
-  documentTypes: [Index, Tailwind],
+  documentTypes: [Index],
 });
