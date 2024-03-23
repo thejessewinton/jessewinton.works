@@ -47,8 +47,49 @@ export const Index = defineDocumentType(() => ({
   computedFields,
 }));
 
+const ExperienceIndex = defineDocumentType(() => ({
+  name: 'ExperienceIndex',
+  filePathPattern: 'experience.md',
+  isSingleton: true,
+  contentType: 'markdown',
+  fields: {
+    title: {
+      type: 'string',
+      required: true
+    },
+    description: {
+      type: 'string'
+    }
+  },
+  computedFields
+}))
+
+const Experience = defineDocumentType(() => ({
+  name: 'Experience',
+  filePathPattern: 'experience/**/*.md',
+  contentType: 'markdown',
+  fields: {
+    title: {
+      type: 'string',
+      required: true
+    },
+    role: {
+      type: 'string',
+      required: true
+    },
+    startDate: {
+      type: 'string',
+      required: true
+    },
+    endDate: {
+      type: 'string',
+      required: false
+    }
+  }
+}))
+
 
 export default makeSource({
   contentDirPath: './src/content',
-  documentTypes: [Index],
+  documentTypes: [Index, ExperienceIndex, Experience],
 });
