@@ -13,7 +13,8 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['var(--font-sans)', ...defaultTheme.fontFamily.sans],
-        serif: ['var(--font-serif)', ...defaultTheme.fontFamily.serif]
+        serif: ['var(--font-serif)', ...defaultTheme.fontFamily.serif],
+        mono: ['var(--font-mono)', ...defaultTheme.fontFamily.mono]
       },
       blur: {
         xs: '2px'
@@ -61,6 +62,7 @@ module.exports = {
     }
   },
   plugins: [
+    require('@tailwindcss/typography'),
     plugin(({ matchUtilities, theme }) => {
       matchUtilities(
         {

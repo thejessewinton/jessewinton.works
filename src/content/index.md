@@ -1,7 +1,6 @@
 ---
 title: 'Jesse Winton'
 description: 'NYC based full-stack engineer, specializing in creating exceptional UI & UX with modern frameworks'
-
 works:
   - label: 'Projects'
     title: 'Rupture'
@@ -14,7 +13,31 @@ works:
   - label: 'Now'
     title: 'The Next Thing'
     description: 'Looking for a new role. Let’s talk.'
-    url: '/docs/resume.pdf'
+    url: 'mailto:jrandallwinton@gmail.com'
+experiences:
+  - company: 'Your Company'
+    role: 'Fill in the Blank'
+    endDate: 'Anytime'
+    description: 'On the hunt for the next thing.'
+  - company: 'PlanetScale'
+    role: 'Senior Design Engineer'
+    endDate: '2023-2024'
+    description: 'Worked with the brand team to design and build interfaces and experiences for planetscale.com. Hit `⌘+K` to see my last project.'
+    url: 'https://planetscale.com'
+  - company: 'VeroSkills'
+    role: 'Head of Engineering'
+    endDate: '2021-2023'
+    description: 'Managed the engineering team and led the development of the VeroSkills application.'
+    url: 'https://veroskills.com'
+  - company: 'One Day Doors & Closets'
+    role: 'Lead Designer/Developer'
+    endDate: '2020-2021'
+    description: 'Led a full rebrand of the company and designed and developed a new marketing website.'
+    url: 'https://onedaydoorsandclosets.com'
+  - company: 'Freelance'
+    role: 'Designer & Developer'
+    endDate: '2010-2020'
+    description: 'Led a full rebrand of the company and designed and developed a new marketing website.'
 ---
 
 Engineer who designs. Designer who codes. _NYC._ Specializing in creating exceptional UI & UX with modern frameworks. Typescript and type-safety diehard. Former Senior Design Engineer at [PlanetScale](https://planetscale.com), crafting interfaces with the brand team. Looking for the next thing.

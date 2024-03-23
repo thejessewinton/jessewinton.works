@@ -1,16 +1,11 @@
-import {
-  defineDocumentType,
-  makeSource,
-  defineNestedType,
-  type ComputedFields,
-} from 'contentlayer/source-files';
+import { defineDocumentType, makeSource, defineNestedType, type ComputedFields } from 'contentlayer/source-files'
 
 const computedFields: ComputedFields = {
   slug: {
     type: 'string',
-    resolve: (doc) => `/${doc._raw.flattenedPath}`,
-  },
-};
+    resolve: (doc) => `/${doc._raw.flattenedPath}`
+  }
+}
 
 export const Index = defineDocumentType(() => ({
   name: 'Index',
@@ -20,10 +15,10 @@ export const Index = defineDocumentType(() => ({
   fields: {
     title: {
       type: 'string',
-      required: true,
+      required: true
     },
     description: {
-      type: 'string',
+      type: 'string'
     },
     works: {
       type: 'list',
@@ -34,62 +29,48 @@ export const Index = defineDocumentType(() => ({
           title: { type: 'string', required: true },
           description: {
             type: 'string',
-            required: true,
+            required: true
           },
           url: {
             type: 'string',
-            required: false,
+            required: false
+          }
+        }
+      }))
+    },
+    experiences: {
+      type: 'list',
+      of: defineNestedType(() => ({
+        name: 'Jobs',
+        fields: {
+          company: {
+            type: 'string',
+            required: true
           },
-        },
-      })),
-    },
-  },
-  computedFields,
-}));
-
-const ExperienceIndex = defineDocumentType(() => ({
-  name: 'ExperienceIndex',
-  filePathPattern: 'experience.md',
-  isSingleton: true,
-  contentType: 'markdown',
-  fields: {
-    title: {
-      type: 'string',
-      required: true
-    },
-    description: {
-      type: 'string'
+          role: {
+            type: 'string',
+            required: true
+          },
+          description: {
+            type: 'markdown',
+            required: true
+          },
+          url: {
+            type: 'string',
+            required: false
+          },
+          endDate: {
+            type: 'string',
+            required: true
+          }
+        }
+      }))
     }
   },
   computedFields
 }))
 
-const Experience = defineDocumentType(() => ({
-  name: 'Experience',
-  filePathPattern: 'experience/**/*.md',
-  contentType: 'markdown',
-  fields: {
-    title: {
-      type: 'string',
-      required: true
-    },
-    role: {
-      type: 'string',
-      required: true
-    },
-    startDate: {
-      type: 'string',
-      required: true
-    },
-    endDate: {
-      type: 'string',
-      required: false
-    }
-  }
-}))
-
-
 export default makeSource({
   contentDirPath: './src/content',
-  documentTypes: [Index, ExperienceIndex, Experience],
-});
+  documentTypes: [Index]
+})
