@@ -13,7 +13,10 @@ export default function Index() {
       <div className='relative z-50 animate-enter'>
         <h1 className='group relative mb-4 inline-block w-full max-w-xs cursor-pointer font-medium'>{index.title}</h1>
 
-        <div className='font-light' dangerouslySetInnerHTML={{ __html: index.body.html }} />
+        <div
+          className='prose prose-neutral max-w-none font-light dark:prose-invert prose-a:font-normal prose-a:no-underline'
+          dangerouslySetInnerHTML={{ __html: index.body.html }}
+        />
       </div>
 
       {index.works ? (
@@ -53,7 +56,7 @@ export default function Index() {
                       <span className='block text-xs text-neutral-500'>{experience.company}</span>
                       {experience.role}
                       <div
-                        className='prose prose-neutral mt-2 max-w-none text-neutral-500 dark:prose-invert prose-code:rounded prose-code:bg-neutral-100 prose-code:px-1 prose-code:py-0.5 prose-code:font-mono prose-code:font-extralight prose-code:text-neutral-800 prose-code:before:content-none prose-code:after:content-none prose-code:dark:bg-neutral-950 prose-code:dark:text-white'
+                        className='prose prose-neutral mt-2 max-w-none text-neutral-500 dark:prose-invert prose-a:font-normal prose-a:no-underline prose-em:italic prose-code:rounded prose-code:bg-neutral-100 prose-code:px-1 prose-code:py-0.5 prose-code:font-mono prose-code:font-extralight prose-code:text-neutral-800 prose-code:before:content-none prose-code:after:content-none prose-code:dark:bg-neutral-950 prose-code:dark:text-white'
                         dangerouslySetInnerHTML={{
                           __html: experience.description.html
                         }}

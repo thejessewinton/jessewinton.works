@@ -26,7 +26,7 @@ Up until just a few weeks ago, I was a Senior Design Engineer at PlanetScale, he
 
 If you want to get a better feel for all of my recent experience, check out [the homepage](https://jessewinton.works), or browse through [my resume](https://jessewinton.works/docs/resume.pdf)!
 
-## Something I'm Proud Of
+## What I've Loved Building
 
 One of the most exciting things I've built over the last two years has been my developer website, here at jessewinton.works. The repo is public, (you can check it out [here](https://github.com/thejessewinton/jessewinton.works)), and is built with Next.js, Tailwind, Contentlayer, and markdown. In case it's not obvious, the design is very minimal, but when I was building it out, I wanted to provide a level of interactivity that was in keeping with a minimal style.
 
