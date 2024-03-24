@@ -3,7 +3,9 @@ title: 'Tailwind Labs'
 description: 'NYC based full-stack engineer, specializing in creating exceptional UI & UX with modern frameworks'
 ---
 
-Hello Tailwind Labs team! My name is Jesse Winton, and in case you skipped the [homepage](https://jessewinton.works), I'm a Design Engineer based in New York City. I specialize in building exceptional user experiences with modern frameworks, and I'm diehard for Typescript and Tailwind.
+Hello Adam and the Tailwind Labs team! My name is Jesse Winton, and in case you skipped the [homepage](https://jessewinton.works), I'm a Design Engineer based in New York City. I specialize in building exceptional user experiences with modern frameworks, and I'm diehard for Typescript and Tailwind.
+
+I'm reaching out because I'm excited about the work that Tailwind Labs is doing, and I think that my experience would make me a great fit for the team. I'm a thoughtful, decisive design engineer, with a particular focus on solving complex problems with simple, readable, scalable code, and designing delightful, accessible user experiences on the web. I was first introduced to Tailwind in it's very early days, although I didn't end up using it in production until 2022; since then, every project that I've scaffolded uses Tailwind, and as far as I'm concerned there is no better CSS solution available. I think I'm the right person to build the tools to communicate that to other developers.
 
 ## About Me
 
