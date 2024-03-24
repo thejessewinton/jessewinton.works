@@ -2,27 +2,27 @@
 title: 'Jesse Winton'
 description: 'NYC based full-stack engineer, specializing in creating exceptional UI & UX with modern frameworks'
 works:
-  - label: 'Projects'
-    title: 'Rupture'
-    description: 'Working on a better workout tracker.'
-    url: 'https://github.com/thejessewinton/rupture'
   - label: 'Before'
     title: 'PlanetScale'
-    description: 'Helped to brand an end-game database platform.'
+    description: 'Helped market an endgame MySQL platform.'
     url: 'https://planetscale.com'
   - label: 'Now'
-    title: 'The Next Thing'
-    description: 'Looking for a new role. Let’s talk.'
+    title: 'Rupture'
+    description: 'Building a better workout app.'
+    url: 'https://github.com/thejessewinton/rupture'
+  - label: 'Future'
+    title: 'Open to Work'
+    description: 'Help me fill this one out. Let’s talk.'
     url: 'mailto:jrandallwinton@gmail.com'
 experiences:
   - company: 'Your Company'
     role: 'Fill in the Blank'
     endDate: 'Anytime'
-    description: 'On the hunt for the next thing.'
+    description: 'Let’s work together to create something great.'
   - company: 'PlanetScale'
     role: 'Senior Design Engineer'
     endDate: '2023-2024'
-    description: 'Worked with the brand team to design and build interfaces and experiences for planetscale.com. Hit `⌘+K` to see my last project.'
+    description: 'Worked with the brand team to design and build interfaces and experiences for planetscale.com. Visit and hit `⌘+K` to see my last project.'
     url: 'https://planetscale.com'
   - company: 'VeroSkills'
     role: 'Head of Engineering'
@@ -37,7 +37,9 @@ experiences:
   - company: 'Freelance'
     role: 'Designer & Developer'
     endDate: '2010-2020'
-    description: 'Led a full rebrand of the company and designed and developed a new marketing website.'
+    description: 'Worked with hundreds of clients across North America to brand, design, and build their homes on the web.'
 ---
 
-Engineer who designs. Designer who codes. _NYC._ Specializing in creating exceptional UI & UX with modern frameworks. Typescript and type-safety diehard. Former Senior Design Engineer at [PlanetScale](https://planetscale.com), crafting interfaces with the brand team. Looking for the next thing.
+Engineer who designs. Designer who codes. _NYC._ Specializing in designing and building exceptional web experiences with modern frameworks. Typescript and type-safety diehard. Former Senior Design Engineer at [PlanetScale](https://planetscale.com), marketing an endgame MySQL platform with the brand team.
+
+Looking for the next thing.
