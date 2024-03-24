@@ -11,6 +11,7 @@
   "dependencies": {
     "@t3-oss/env-nextjs": "latest",
     "@tailwindcss/typography": "^0.5.10",
+    "@vercel/analytics": "^1.2.2",
     "contentlayer": "latest",
     "dayjs": "^1.11.10",
     "next": "latest",

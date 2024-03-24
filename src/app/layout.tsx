@@ -4,6 +4,7 @@ import type { ReactNode } from 'react'
 import type { Metadata } from 'next'
 
 import '~/styles/globals.css'
+import { Analytics } from '~/components/analytics'
 
 const sans = Inter({
   variable: '--font-sans',
@@ -43,6 +44,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
           {children}
         </main>
         <Footer />
+        <Analytics />
       </body>
     </html>
   )
