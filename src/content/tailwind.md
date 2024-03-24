@@ -32,4 +32,4 @@ The first idea that came to mind was to animate everything from a blurred state 
 
 ## Conclusion
 
-I hope that this gives you a good sense of my experience, the kind of work that I'm passionate about, and what I could bring to the Tailwind Labs team, I think it's a lot. If you have any questions, or if you'd like to see more of my work, please don't hesitate to reach out to me!
+I hope that this gives you a good sense of my experience, the kind of work that I'm passionate about, and what I could bring to the Tailwind Labs team; I think it's a lot. If you have any questions, or if you'd like to see more of my work, please don't hesitate to reach out to me!
