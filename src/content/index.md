@@ -40,6 +40,6 @@ experiences:
     description: 'Worked with hundreds of clients across North America to brand, design, and build their homes on the web.'
 ---
 
-Engineer who designs. Designer who codes. _NYC._ Specializing in designing and building exceptional web experiences with modern frameworks. Typescript and type-safety diehard. Former Senior Design Engineer at [PlanetScale](https://planetscale.com), marketing an endgame MySQL platform with the brand team.
+Design engineer. Engineer who designs, designer who codes. Specializing in designing and building exceptional web experiences with modern frameworks. Typescript and type-safety diehard. Former Senior Design Engineer at [PlanetScale](https://planetscale.com), marketing an endgame MySQL platform with the brand team.
 
-Looking for the next thing.
+Looking for the next thing. NYC.
