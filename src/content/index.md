@@ -1,6 +1,6 @@
 ---
 title: 'Jesse Winton'
-description: 'NYC based full-stack engineer, specializing in creating exceptional UI & UX with modern frameworks'
+description: 'NYC based design engineer, specializing in creating exceptional web experiences with modern frameworks.'
 works:
   - label: 'Before'
     title: 'PlanetScale'
