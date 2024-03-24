@@ -15,7 +15,7 @@ export default function Tailwind() {
         </h1>
 
         <div
-          className='prose prose-neutral max-w-none pb-8 font-light dark:prose-invert prose-headings:text-base prose-headings:font-medium prose-a:font-normal prose-a:no-underline prose-code:rounded prose-code:bg-neutral-100 prose-code:px-1 prose-code:py-0.5 prose-code:font-mono prose-code:font-extralight prose-code:text-neutral-800 prose-code:before:content-none prose-code:after:content-none prose-code:dark:bg-neutral-950 prose-code:dark:text-white'
+          className='prose prose-neutral max-w-none pb-8 font-light dark:prose-invert prose-headings:text-base prose-headings:font-medium prose-p:mb-8 prose-a:font-normal prose-a:no-underline prose-code:rounded prose-code:bg-neutral-100 prose-code:px-1 prose-code:py-0.5 prose-code:font-mono prose-code:font-extralight prose-code:text-neutral-800 prose-code:before:content-none prose-code:after:content-none prose-code:dark:bg-neutral-950 prose-code:dark:text-white'
           dangerouslySetInnerHTML={{ __html: tailwind.body.html }}
         />
       </div>
