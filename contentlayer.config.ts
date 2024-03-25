@@ -3,7 +3,7 @@ import { defineDocumentType, makeSource, defineNestedType, type ComputedFields }
 const computedFields: ComputedFields = {
   slug: {
     type: 'string',
-    resolve: (doc) => `/${doc._raw.flattenedPath}`
+    resolve: (doc) => `${doc._raw.sourceFileName.replace(/\.mdx?$/, '')}`
   }
 }
 
@@ -70,11 +70,10 @@ export const Index = defineDocumentType(() => ({
   computedFields
 }))
 
-export const Tailwind = defineDocumentType(() => ({
-  name: 'Tailwind',
-  filePathPattern: 'tailwind.md',
+export const Companies = defineDocumentType(() => ({
+  name: 'Companies',
+  filePathPattern: 'companies/**.md',
   contentType: 'markdown',
-  isSingleton: true,
   fields: {
     title: {
       type: 'string',
@@ -89,5 +88,5 @@ export const Tailwind = defineDocumentType(() => ({
 
 export default makeSource({
   contentDirPath: './src/content',
-  documentTypes: [Index, Tailwind]
+  documentTypes: [Index, Companies]
 })
