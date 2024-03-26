@@ -31,8 +31,7 @@ export const metadata: Metadata = {
   title: {
     default: 'Jesse Winton',
     template: '%s — Jesse Winton'
-  },
-  metadataBase: new URL('https://jessewinton.works')
+  }
 }
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
