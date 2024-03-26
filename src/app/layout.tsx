@@ -5,6 +5,7 @@ import type { Metadata } from 'next'
 
 import '~/styles/globals.css'
 import { Analytics, SpeedInsights } from '~/components/analytics'
+import { env } from '~/env.mjs'
 
 const sans = Inter({
   variable: '--font-sans',
@@ -31,7 +32,8 @@ export const metadata: Metadata = {
   title: {
     default: 'Jesse Winton',
     template: '%s — Jesse Winton'
-  }
+  },
+  metadataBase: new URL(env.NEXT_PUBLIC_APP_URL)
 }
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
