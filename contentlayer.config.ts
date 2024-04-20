@@ -37,34 +37,6 @@ export const Index = defineDocumentType(() => ({
           }
         }
       }))
-    },
-    experiences: {
-      type: 'list',
-      of: defineNestedType(() => ({
-        name: 'Jobs',
-        fields: {
-          company: {
-            type: 'string',
-            required: true
-          },
-          role: {
-            type: 'string',
-            required: true
-          },
-          description: {
-            type: 'markdown',
-            required: true
-          },
-          url: {
-            type: 'string',
-            required: false
-          },
-          endDate: {
-            type: 'string',
-            required: true
-          }
-        }
-      }))
     }
   },
   computedFields

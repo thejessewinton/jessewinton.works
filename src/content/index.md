@@ -14,32 +14,8 @@ works:
     title: 'Open to Work'
     description: 'Help me fill this one out. Let’s talk.'
     url: 'mailto:jrandallwinton@gmail.com'
-experiences:
-  - company: 'Your Company'
-    role: 'Fill in the Blank'
-    endDate: 'Anytime'
-    description: 'Let’s work together to create something great.'
-  - company: 'PlanetScale'
-    role: 'Senior Design Engineer'
-    endDate: '2023-2024'
-    description: 'Worked with the brand team to design and build interfaces and experiences for planetscale.com. Visit and hit `⌘+K` to see my last project.'
-    url: 'https://planetscale.com'
-  - company: 'VeroSkills'
-    role: 'Head of Engineering'
-    endDate: '2021-2023'
-    description: 'Managed the engineering team and led the development of the VeroSkills application.'
-    url: 'https://veroskills.com'
-  - company: 'One Day Doors & Closets'
-    role: 'Lead Designer/Developer'
-    endDate: '2020-2021'
-    description: 'Led a full rebrand of the company and designed and developed a new marketing website.'
-    url: 'https://onedaydoorsandclosets.com'
-  - company: 'Freelance'
-    role: 'Designer & Developer'
-    endDate: '2010-2020'
-    description: 'Worked with hundreds of clients across North America to brand, design, and build their homes on the web.'
 ---
 
-Design engineer. Engineer who designs, designer who codes. Specializing in designing and building exceptional web experiences with modern frameworks. Typescript and type-safety diehard. Former Senior Design Engineer at [PlanetScale](https://planetscale.com), marketing an endgame MySQL platform with the brand team.
+Design engineer. Engineer who designs, designer who codes. Specializing in designing and building exceptional web experiences with modern frameworks. Typescript and type-safety diehard. Former Senior Design Engineer at [PlanetScale](https://planetscale.com).
 
 Looking for the next thing. NYC.
