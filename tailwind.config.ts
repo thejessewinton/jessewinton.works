@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const plugin = require('tailwindcss/plugin')
-const defaultTheme = require('tailwindcss/defaultTheme')
+import { type Config } from 'tailwindcss'
+import { fontFamily } from 'tailwindcss/defaultTheme'
+import plugin from 'tailwindcss/plugin'
 
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     container: {
@@ -12,14 +11,14 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-sans)', ...defaultTheme.fontFamily.sans],
-        serif: ['var(--font-serif)', ...defaultTheme.fontFamily.serif],
-        mono: ['var(--font-mono)', ...defaultTheme.fontFamily.mono]
+        sans: ['var(--font-sans)', ...fontFamily.sans],
+        serif: ['var(--font-serif)', ...fontFamily.serif],
+        mono: ['var(--font-mono)', ...fontFamily.mono]
       },
       blur: {
         xs: '2px'
       },
-      keyframes: (theme) => ({
+      keyframes: {
         'animate-blur': {
           '0%': {
             filter: 'blur(5px)'
@@ -30,7 +29,7 @@ module.exports = {
         },
         'animate-up': {
           '0%': {
-            transform: `translateY(${theme('spacing.4')})`
+            transform: `translateY(16px)`
           },
           '100%': {
             transform: 'translateY(0px)'
@@ -38,7 +37,7 @@ module.exports = {
         },
         'animate-scale': {
           '0%': {
-            transform: `scale(${theme('scale.105')})`
+            transform: `scale(1.05)`
           },
           '100%': {
             transform: 'translateY(0px)'
@@ -46,13 +45,13 @@ module.exports = {
         },
         'animate-opacity': {
           '0%': {
-            opacity: 0
+            opacity: '0'
           },
           '100%': {
-            opacity: 1
+            opacity: '1'
           }
         }
-      }),
+      },
       typography: {
         quoteless: {
           css: {
@@ -86,4 +85,4 @@ module.exports = {
       )
     })
   ]
-}
+} satisfies Config
