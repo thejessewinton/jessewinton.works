@@ -4,7 +4,7 @@ description: 'NYC based design engineer, specializing in creating exceptional we
 works:
   - label: 'Before'
     title: 'PlanetScale'
-    description: 'Helped market an endgame MySQL platform.'
+    description: 'Helped build good experiences for developers.'
     url: 'https://planetscale.com'
   - label: 'Now'
     title: 'Rupture'
