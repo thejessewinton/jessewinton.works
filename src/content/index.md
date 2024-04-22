@@ -9,7 +9,7 @@ works:
   - label: 'Now'
     title: 'Rupture'
     description: 'Building a better workout app.'
-    url: 'https://github.com/thejessewinton/rupture'
+    url: 'https://www.rpshr.app/'
   - label: 'Future'
     title: 'Open to Work'
     description: 'Help me fill this one out. Let’s talk.'
