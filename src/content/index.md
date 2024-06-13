@@ -7,15 +7,13 @@ works:
     description: 'Helped build front-end experiences.'
     url: 'https://planetscale.com'
   - label: 'Now'
-    title: 'rpshr'
-    description: 'Building a better workout journal.'
-    url: 'https://www.rpshr.app/'
+    title: 'Appwrite'
+    description: 'Design engineering.'
+    url: 'https://www.appwrite.io/'
   - label: 'Future'
     title: 'Open to Work'
     description: 'Help me fill this one out. Let’s talk.'
     url: 'mailto:jrandallwinton@gmail.com'
 ---
 
-Design engineer. Engineer who designs, designer who codes. Specializing in designing and building exceptional web experiences with modern frameworks. Typescript and type-safety diehard. Former Senior Design Engineer at [PlanetScale](https://planetscale.com).
-
-Looking for the next thing. NYC.
+Design engineer in NYC. Engineer who designs, designer who codes. Specializing in designing and building exceptional web experiences with modern frameworks. Typescript and type-safety diehard. Design Engineer at [Appwrite](https://appwrite.io).
