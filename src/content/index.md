@@ -4,16 +4,16 @@ description: 'NYC based design engineer, specializing in creating exceptional we
 works:
   - label: 'Before'
     title: 'PlanetScale'
-    description: 'Helped build front-end experiences.'
+    description: 'Design engineering for an elite MySQL database.'
     url: 'https://planetscale.com'
   - label: 'Now'
     title: 'Appwrite'
-    description: 'Design engineering.'
-    url: 'https://www.appwrite.io/'
-  - label: 'Future'
-    title: 'Open to Work'
-    description: 'Help me fill this one out. Let’s talk.'
-    url: 'mailto:jrandallwinton@gmail.com'
+    description: 'Design engineering for an endgame developer platform.'
+    url: 'https://www.appwrite.io'
+  - label: 'Other'
+    title: 'rpshr'
+    description: 'Building a simple, user-friendly workout tracker.'
+    url: 'https://rpshr.app'
 ---
 
 Design engineer in NYC. Engineer who designs, designer who codes. Specializing in designing and building exceptional web experiences with modern frameworks. Typescript and type-safety diehard. Design Engineer at [Appwrite](https://appwrite.io).
