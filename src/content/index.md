@@ -8,7 +8,7 @@ works:
     url: 'https://planetscale.com'
   - label: 'Now'
     title: 'Appwrite'
-    description: 'Design engineering for an endgame developer platform.'
+    description: 'Design engineering for an endgame dev platform.'
     url: 'https://www.appwrite.io'
   - label: 'Other'
     title: 'rpshr'
