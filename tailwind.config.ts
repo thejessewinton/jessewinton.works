@@ -21,7 +21,7 @@ export default {
       keyframes: {
         'animate-blur': {
           '0%': {
-            filter: 'blur(5px)'
+            filter: 'blur(50px)'
           },
           '100%': {
             filter: 'blur(0px)'
@@ -29,7 +29,7 @@ export default {
         },
         'animate-up': {
           '0%': {
-            transform: `translateY(16px)`
+            transform: `translateY(8px)`
           },
           '100%': {
             transform: 'translateY(0px)'
@@ -40,7 +40,7 @@ export default {
             transform: `scale(1.05)`
           },
           '100%': {
-            transform: 'translateY(0px)'
+            transform: 'scale(1)'
           }
         },
         'animate-opacity': {
@@ -52,19 +52,14 @@ export default {
           }
         }
       },
-      typography: {
-        quoteless: {
-          css: {
-            'blockquote p:first-of-type::before': { content: 'none' },
-            'blockquote p:first-of-type::after': { content: 'none' }
-          }
-        }
-      },
       animation: {
         enter:
           'animate-scale 0.75s ease-in-out both, animate-blur 0.75s ease-in-out both, animate-opacity 0.75s ease-in-out both',
         up: 'animate-up 0.75s ease-in-out both',
-        blur: 'animate-blur 0.75s ease-in-out both, animate-opacity 0.75s ease-in-out both'
+        blur: 'animate-blur 0.75s ease-in-out both, animate-opacity 0.75s ease-in-out both',
+        fade: 'animate-opacity 0.25s ease-in-out both',
+        'fade-blur': 'animate-blur 0.25s ease-in-out both, animate-opacity 0.25s ease-in-out both',
+        text: 'animate-blur 0.75s ease-in-out both, animate-opacity 0.75s ease-in-out both, animate-up 0.75s ease-in-out both'
       }
     }
   },
