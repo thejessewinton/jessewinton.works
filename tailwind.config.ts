@@ -1,8 +1,8 @@
-import { type Config } from 'tailwindcss'
-import { fontFamily } from 'tailwindcss/defaultTheme'
 import plugin from 'tailwindcss/plugin'
+import defaultTheme from 'tailwindcss/defaultTheme'
+import type { Config } from 'tailwindcss'
 
-export default {
+const config: Config = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     container: {
@@ -11,9 +11,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-sans)', ...fontFamily.sans],
-        serif: ['var(--font-serif)', ...fontFamily.serif],
-        mono: ['var(--font-mono)', ...fontFamily.mono]
+        sans: ['var(--font-geist-sans)', ...defaultTheme.fontFamily.sans],
+        serif: ['var(--font-serif)', ...defaultTheme.fontFamily.serif]
       },
       blur: {
         xs: '2px'
@@ -21,7 +20,7 @@ export default {
       keyframes: {
         'animate-blur': {
           '0%': {
-            filter: 'blur(50px)'
+            filter: 'blur(5px)'
           },
           '100%': {
             filter: 'blur(0px)'
@@ -37,10 +36,10 @@ export default {
         },
         'animate-scale': {
           '0%': {
-            transform: `scale(1.05)`
+            transform: `translateY(10px)`
           },
           '100%': {
-            transform: 'scale(1)'
+            transform: 'translateY(0px)'
           }
         },
         'animate-opacity': {
@@ -59,12 +58,11 @@ export default {
         blur: 'animate-blur 0.75s ease-in-out both, animate-opacity 0.75s ease-in-out both',
         fade: 'animate-opacity 0.25s ease-in-out both',
         'fade-blur': 'animate-blur 0.25s ease-in-out both, animate-opacity 0.25s ease-in-out both',
-        text: 'animate-blur 0.75s ease-in-out both, animate-opacity 0.75s ease-in-out both, animate-up 0.75s ease-in-out both'
+        text: 'animate-opacity 0.75s ease-in-out both, animate-blur 0.75s ease-in-out both, animate-up 0.75s ease-in-out both'
       }
     }
   },
   plugins: [
-    require('@tailwindcss/typography'),
     plugin(({ matchUtilities, theme }) => {
       matchUtilities(
         {
@@ -78,6 +76,9 @@ export default {
           values: theme('transitionDelay')
         }
       )
-    })
+    }),
+    require('@tailwindcss/typography')
   ]
-} satisfies Config
+}
+
+export default config
