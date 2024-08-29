@@ -11,7 +11,7 @@ const config: Config = {
     },
     extend: {
       fontFamily: {
-        sans: ['var(--font-geist-sans)', ...defaultTheme.fontFamily.sans],
+        sans: ['var(--font-sans)', ...defaultTheme.fontFamily.sans],
         serif: ['var(--font-serif)', ...defaultTheme.fontFamily.serif]
       },
       blur: {
