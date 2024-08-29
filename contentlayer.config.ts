@@ -42,23 +42,7 @@ export const Index = defineDocumentType(() => ({
   computedFields
 }))
 
-export const Companies = defineDocumentType(() => ({
-  name: 'Companies',
-  filePathPattern: 'companies/**.md',
-  contentType: 'markdown',
-  fields: {
-    title: {
-      type: 'string',
-      required: true
-    },
-    description: {
-      type: 'string'
-    }
-  },
-  computedFields
-}))
-
 export default makeSource({
   contentDirPath: './src/content',
-  documentTypes: [Index, Companies]
+  documentTypes: [Index]
 })
