@@ -11,7 +11,7 @@ works:
     description: 'Design engineering for an endgame dev platform.'
     url: 'https://www.appwrite.io'
   - label: 'Other'
-    title: 'Lab'
+    title: 'The Lab'
     description: 'A lab showcase for UI experimentation.'
     url: 'https://lab.jessewinton.works'
 ---
