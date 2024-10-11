@@ -17,7 +17,7 @@ const links = [
 
 export const Footer = () => {
   return (
-    <footer className='mb-0 mt-auto flex h-14 w-full animate-blur items-center border-t border-t-neutral-300 dark:border-t-neutral-700'>
+    <footer className='mb-0 mt-auto flex h-14 w-full animate-blur items-center'>
       <div className='mx-auto flex w-full max-w-3xl flex-row items-center justify-between gap-4 px-8 text-neutral-400'>
         <nav className='flex items-center justify-between gap-6 text-sm'>
           {links.map((link) => (
@@ -27,7 +27,7 @@ export const Footer = () => {
           ))}
         </nav>
 
-        <span className='text-sm'>{new Date().getFullYear()}</span>
+        <span className='text-sm'>&copy;{new Date().getFullYear()}</span>
       </div>
     </footer>
   )
