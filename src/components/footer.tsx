@@ -12,6 +12,10 @@ const links = [
   {
     label: 'Instagram',
     href: 'https://www.instagram.com/thejessewinton'
+  },
+  {
+    label: 'X',
+    href: 'https://www.x.com/thejessewinton'
   }
 ]
 
