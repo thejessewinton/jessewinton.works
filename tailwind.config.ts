@@ -20,7 +20,7 @@ const config: Config = {
       keyframes: {
         'animate-blur': {
           '0%': {
-            filter: 'blur(5px)'
+            filter: 'blur(10px)'
           },
           '100%': {
             filter: 'blur(0px)'
