@@ -20,7 +20,7 @@ export default function Index() {
       </div>
 
       {index.works ? (
-        <div className='group pointer-events-none relative mb-12 mt-8 grid animate-enter gap-12 animation-delay-300 sm:grid-cols-3'>
+        <div className='group pointer-events-none relative my-12 flex animate-enter flex-col gap-12 animation-delay-300'>
           {index.works.map((work) => (
             <Link
               key={work.label}

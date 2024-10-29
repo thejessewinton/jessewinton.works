@@ -2,6 +2,10 @@ import Link from 'next/link'
 
 const links = [
   {
+    label: 'Email',
+    href: 'mailto:jrandallwinton@gmail.com'
+  },
+  {
     label: 'GitHub',
     href: 'https://github.com/thejessewinton'
   },
@@ -22,7 +26,7 @@ const links = [
 export const Footer = () => {
   return (
     <footer className='mb-0 mt-auto flex h-14 w-full animate-blur items-center'>
-      <div className='mx-auto flex w-full max-w-3xl flex-row items-center justify-between gap-4 px-8 text-neutral-400'>
+      <div className='mx-auto flex w-full max-w-2xl flex-row items-center justify-between gap-4 px-8 text-neutral-400'>
         <nav className='flex items-center justify-between gap-6 text-sm'>
           {links.map((link) => (
             <Link href={link.href} key={link.label} target='_blank' rel='noopener noreferrer'>
