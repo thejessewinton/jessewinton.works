@@ -1,6 +1,6 @@
 ---
 title: 'Jesse Winton'
-description: 'NYC based design engineer, specializing in creating exceptional web experiences with modern frameworks.'
+description: 'NYC based software engineer, specializing in creating exceptional web experiences with modern frameworks.'
 works:
   - label: 'Now'
     title: 'Appwrite'
