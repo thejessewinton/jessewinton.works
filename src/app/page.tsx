@@ -28,10 +28,10 @@ export default function Index() {
               style={{
                 animationDelay: `${i * 150 + 300}ms`
               }}
+              key={work.label}
               className='animate-enter'
             >
               <Link
-                key={work.label}
                 href={work.url || ''}
                 target={work.url?.startsWith('http') ? '_blank' : '_self'}
                 className='pointer-events-auto relative min-h-[90px] font-light transition-all hover:md:!opacity-100 hover:md:!blur-none group-hover:md:opacity-40 group-hover:md:blur-xs'
