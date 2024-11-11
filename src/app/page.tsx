@@ -34,7 +34,7 @@ export default function Index() {
               <Link
                 href={work.url || ''}
                 target={work.url?.startsWith('http') ? '_blank' : '_self'}
-                className='relative min-h-[90px] font-light transition-all hover:md:!opacity-100 hover:md:!blur-none group-hover:md:opacity-40 group-hover:md:blur-xs'
+                className='relative block min-h-[90px] font-light transition-all hover:md:!opacity-100 hover:md:!blur-none group-hover:md:opacity-40 group-hover:md:blur-xs'
               >
                 <h2 className='mb-5 text-sm text-neutral-900 dark:text-neutral-400'>{work.label}</h2>
 
