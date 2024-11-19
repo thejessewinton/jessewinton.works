@@ -11,8 +11,8 @@ works:
     description: 'Design engineering for an endgame dev platform.'
     url: 'https://www.appwrite.io'
   - label: 'Other'
-    title: ‘notes’
-    description: ‘A simple, delightful notes app. Experimenting with new design patterns.'
+    title: 'notes'
+    description: 'A simple, delightful notes app. Experimenting with new design patterns.'
     url: 'https://notes.jessewinton.works'
 ---
 
