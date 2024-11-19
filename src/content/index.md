@@ -11,9 +11,9 @@ works:
     description: 'Design engineering for an endgame dev platform.'
     url: 'https://www.appwrite.io'
   - label: 'Other'
-    title: 'rpshr'
-    description: 'A better way to journal workouts.'
-    url: 'https://rpshr.app'
+    title: ‘notes’
+    description: ‘A simple, delightful notes app. Experimenting with new design patterns.'
+    url: 'https://notes.jessewinton.works'
 ---
 
 Design Engineer in NYC. Engineer who designs, designer who codes. Specializing in designing and building exceptional web experiences with modern frameworks. Typescript and type-safety diehard. Design Engineer at [Appwrite](https://appwrite.io).
