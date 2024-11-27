@@ -5,28 +5,35 @@ const index = defineCollection({
   name: 'index',
   directory: 'src/content',
   include: 'index.md',
-
   schema: (z) => ({
     title: z.string(),
     description: z.string(),
     works: z.array(
       z.object({
-        label: z.string(),
+        dates: z.string(),
+        company: z.string(),
         title: z.string(),
         description: z.string(),
-        url: z.string().optional()
-      })
-    )
+        url: z.string(),
+      }),
+    ),
+    projects: z.array(
+      z.object({
+        title: z.string(),
+        description: z.string(),
+        url: z.string(),
+      }),
+    ),
   }),
   transform: async (document, context) => {
     const html = await compileMarkdown(context, document)
     return {
       ...document,
-      html
+      html,
     }
-  }
+  },
 })
 
 export default defineConfig({
-  collections: [index]
+  collections: [index],
 })
