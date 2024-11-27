@@ -31,6 +31,6 @@ projects:
     url: 'https://tinylight.jessewinton.dev'
 ---
 
-Design Engineer in NYC. Engineer who designs, designer who codes. Specializing in designing and building exceptional web experiences with modern frameworks. Typescript and type-safety diehard. 
+New York City based software engineer, specializing in building exceptional, performant products, delightful interactions and user experiences, and beautifully designed surfaces on the web. Typescript and type-safety die hard, and a huge fan of React. Writer, and have also written and performed original work off off Broadway. Management experience, but currently preferring to write code.
 
 Design Engineer at [Appwrite](https://appwrite.io).
