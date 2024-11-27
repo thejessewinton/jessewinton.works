@@ -9,10 +9,6 @@ const links = [
     label: 'GitHub',
     href: 'https://github.com/thejessewinton',
   },
-  {
-    label: 'X',
-    href: 'https://www.x.com/thejessewinton',
-  },
 ]
 
 export const Footer = () => {
