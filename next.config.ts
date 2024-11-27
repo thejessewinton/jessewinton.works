@@ -1,4 +1,4 @@
-import { NextConfig } from 'next'
+import type { NextConfig } from 'next'
 import { withContentCollections } from '@content-collections/next'
 
 const config = {} satisfies NextConfig

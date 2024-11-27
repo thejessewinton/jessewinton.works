@@ -1,50 +1,103 @@
-import { allIndices } from '~/content-collections'
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { allIndices } from '~/content-collections'
 
 const index = allIndices[0]!
 
 export const metadata: Metadata = {
   title: index.title,
-  description: index.description
+  description: index.description,
 }
 
 export default function Index() {
   return (
-    <div className='flex flex-col gap-2 pb-4'>
-      <div className='relative z-50 animate-enter'>
-        <h1 className='group relative mb-4 inline-block w-full max-w-xs font-medium'>{index.title}</h1>
+    <div className="flex flex-col gap-2 pb-4">
+      <div className="relative z-50 animate-enter">
+        <h1 className="group relative mb-4 inline-block w-full font-medium">
+          {index.title}
+        </h1>
 
         <div
-          className='prose prose-neutral max-w-none font-light dark:prose-invert prose-a:font-normal prose-a:no-underline'
+          className="prose prose-neutral dark:prose-invert max-w-none space-y-4 font-light prose-a:font-italic prose-a:font-serif! prose-a:no-underline"
           dangerouslySetInnerHTML={{ __html: index.html }}
         />
       </div>
 
-      {index.works ? (
-        <div className='group pointer-events-none relative my-12 flex flex-col gap-12 animation-delay-300'>
+      <div className="group pointer-events-none relative my-12">
+        <h3
+          className="mb-8 animate-enter font-medium"
+          style={{
+            animationDelay: `${300}ms`,
+          }}
+        >
+          Work
+        </h3>
+        <div className="flex flex-col gap-12">
           {index.works.map((work, i) => (
-            <div
+            <Link
+              href={work.url}
               style={{
-                animationDelay: `${i * 150 + 300}ms`
+                animationDelay: `${i * 150 + 300}ms`,
               }}
-              key={work.label}
-              className='pointer-events-auto animate-enter'
+              key={work.dates}
+              className="pointer-events-auto block animate-enter"
             >
-              <Link
-                href={work.url || ''}
-                target={work.url?.startsWith('http') ? '_blank' : '_self'}
-                className='relative block min-h-[90px] font-light transition-all hover:md:!opacity-100 hover:md:!blur-none group-hover:md:opacity-40 group-hover:md:blur-xs'
-              >
-                <h2 className='mb-5 text-sm text-neutral-900 dark:text-neutral-400'>{work.label}</h2>
-
-                <span className='font-normal'>{work.title}</span>
-                <div className='text-neutral-900 dark:text-neutral-400'>{work.description}</div>
-              </Link>
-            </div>
+              <div className="relative block space-y-5 font-light transition-all md:group-hover:opacity-40 md:group-hover:blur-xs md:hover:opacity-100! md:hover:blur-none!">
+                <header className="flex items-center justify-between gap-5">
+                  <div className="flex items-center font-normal">
+                    <span>{work.company}</span>
+                    <span>, {work.title}</span>
+                  </div>
+                  <div className="h-px grow bg-neutral-300 dark:bg-neutral-800" />
+                  <span className="text-neutral-900 dark:text-neutral-400">
+                    {work.dates}
+                  </span>
+                </header>
+                <div className="text-neutral-900 dark:text-neutral-400">
+                  {work.description}
+                </div>
+              </div>
+            </Link>
           ))}
         </div>
-      ) : null}
+      </div>
+      <div className="group pointer-events-none relative mt-4 mb-12">
+        <h3
+          className="mb-8 animate-enter font-medium"
+          style={{
+            animationDelay: `${300}ms`,
+          }}
+        >
+          Projects
+        </h3>
+        <div className="flex flex-col gap-12">
+          {index.projects.map((project, i) => (
+            <Link
+              href={project.url}
+              style={{
+                animationDelay: `${i * 150 + 300}ms`,
+              }}
+              key={project.title}
+              className="pointer-events-auto block animate-enter"
+            >
+              <div className="relative block space-y-5 font-light transition-all md:group-hover:opacity-40 md:group-hover:blur-xs md:hover:opacity-100! md:hover:blur-none!">
+                <header className="flex items-center justify-between gap-5">
+                  <div className="flex items-center font-normal">
+                    <span>{project.title}</span>
+                  </div>
+                  <div className="h-px grow bg-neutral-300 dark:bg-neutral-800" />
+                  <span className="text-neutral-900 dark:text-neutral-400">
+                    {project.url.replace(/https?:\/\//, '')}
+                  </span>
+                </header>
+                <div className="text-neutral-900 dark:text-neutral-400">
+                  {project.description}
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
     </div>
   )
 }
