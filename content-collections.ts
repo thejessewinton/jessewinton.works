@@ -8,6 +8,7 @@ const index = defineCollection({
   schema: (z) => ({
     title: z.string(),
     description: z.string(),
+    tech: z.array(z.string()),
     works: z.array(
       z.object({
         dates: z.string(),
@@ -21,7 +22,7 @@ const index = defineCollection({
       z.object({
         title: z.string(),
         description: z.string(),
-        url: z.string(),
+        url: z.string().optional(),
       }),
     ),
   }),
