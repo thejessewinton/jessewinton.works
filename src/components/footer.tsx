@@ -23,7 +23,7 @@ export const Footer = () => {
           {links.map((link) => (
             <Link
               href={link.href}
-              className="hover:md:!opacity-100 hover:md:!blur-none transition-all group-hover:md:opacity-40 group-hover:md:blur-xs"
+              className="md:hover:opacity-100! md:hover:blur-none! transition-all md:group-hover:opacity-40 md:group-hover:blur-xs"
               key={link.label}
               target="_blank"
               rel="noopener noreferrer"
