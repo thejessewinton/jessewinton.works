@@ -24,7 +24,14 @@ export default function Index() {
       </div>
 
       <div className="group pointer-events-none relative my-12">
-        <h3 className="mb-8 font-medium">Work</h3>
+        <h3
+          className="mb-8 animate-enter font-medium"
+          style={{
+            animationDelay: `${300}ms`,
+          }}
+        >
+          Work
+        </h3>
         <div className="flex flex-col gap-12">
           {index.works.map((work, i) => (
             <Link
@@ -55,7 +62,14 @@ export default function Index() {
         </div>
       </div>
       <div className="group pointer-events-none relative mt-4 mb-12">
-        <h3 className="mb-8 font-medium">Projects</h3>
+        <h3
+          className="mb-8 animate-enter font-medium"
+          style={{
+            animationDelay: `${300}ms`,
+          }}
+        >
+          Projects
+        </h3>
         <div className="flex flex-col gap-12">
           {index.projects.map((project, i) => (
             <Link
