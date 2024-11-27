@@ -5,7 +5,6 @@ const index = defineCollection({
   name: 'index',
   directory: 'src/content',
   include: 'index.md',
-
   schema: (z) => ({
     title: z.string(),
     description: z.string(),
@@ -14,19 +13,19 @@ const index = defineCollection({
         label: z.string(),
         title: z.string(),
         description: z.string(),
-        url: z.string().optional()
-      })
-    )
+        url: z.string().optional(),
+      }),
+    ),
   }),
   transform: async (document, context) => {
     const html = await compileMarkdown(context, document)
     return {
       ...document,
-      html
+      html,
     }
-  }
+  },
 })
 
 export default defineConfig({
-  collections: [index]
+  collections: [index],
 })
