@@ -43,7 +43,7 @@ projects:
     description: A beautifully designed, open source video component for React.
   - title: lab
     description: A beautifully designed, simple, native video component for React.
-    url: https://lab.jessewinton.dev
+    url: https://lab.jessewinton.works
 ---
 
 New York City based software engineer, specializing in building exceptional, performant products, delightful interactions and user experiences, and beautifully designed surfaces on the web. Typescript and type-safety die hard, and a huge fan of React. Writer, and have also written and performed original work off off Broadway. Management experience, but currently preferring to write code.
