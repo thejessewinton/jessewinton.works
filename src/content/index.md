@@ -12,7 +12,6 @@ tech:
   - MySQL
   - Postgres
   - SvelteKit
-  - Three.js
   - Prisma
   - Drizzle
 works:
