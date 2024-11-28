@@ -23,7 +23,7 @@ export default function Index() {
         />
       </div>
 
-      <div className="mt-12 space-y-12">
+      <div className="my-12 space-y-12">
         <div className="group pointer-events-none relative">
           <h3
             className="mb-8 animate-enter font-medium"
