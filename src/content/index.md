@@ -42,7 +42,7 @@ projects:
   - title: tinylight
     description: A beautifully designed, open source video component for React.
   - title: lab
-    description: A laboratory of experimental user interfaces and designs.
+    description: A laboratory of experimental user interfaces and components.
     url: https://lab.jessewinton.works
 ---
 
