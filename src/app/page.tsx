@@ -46,9 +46,12 @@ export default function Index() {
                 >
                   <div className="relative block space-y-5 font-light transition-all md:group-hover:opacity-40 md:group-hover:blur-xs md:hover:opacity-100! md:hover:blur-none!">
                     <header className="flex items-center justify-between gap-5">
-                      <div className="flex items-center font-normal">
+                      <div className="flex flex-col font-normal md:flex-row md:items-center">
                         <span>{work.company}</span>
-                        <span>, {work.title}</span>
+                        <span className="hidden md:block">,</span>
+                        <span className="text-neutral-900 text-sm md:ml-1 md:text-base dark:text-neutral-400">
+                          {work.title}
+                        </span>
                       </div>
                       <div className="h-px grow bg-neutral-300 dark:bg-neutral-800" />
                       <span className="text-neutral-900 dark:text-neutral-400">
