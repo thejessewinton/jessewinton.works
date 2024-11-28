@@ -23,12 +23,12 @@ works:
   - dates: 2021-23
     company: VeroSkills
     title: Co-Founder & Head of Engineering
-    description: Rebuilt the alpha version of the platform and launched to general availability. Led a team of 12+ remote engineers and managed development of the product, including database and API design, product roadmapping, and front end engineering.
+    description: Rebuilt the alpha version of the platform and launched to general availability. Led a team of 12+ remote engineers and managed development of the product, including database and API design, product roadmapping, and product engineering.
     url: https://veroskills.com
   - dates: 2020-21
     company: One Day Doors & Closets
     title: Front End Lead
-    description: Led a full rebuild of the marketing site, building a performant, dynamic Next.js application, allowing for efficient management of dealerships and location specific content to an average of 100k unique monthly visitors. With an external consultant, responsible for the design and implementation of a full company rebrand.
+    description: Led a full rebuild of the marketing site, migrating from WordPress to a performant, dynamic Next.js application, allowing for efficient management of dealerships and location specific content through the in-house CRM. Deployed to an average of 100k unique monthly visitors, while maintaining SEO and discoverability. With an external consultant, responsible for the design and implementation of a full company rebrand.
     url: https://onedaydoorsandclosets.com
   - dates: 2010-20
     company: Freelance
