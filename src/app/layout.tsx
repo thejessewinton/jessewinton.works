@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Newsreader, Roboto_Mono } from 'next/font/google'
+import { Inter, Newsreader } from 'next/font/google'
 import type { ReactNode } from 'react'
 import { Footer } from '~/components/footer'
 
@@ -20,13 +20,6 @@ const serif = Newsreader({
   weight: ['300'],
 })
 
-const mono = Roboto_Mono({
-  variable: '--font-mono',
-  display: 'optional',
-  subsets: ['latin'],
-  weight: ['300'],
-})
-
 export const metadata: Metadata = {
   title: {
     default: 'Jesse Winton',
@@ -36,10 +29,7 @@ export const metadata: Metadata = {
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
   return (
-    <html
-      lang="en"
-      className={`${sans.variable} ${serif.variable} ${mono.variable} text-sm`}
-    >
+    <html lang="en" className={`${sans.variable} ${serif.variable} text-sm`}>
       <body className="flex min-h-screen flex-col items-center justify-center scroll-smooth leading-loose antialiased selection:bg-neutral-100 dark:bg-neutral-900 dark:text-neutral-200 dark:selection:bg-neutral-800">
         <main className="mx-auto mt-32 flex w-full max-w-4xl grow flex-col items-center justify-center px-8">
           {children}
