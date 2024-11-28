@@ -84,7 +84,7 @@ export default function Index() {
                     animationDelay: `${i * 150 + 300}ms`,
                   }}
                   key={item}
-                  className="pointer-events-auto block animate-enter rounded-full border border-neutral-700/20 bg-neutral-800 px-3"
+                  className="block animate-enter rounded-full border border-neutral-300/20 dark:border-neutral-700/20 bg-neutral-200 dark:bg-neutral-800 px-3"
                 >
                   {item}
                 </div>
