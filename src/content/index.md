@@ -48,5 +48,5 @@ projects:
 
 New York City based software engineer, specializing in building exceptional, performant products, delightful interactions and user experiences, and beautifully designed surfaces on the web. Typescript and type-safety die hard, and a huge fan of React. Playwright; have written and performed original work Off-Off Broadway. Management experience, but currently preferring to write code.
 
-Design Engineer at [Appwrite](https://appwrite.io). View my [resumé](/docs/resume.pdf) or [contact me](mailto:jrandallwinton@gmail.com) for more information.
+Design Engineer at [Appwrite](https://appwrite.io). View my [resumé](/docs/resume.pdf) or [contact me](mailto:jrandallwinton@gmail.com).
 
