@@ -12,6 +12,9 @@ tech:
   - MySQL
   - Postgres
   - SvelteKit
+  - Three.js
+  - Prisma
+  - Drizzle
 works:
   - dates: 2023-24
     company: PlanetScale

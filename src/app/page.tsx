@@ -31,32 +31,6 @@ export default function Index() {
               animationDelay: `${300}ms`,
             }}
           >
-            Tech
-          </h3>
-          <div className="flex flex-wrap gap-3">
-            {index.tech.map((item, i) => {
-              return (
-                <div
-                  style={{
-                    animationDelay: `${i * 150 + 300}ms`,
-                  }}
-                  key={item}
-                  className="pointer-events-auto block animate-enter rounded-full border border-neutral-700/20 bg-neutral-800 px-3"
-                >
-                  {item}
-                </div>
-              )
-            })}
-          </div>
-        </div>
-
-        <div className="group pointer-events-none relative">
-          <h3
-            className="mb-8 animate-enter font-medium"
-            style={{
-              animationDelay: `${300}ms`,
-            }}
-          >
             Work
           </h3>
           <div className="flex flex-col gap-12">
@@ -86,6 +60,31 @@ export default function Index() {
                     </div>
                   </div>
                 </Link>
+              )
+            })}
+          </div>
+        </div>
+        <div className="group pointer-events-none relative">
+          <h3
+            className="mb-8 animate-enter font-medium"
+            style={{
+              animationDelay: `${300}ms`,
+            }}
+          >
+            Tech
+          </h3>
+          <div className="flex flex-wrap gap-3">
+            {index.tech.map((item, i) => {
+              return (
+                <div
+                  style={{
+                    animationDelay: `${i * 150 + 300}ms`,
+                  }}
+                  key={item}
+                  className="pointer-events-auto block animate-enter rounded-full border border-neutral-700/20 bg-neutral-800 px-3"
+                >
+                  {item}
+                </div>
               )
             })}
           </div>
