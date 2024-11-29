@@ -34,9 +34,13 @@ export default function Index() {
             Now
           </h3>
           <div
-            className="flex flex-col gap-12"
-            dangerouslySetInnerHTML={{ __html: index.now }}
-          />
+            className="flex animate-enter flex-col gap-12"
+            style={{
+              animationDelay: '450ms',
+            }}
+          >
+            {index.now}
+          </div>
         </div>
         <div className="group relative">
           <h3
