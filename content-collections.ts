@@ -8,6 +8,7 @@ const index = defineCollection({
   schema: (z) => ({
     title: z.string(),
     description: z.string(),
+    now: z.string(),
     tech: z.array(z.string()),
     works: z.array(
       z.object({

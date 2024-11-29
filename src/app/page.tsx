@@ -24,7 +24,21 @@ export default function Index() {
       </div>
 
       <div className="my-12 space-y-12">
-        <div className="group pointer-events-none relative">
+        <div className="group relative">
+          <h3
+            className="mb-8 animate-enter font-medium"
+            style={{
+              animationDelay: '300ms',
+            }}
+          >
+            Now
+          </h3>
+          <div
+            className="flex flex-col gap-12"
+            dangerouslySetInnerHTML={{ __html: index.now }}
+          />
+        </div>
+        <div className="group relative">
           <h3
             className="mb-8 animate-enter font-medium"
             style={{
@@ -67,7 +81,7 @@ export default function Index() {
             })}
           </div>
         </div>
-        <div className="group pointer-events-none relative">
+        <div className="group relative">
           <h3
             className="mb-8 animate-enter font-medium"
             style={{
@@ -92,7 +106,7 @@ export default function Index() {
             })}
           </div>
         </div>
-        <div className="group pointer-events-none relative">
+        <div className="group relative">
           <h3
             className="mb-8 animate-enter font-medium"
             style={{
