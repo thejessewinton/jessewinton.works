@@ -28,10 +28,10 @@ export default function Index() {
           <h3
             className="mb-8 animate-enter font-medium"
             style={{
-              animationDelay: `${300}ms`,
+              animationDelay: '300ms',
             }}
           >
-            Work
+            Before
           </h3>
           <div className="flex flex-col gap-12">
             {index.works.map((work, i) => {
