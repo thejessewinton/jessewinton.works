@@ -24,33 +24,22 @@ export default function Index() {
       </div>
 
       <div className="my-12 space-y-12">
-        <div className="group relative">
-          <h3
-            className="mb-8 animate-enter font-medium"
-            style={{
-              animationDelay: '300ms',
-            }}
-          >
-            Now
-          </h3>
-          <div
-            className="flex animate-enter flex-col gap-12"
-            style={{
-              animationDelay: '450ms',
-            }}
-          >
-            {index.now}
-          </div>
+        <div
+          className="group relative animate-enter"
+          style={{
+            animationDelay: '300ms',
+          }}
+        >
+          <h3 className="mb-8 font-medium">Now</h3>
+          <div className="flex flex-col gap-12">{index.now}</div>
         </div>
-        <div className="group relative">
-          <h3
-            className="mb-8 animate-enter font-medium"
-            style={{
-              animationDelay: '300ms',
-            }}
-          >
-            Before
-          </h3>
+        <div
+          className="group pointer-events-none relative animate-enter"
+          style={{
+            animationDelay: '450ms',
+          }}
+        >
+          <h3 className="mb-8 font-medium">Before</h3>
           <div className="flex flex-col gap-12">
             {index.works.map((work, i) => {
               return (
@@ -85,15 +74,13 @@ export default function Index() {
             })}
           </div>
         </div>
-        <div className="group relative">
-          <h3
-            className="mb-8 animate-enter font-medium"
-            style={{
-              animationDelay: `${300}ms`,
-            }}
-          >
-            Tech
-          </h3>
+        <div
+          className="group pointer-events-none relative animate-enter"
+          style={{
+            animationDelay: '600ms',
+          }}
+        >
+          <h3 className="mb-8 animate-enter font-medium">Tech</h3>
           <div className="flex flex-wrap gap-3">
             {index.tech.map((item, i) => {
               return (
@@ -110,7 +97,7 @@ export default function Index() {
             })}
           </div>
         </div>
-        <div className="group relative">
+        <div className="group pointer-events-none relative">
           <h3
             className="mb-8 animate-enter font-medium"
             style={{
