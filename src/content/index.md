@@ -40,6 +40,9 @@ projects:
   - title: rpshr
     description: A simple, delightful notes app. Experimenting with new design patterns.
     url: https://rpshr.app
+  - title: tinylight
+    description: Work-in-progress. A simple, delightful, and performant lightbox primitive.
+    url: https://github.com/thejessewinton/tinylight
   - title: lab
     description: A laboratory of experimental user interfaces and components.
     url: https://lab.jessewinton.works
