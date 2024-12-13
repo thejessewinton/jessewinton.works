@@ -2,7 +2,7 @@
 title: Jesse Winton
 description: NYC based design engineer, specializing in creating exceptional web experiences with modern frameworks.
 now: Design Engineer at Appwrite, working on creating beautiful, performant, and delightful experiences throughout our marketing website and product.
-tech: 
+tech:
   - React
   - Typescript
   - Next.js
@@ -40,13 +40,12 @@ projects:
   - title: rpshr
     description: A simple, delightful notes app. Experimenting with new design patterns.
     url: https://rpshr.app
-  - title: tinylight
+  - title: '@tinylight/ui'
     description: Work-in-progress. A simple, delightful, and performant lightbox primitive.
-    url: https://github.com/thejessewinton/tinylight
+    url: https://github.com/thejessewinton/tinylight-ui
   - title: lab
     description: A laboratory of experimental user interfaces and components.
     url: https://lab.jessewinton.works
 ---
 
 New York City based software engineer, specializing in building exceptional, performant products, delightful interactions and user experiences, and beautifully designed surfaces on the web. Typescript and type-safety die hard, and a huge fan of React. Playwright; have written and performed original work Off-Off Broadway. Management experience, but currently preferring to write code. View my [resumé](/docs/resume.pdf) or [contact me](mailto:jrandallwinton@gmail.com).
-
