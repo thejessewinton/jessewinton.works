@@ -28,6 +28,11 @@
           "level": "off"
         }
       },
+      "complexity": {
+        "noForEach": {
+          "level": "off"
+        }
+      },
       "style": {
         "useImportType": "warn",
         "noNonNullAssertion": {

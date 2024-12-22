@@ -97,15 +97,13 @@ export default function Index() {
             })}
           </div>
         </div>
-        <div className="group pointer-events-none relative">
-          <h3
-            className="mb-8 animate-enter font-medium"
-            style={{
-              animationDelay: `${300}ms`,
-            }}
-          >
-            Projects
-          </h3>
+        <div
+          className="group pointer-events-none relative animate-enter"
+          style={{
+            animationDelay: '750ms',
+          }}
+        >
+          <h3 className="mb-8 animate-enter font-medium">Projects</h3>
           <div className="flex flex-col gap-12">
             {index.projects.map((project, i) => {
               return (
@@ -114,7 +112,7 @@ export default function Index() {
                     <Link
                       href={project.url}
                       style={{
-                        animationDelay: `${i * 150 + 300}ms`,
+                        animationDelay: `${i * 150 + 750}ms`,
                       }}
                       key={project.title}
                       className="pointer-events-auto block animate-enter"
