@@ -19,12 +19,12 @@ export const Snowfall = () => {
   const snowflakes = useRef<Snowflake[]>([])
   const animationFrameId = useRef<number>()
 
-  const SNOWFLAKE_COUNT = 50
-  const BASE_SPEED = 0.5
-  const SPEED_VARIANCE = 0.5
-  const HORIZONTAL_SPEED_RANGE = 0.3
-  const OSCILLATION_SPEED_RANGE = 0.02
-  const OSCILLATION_DISTANCE_RANGE = 50
+  const SNOWFLAKE_COUNT = 40
+  const BASE_SPEED = 0.75
+  const SPEED_VARIANCE = 1
+  const HORIZONTAL_SPEED_RANGE = 1.5
+  const OSCILLATION_SPEED_RANGE = 0.075
+  const OSCILLATION_DISTANCE_RANGE = 75
 
   useEffect(() => {
     const handleResize = () => {
@@ -54,8 +54,8 @@ export const Snowfall = () => {
     const createSnowflakes = () => {
       snowflakes.current = Array.from({ length: SNOWFLAKE_COUNT }, () => ({
         x: Math.random() * dimensions.width,
-        y: Math.random() * dimensions.height,
-        radius: Math.random() * 3 + 1,
+        y: Math.random() * -dimensions.height, // Start above the canvas
+        radius: Math.random() * 2.5 + 0.2,
         speed: BASE_SPEED + Math.random() * SPEED_VARIANCE,
         horizontalSpeed: (Math.random() * 2 - 1) * HORIZONTAL_SPEED_RANGE,
         oscillationSpeed: Math.random() * OSCILLATION_SPEED_RANGE,
@@ -67,20 +67,26 @@ export const Snowfall = () => {
     const updateSnowflakes = () => {
       snowflakes.current.forEach((flake) => {
         flake.y += flake.speed
+
         flake.x +=
           flake.horizontalSpeed +
-          Math.sin(flake.oscillationProgress) * flake.oscillationSpeed
+          Math.sin(flake.oscillationProgress) * flake.oscillationSpeed * 2
+
         flake.oscillationProgress += flake.oscillationSpeed
 
-        if (flake.y > dimensions.height) {
-          flake.y = 0
-          flake.x = Math.random() * dimensions.width
-        }
-
+        // Wrap around horizontally
         if (flake.x > dimensions.width) {
           flake.x = 0
         } else if (flake.x < 0) {
           flake.x = dimensions.width
+        }
+
+        // Reset to top when falling off the bottom
+        if (flake.y > dimensions.height) {
+          flake.y = -flake.radius // Start just above the top of the canvas
+          flake.x = Math.random() * dimensions.width
+          flake.horizontalSpeed =
+            (Math.random() * 2 - 1) * HORIZONTAL_SPEED_RANGE
         }
       })
     }
