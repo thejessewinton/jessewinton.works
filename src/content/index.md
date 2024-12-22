@@ -41,8 +41,8 @@ projects:
     description: A simple, delightful notes app. Experimenting with new design patterns.
     url: https://rpshr.app
   - title: '@tinylight/ui'
-    description: Work-in-progress. A simple, delightful, and performant lightbox primitive.
-    url: https://github.com/thejessewinton/tinylight-ui
+    description: A simple, delightful, and performant lightbox primitive. 1.0 released, updates coming soon!
+    url: https://tinylight.jessewinton.works
   - title: lab
     description: A laboratory of experimental user interfaces and components.
     url: https://lab.jessewinton.works
