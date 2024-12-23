@@ -28,9 +28,9 @@ export const Snowfall = () => {
   const OSCILLATION_DISTANCE_RANGE = 75
 
   const createSnowflakes = useCallback(() => {
-    return Array.from({ length: SNOWFLAKE_COUNT }, () => ({
+    return Array.from({ length: SNOWFLAKE_COUNT }, (_, index) => ({
       x: Math.random(),
-      y: Math.random() - 1, // Start above the screen
+      y: index / SNOWFLAKE_COUNT - 1, // Spread snowflakes vertically
       radius: Math.random() * 2.5 + 0.2,
       speed: BASE_SPEED + Math.random() * SPEED_VARIANCE,
       horizontalSpeed: (Math.random() * 2 - 1) * HORIZONTAL_SPEED_RANGE,
