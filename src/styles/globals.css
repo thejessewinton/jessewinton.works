@@ -10,7 +10,7 @@
 
   --blur-xs: 2px;
 
-  --animate-enter: animate-scale 0.75s ease-in-out both,
+  --animate-enter: animate-slide 0.75s ease-in-out both,
     animate-blur 0.75s ease-in-out both, animate-opacity 0.75s ease-in-out both;
   --animate-up: animate-up 0.75s ease-in-out both;
   --animate-blur: animate-blur 0.75s ease-in-out both,
@@ -37,7 +37,7 @@
       transform: translateY(0px);
     }
   }
-  @keyframes animate-scale {
+  @keyframes animate-slide {
     0% {
       transform: translateY(10px);
     }
