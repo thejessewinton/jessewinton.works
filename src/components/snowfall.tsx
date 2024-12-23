@@ -80,7 +80,7 @@ export const Snowfall = () => {
     }
 
     const updateSnowflakes = () => {
-      snowflakes.current.forEach((flake) => {
+      for (const flake of snowflakes.current) {
         flake.y += flake.speed
 
         flake.x +=
@@ -103,17 +103,18 @@ export const Snowfall = () => {
           flake.horizontalSpeed =
             (Math.random() * 2 - 1) * HORIZONTAL_SPEED_RANGE
         }
-      })
+      }
     }
 
     const drawSnowflakes = () => {
       ctx.clearRect(0, 0, dimensions.width, dimensions.height)
       ctx.fillStyle = 'white'
-      snowflakes.current.forEach((flake) => {
+
+      for (const flake of snowflakes.current) {
         ctx.beginPath()
         ctx.arc(flake.x, flake.y, flake.radius, 0, Math.PI * 2)
         ctx.fill()
-      })
+      }
     }
 
     const animate = () => {
