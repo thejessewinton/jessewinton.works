@@ -10,7 +10,6 @@
     "lint:fix": "biome format --write"
   },
   "dependencies": {
-    "@biomejs/biome": "^1.9.4",
     "@tailwindcss/typography": "^0.5.15",
     "@vercel/analytics": "^1.3.2",
     "next": "^15.0.3",
@@ -18,6 +17,7 @@
     "react-dom": "latest"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
     "@content-collections/core": "^0.7.3",
     "@content-collections/markdown": "^0.1.3",
     "@content-collections/next": "^0.2.3",
