@@ -64,7 +64,7 @@ const BackButton = () => {
 
   const handleClick = () => {
     setTrackIndex(trackIndex === 0 ? trackIndex + 1 : trackIndex - 1)
-    setArray(([_, second]) => [second, Math.floor(Math.random() * 1000) + 1])
+    setArray(([_, second]) => [second!, Math.floor(Math.random() * 1000) + 1])
   }
 
   const variants = {
@@ -129,12 +129,12 @@ const BackButton = () => {
 }
 
 const SkipButton = () => {
-  const [array, setArray] = useState([0, 1])
+  const [array, setArray] = useState<Array<number>>([0, 1])
   const { trackIndex, setTrackIndex } = usePlayerStore()
 
   const handleClick = () => {
     setTrackIndex(trackIndex === tracks.length - 1 ? 0 : trackIndex + 1)
-    setArray(([first]) => [Math.floor(Math.random() * 1000) + 1, first])
+    setArray(([first]) => [Math.floor(Math.random() * 1000) + 1, first!])
   }
 
   const variants = {
@@ -315,10 +315,10 @@ const TrackInfo = () => {
             initial="initial"
             animate="animate"
             exit="exit"
-            key={tracks[trackIndex].art.src}
+            key={tracks[trackIndex]!.art.src}
             className="size-64 overflow-hidden rounded-md shadow-black/20 shadow-xs"
           >
-            <Image priority src={tracks[trackIndex].art} alt="" />
+            <Image priority src={tracks[trackIndex]!.art} alt="" />
           </motion.div>
         </AnimatePresence>
       </motion.div>
@@ -327,10 +327,10 @@ const TrackInfo = () => {
           initial={{ opacity: 0, y: 10, filter: 'blur(5px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           exit={{ opacity: 0, y: 10, filter: 'blur(5px)' }}
-          key={tracks[trackIndex].title}
+          key={tracks[trackIndex]!.title}
         >
-          <h2 className="font-bold text-lg">{tracks[trackIndex].title}</h2>
-          <p className="text-neutral-500">{tracks[trackIndex].artist}</p>
+          <h2 className="font-bold text-lg">{tracks[trackIndex]!.title}</h2>
+          <p className="text-neutral-500">{tracks[trackIndex]!.artist}</p>
         </motion.div>
       </AnimatePresence>
     </>
