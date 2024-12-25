@@ -45,7 +45,7 @@ projects:
     url: https://tinylight.jessewinton.works
   - title: lab
     description: A laboratory of experimental user interfaces and components.
-    url: https://lab.jessewinton.works
+    url: /lab
 ---
 
 New York City based software engineer, specializing in building exceptional, performant products, delightful interactions and user experiences, and beautifully designed surfaces on the web. Typescript and type-safety die hard, and a huge fan of React. Playwright; have written and performed original work Off-Off Broadway. Management experience, but currently preferring to write code. View my [resumé](/docs/resume.pdf) or [contact me](mailto:jrandallwinton@gmail.com).

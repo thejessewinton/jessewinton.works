@@ -32,7 +32,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
   return (
     <html lang="en" className={`${sans.variable} ${serif.variable} text-sm`}>
       <body className="flex min-h-screen flex-col items-center justify-center scroll-smooth leading-loose antialiased selection:bg-neutral-100 dark:bg-neutral-900 dark:text-neutral-200 dark:selection:bg-neutral-800">
-        <main className="mx-auto mt-32 flex w-full max-w-4xl grow flex-col items-center justify-center px-8">
+        <main className="mx-auto mt-32 flex w-full max-w-4xl grow flex-col items-center justify-center px-4 md:px-8">
           {children}
         </main>
         <Snowfall />
