@@ -51,6 +51,11 @@
 					"level": "warn"
 				}
 			},
+			"suspicious": {
+				"noArrayIndexKey": {
+					"level": "off"
+				}
+			},
 			"security": {
 				"noDangerouslySetInnerHtml": {
 					"level": "off"
