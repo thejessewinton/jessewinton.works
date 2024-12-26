@@ -4,6 +4,7 @@ import { FluidButton } from '~/components/lab/fluid-button'
 import { InteractiveInput } from '~/components/lab/interactive-input'
 import { PowerWidget } from '~/components/lab/power-widget'
 import { ReactionsMenu } from '~/components/lab/reactions-menu'
+import { Header } from '~/components/shared/header'
 
 const components = [
   {
@@ -45,17 +46,20 @@ const components = [
 
 export default function Home() {
   return (
-    <div className="container mx-auto my-16 flex flex-col justify-center gap-8 space-y-12">
-      {components.map(({ title, description, tools, component }) => (
-        <Component
-          key={title}
-          title={title}
-          description={description}
-          tools={tools}
-        >
-          {component}
-        </Component>
-      ))}
-    </div>
+    <>
+      <Header />
+      <div className="container mx-auto my-16 flex flex-col justify-center gap-8 space-y-12">
+        {components.map(({ title, description, tools, component }) => (
+          <Component
+            key={title}
+            title={title}
+            description={description}
+            tools={tools}
+          >
+            {component}
+          </Component>
+        ))}
+      </div>
+    </>
   )
 }
