@@ -58,19 +58,19 @@ export const Rainfall = () => {
     }
 
     const updateRaindrops = () => {
-      raindrops.current.forEach((drop) => {
+      for (const drop of raindrops.current) {
         drop.y += drop.speed
 
         if (drop.y > dimensions.height) {
           drop.y = -drop.length
           drop.x = Math.random() * dimensions.width
         }
-      })
+      }
     }
 
     const drawRaindrops = () => {
       ctx.clearRect(0, 0, dimensions.width, dimensions.height)
-      raindrops.current.forEach((drop) => {
+      for (const drop of raindrops.current) {
         ctx.beginPath()
         ctx.moveTo(drop.x, drop.y)
         ctx.lineTo(drop.x, drop.y + drop.length)
@@ -78,7 +78,7 @@ export const Rainfall = () => {
         ctx.lineWidth = 0.5
         ctx.lineCap = 'round'
         ctx.stroke()
-      })
+      }
     }
 
     const animate = () => {

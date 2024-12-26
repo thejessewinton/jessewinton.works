@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import type { ReactNode } from 'react'
 
 export const Component = ({
@@ -6,11 +7,13 @@ export const Component = ({
   tools,
   children,
   beta = false,
+  source,
 }: {
   title: string
   description: ReactNode
   tools: Array<string>
   children: ReactNode
+  source?: string
   beta?: boolean
 }) => {
   if (beta && process.env.NODE_ENV === 'production') return null
@@ -41,6 +44,8 @@ export const Component = ({
       <div className="relative order-1 flex flex-1 items-center justify-center overflow-hidden rounded-2xl border border-neutral-300 p-10 md:order-2 md:col-span-8 dark:border-neutral-700/30">
         {children}
       </div>
+
+      {source && <Link href={source}>Source code</Link>}
     </div>
   )
 }
