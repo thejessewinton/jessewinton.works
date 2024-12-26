@@ -85,7 +85,7 @@ export const PowerWidget = () => {
           ease: 'easeInOut',
           type: 'spring',
           bounce: 0.2,
-          visualDuration: 0.75,
+          visualDuration: 0.25,
         }}
       >
         <ContextMenu.Trigger>
