@@ -6,7 +6,7 @@ import { Footer } from '~/components/footer'
 import '~/styles/globals.css'
 import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from 'next-themes'
-import { Snowfall } from '~/components/snowfall'
+import { Snowfall } from '~/components/lab/snowfall'
 
 const sans = Inter({
   variable: '--font-sans',
