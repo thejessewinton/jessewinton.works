@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { Fragment } from 'react'
 import { allIndices } from '~/content-collections'
 
 const index = allIndices[0]!
@@ -107,7 +108,7 @@ export default function Index() {
           <div className="flex flex-col gap-12">
             {index.projects.map((project, i) => {
               return (
-                <>
+                <Fragment key={project.title}>
                   {project.url ? (
                     <Link
                       href={project.url}
@@ -156,7 +157,7 @@ export default function Index() {
                       </div>
                     </div>
                   )}
-                </>
+                </Fragment>
               )
             })}
           </div>
