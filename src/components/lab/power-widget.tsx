@@ -82,11 +82,10 @@ export const PowerWidget = () => {
     <ContextMenu.Root>
       <MotionConfig
         transition={{
-          duration: 1,
           ease: 'easeInOut',
           type: 'spring',
-          bounce: 0.3,
-          visualDuration: 0.25,
+          bounce: 0.2,
+          visualDuration: 0.75,
         }}
       >
         <ContextMenu.Trigger>
@@ -101,7 +100,7 @@ export const PowerWidget = () => {
               initial={{ opacity: 0, filter: 'blur(10px)' }}
               exit={{ opacity: 0, filter: 'blur(10px)' }}
               className={cn(
-                'grid rounded-2xl border border-neutral-700/40 bg-neutral-800 p-2',
+                'grid rounded-2xl border border-neutral-200/40 bg-linear-to-br from-transparent to-neutral-200/40 p-2 shadow-black/10 shadow-md dark:border-neutral-700/40 dark:to-neutral-800/40',
               )}
             >
               <AnimatePresence initial={false} mode="popLayout">
@@ -124,22 +123,20 @@ export const PowerWidget = () => {
                               height="32"
                               fill="#000000"
                               viewBox="0 0 256 256"
-                              className="size-5 text-white"
+                              className="size-5"
                             >
                               {item.icon}
                             </svg>
                           </motion.div>
 
                           <div className="flex flex-1 items-center justify-between border-neutral-700/40 border-b py-6 pr-6">
-                            <span className="text-white text-xs">
-                              {item.device}
-                            </span>
+                            <span className="text-xs">{item.device}</span>
                             <div className="flex items-center gap-4">
                               <motion.span
                                 initial={{ opacity: 0, filter: 'blur(10px)' }}
                                 animate={{ opacity: 1, filter: 'blur(0px)' }}
                                 exit={{ opacity: 0, filter: 'blur(10px)' }}
-                                className="text-[10px] text-white"
+                                className="text-[10px]"
                               >
                                 {item.percentage}%
                               </motion.span>
@@ -175,7 +172,7 @@ export const PowerWidget = () => {
                               height="32"
                               fill="#000000"
                               viewBox="0 0 256 256"
-                              className="absolute size-8 text-white"
+                              className="absolute size-8"
                             >
                               {item.icon}
                             </svg>
@@ -213,7 +210,7 @@ export const PowerWidget = () => {
                               height="32"
                               fill="#000000"
                               viewBox="0 0 256 256"
-                              className="absolute size-8 text-white"
+                              className="absolute size-8"
                             >
                               {item.icon}
                             </svg>
@@ -228,8 +225,8 @@ export const PowerWidget = () => {
           </AnimatePresence>
         </ContextMenu.Trigger>
 
-        <ContextMenu.Content className="rounded-md border border-neutral-700/40 bg-neutral-800/20 p-2 shadow-black/10 shadow-lg backdrop-blur-xl">
-          <ContextMenu.Label className="mb-1 ml-4 font-light text-neutral-400 text-xs">
+        <ContextMenu.Content className="rounded-md border border-neutral-200/40 bg-neutral-300/40 p-2 shadow-black/10 shadow-lg backdrop-blur-xl dark:border-neutral-700/40 dark:bg-neutral-800/20">
+          <ContextMenu.Label className="mb-1 ml-4 font-light text-xs">
             Size
           </ContextMenu.Label>
           <ContextMenu.RadioGroup
@@ -242,7 +239,7 @@ export const PowerWidget = () => {
                 <ContextMenu.RadioItem
                   value={key}
                   key={key}
-                  className="flex items-center gap-1 rounded-xs px-2 text-sm capitalize outline-hidden focus:bg-blue-700"
+                  className="flex items-center gap-1 rounded-xs px-2 text-sm capitalize outline-hidden focus:bg-blue-400 focus:dark:bg-blue-700"
                 >
                   <div className="size-3">
                     <ContextMenu.ItemIndicator>
@@ -334,7 +331,7 @@ const ChargeLevelIndicator = ({
 const BatteryIcon = ({ percentage }: { percentage: number }) => {
   return (
     <motion.div layout className="flex items-center gap-px">
-      <div className="relative h-2 w-3.5 rounded-xs border border-white p-px">
+      <div className="relative h-2 w-3.5 rounded-xs border border-neutral-800 p-px dark:border-white">
         <div
           className={cn('h-full rounded-xs', {
             'bg-red-500': percentage < 20,
@@ -346,7 +343,7 @@ const BatteryIcon = ({ percentage }: { percentage: number }) => {
           }}
         />
       </div>
-      <div className="h-1 w-[.75px] rounded-xs bg-white" />
+      <div className="h-1 w-[.75px] rounded-xs bg-neutral-800 dark:bg-white" />
     </motion.div>
   )
 }

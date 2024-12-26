@@ -46,7 +46,7 @@ export const AudioPlayer = () => {
         type: 'spring',
       }}
     >
-      <div className="flex flex-col gap-4 rounded-lg border border-neutral-700/40 bg-linear-to-br from-transparent to-neutral-800/40 p-8 shadow-black/10 shadow-md">
+      <div className="flex flex-col gap-4 rounded-lg border border-neutral-200/40 bg-linear-to-br from-transparent to-neutral-200/40 p-8 shadow-black/10 shadow-md dark:border-neutral-700/40 dark:to-neutral-800/40">
         <TrackInfo />
         <div className="mt-4 flex items-center justify-center gap-4">
           <BackButton />
@@ -108,7 +108,7 @@ const BackButton = () => {
             {array.map((index) => {
               return (
                 <motion.span
-                  className="size-4 bg-white"
+                  className="size-4 bg-neutral-800 dark:bg-white"
                   style={{
                     clipPath: 'url(#back)',
                   }}
@@ -180,7 +180,7 @@ const SkipButton = () => {
             {array.map((index) => {
               return (
                 <motion.span
-                  className="size-4 bg-white text-black"
+                  className="size-4 bg-neutral-800 text-black dark:bg-white"
                   style={{
                     clipPath: 'url(#skip)',
                   }}
@@ -248,7 +248,7 @@ const PlayPause = () => {
                 width="10"
                 height="38"
                 rx="2"
-                className="h-full fill-white"
+                className="h-full fill-neutral-800 dark:fill-white"
               />
               <rect
                 x="19"
@@ -256,7 +256,7 @@ const PlayPause = () => {
                 width="10"
                 height="38"
                 rx="2"
-                className="h-full fill-white"
+                className="h-full fill-neutral-800 dark:fill-white"
               />
             </svg>
           ) : (
@@ -270,7 +270,7 @@ const PlayPause = () => {
               <title>Play</title>
               <path
                 d="M28.0031 17.6687C28.9531 18.302 28.9531 19.698 28.0031 20.3313L2.48751 37.3417C1.42422 38.0505 -7.17281e-06 37.2883 -7.18805e-06 36.0104L-7.59374e-06 1.98963C-7.60898e-06 0.711717 1.42423 -0.050511 2.48751 0.658348L28.0031 17.6687Z"
-                className="fill-white"
+                className="fill-neutral-800 dark:fill-white"
               />
             </svg>
           )}
