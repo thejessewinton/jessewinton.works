@@ -12,48 +12,48 @@ const components = [
     title: 'Mini Map',
     description:
       "I don’t even know what this is, but I've seen a couple of similar implementations and was starting to feel left out.",
-    tools: ['Tailwind', 'React', 'Framer Motion'],
+    tools: ['Tailwind', 'React', 'Motion'],
     children: <LineGrid />,
     beta: true,
     filename: 'line-grid.tsx',
   },
   {
-    title: 'Reaction menu',
+    title: 'Reaction Menu',
     description:
       'The reaction menu from iMessage. Experimenting with filters for a nice gooey effect, and still refining. Press and hold to open the menu.',
-    tools: ['Tailwind', 'React', 'Framer Motion'],
+    tools: ['Tailwind', 'React', 'Motion'],
     children: <ReactionsMenu />,
     filename: 'reaction-menu.tsx',
   },
   {
-    title: 'Interactive input',
+    title: 'Interactive Input',
     description:
       'Experimenting with ways to provide users with context and guidance for an input, giving them a visual cue of what to do next and how to interact with your tool.',
-    tools: ['Tailwind', 'React', 'Framer Motion'],
+    tools: ['Tailwind', 'React', 'Motion'],
     children: <InteractiveInput />,
     filename: 'interactive-input.tsx',
   },
   {
-    title: 'Player controls',
+    title: 'Player Controls',
     description:
       "Recreating the player controls from Apple's control center; using the animation gives users a feeling of the action they're taking. Work in progress; innovating on the animations, and using this in the context of a full music player.",
-    tools: ['Tailwind', 'React', 'Framer Motion'],
+    tools: ['Tailwind', 'React', 'Motion'],
     children: <AudioPlayer />,
     filename: 'audio-player.tsx',
   },
   {
-    title: 'Power widget',
+    title: 'Power Widget',
     description:
       "Innovating on the MacOS desktop power widget. I don't love the way their animations look, so I'm experimenting with a more fluid and dynamic approach. Right click to change the size.",
-    tools: ['Tailwind', 'React', 'Framer Motion', 'Radix'],
+    tools: ['Tailwind', 'React', 'Motion', 'Radix'],
     children: <PowerWidget />,
     filename: 'power-widget.tsx',
   },
   {
-    title: 'Fluid button',
+    title: 'Fluid Button',
     description:
       'An experiment fluidly transitioning between two actions. When the button is clicked, the letters that are shared between the two words persist, animating between states.',
-    tools: ['Tailwind', 'React', 'Framer Motion'],
+    tools: ['Tailwind', 'React', 'Motion'],
     children: <FluidButton />,
     filename: 'fluid-button.tsx',
   },

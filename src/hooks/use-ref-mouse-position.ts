@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-export const useElementMousePosition = (
-  ref: React.RefObject<HTMLDivElement>,
-) => {
+export const useElementMousePosition = () => {
+  const ref = useRef<HTMLDivElement>(null)
   const [position, setPosition] = useState<{
     x: number | null
     y: number | null
@@ -28,7 +27,7 @@ export const useElementMousePosition = (
     return () => {
       element.removeEventListener('mousemove', handleMouseMove)
     }
-  }, [ref])
+  }, [])
 
-  return position
+  return [ref, position] as const
 }

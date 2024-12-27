@@ -1,52 +1,57 @@
 'use client'
 
-import {
-  motion,
-  useMotionValue,
-  useMotionValueEvent,
-  useTransform,
-  useVelocity,
-} from 'motion/react'
-import { useRef, useState } from 'react'
+import { motion, useMotionValue, useTransform } from 'motion/react'
+import { type MouseEvent, useRef } from 'react'
 import { cn } from '~/utils/classnames'
 
 export const LineGrid = () => {
   const items = Array.from({ length: 54 }, (_, i) => i)
-  const ref = useRef<HTMLDivElement>(null)
-  const [isHovering, setIsHovering] = useState(false)
 
-  const y = useMotionValue(0)
-  const yVelocity = useVelocity(y)
-  const scale = useTransform(yVelocity, [-3000, 0, 3000], [2, 1, 2], {
-    clamp: false,
-  })
+  const cursorRef = useRef<HTMLDivElement>(null)
+  const mouseX = useMotionValue<number>(0)
 
-  useMotionValueEvent(yVelocity, 'change', (latest) => {
-    console.log('Velocity', latest)
-  })
+  const mappedScale = useTransform(
+    mouseX,
+    [-48, -38.4, -24, 0, 24, 38.4, 48],
+    [1, 1, 2.1, 3.2, 2.1, 1, 1],
+  )
+
+  console.log(mappedScale.get(), mouseX.get())
+
+  const handleMouseMove = (event: MouseEvent) => {
+    const rect = cursorRef.current?.getBoundingClientRect()
+    if (!rect) return
+    mouseX.set(event.clientX - rect.left)
+  }
 
   return (
     <div
       className="flex items-end gap-2 p-4"
-      ref={ref}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
+      onMouseMove={handleMouseMove}
+      ref={cursorRef}
     >
       {items.map((_, i) => {
+        const mappedScale = useTransform(mouseX, (value) => {
+          const itemX = i * 10
+          const distance = Math.abs(value - itemX)
+          const maxDistance = 48
+          if (distance > maxDistance) return 1
+          const scale = 1 + 3.2 * (1 - distance / maxDistance)
+          return scale
+        })
+
         return (
           <motion.div
-            className={cn(
-              'w-px rounded-md',
-              i % 8 ? 'h-4 bg-neutral-500' : 'h-6 bg-orange-700',
-            )}
             key={i}
+            className={cn(
+              'rounded-md',
+              i % 8 ? 'h-4 bg-neutral-500' : 'h-6 bg-white',
+            )}
             style={{
-              scaleY: isHovering ? scale.get() : 1,
+              width: 1,
+              scaleY: mappedScale,
             }}
-            transition={{
-              type: 'spring',
-              bounce: 0.25,
-            }}
+            transition={{ damping: 20, stiffness: 200, type: 'spring' }}
           />
         )
       })}
