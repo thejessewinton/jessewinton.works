@@ -8,7 +8,6 @@ import { Footer } from '~/components/footer'
 import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from 'next-themes'
 import { Snowfall } from '~/components/lab/snowfall'
-import { Meta } from '~/components/meta'
 import { QueryProvider } from '~/providers/query'
 
 const sans = Inter({
@@ -49,7 +48,6 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
       <body className="flex min-h-screen flex-col items-center justify-center scroll-smooth bg-white text-neutral-800 leading-loose antialiased selection:bg-neutral-100 dark:bg-neutral-900 dark:text-neutral-200 dark:selection:bg-neutral-800">
         <ThemeProvider attribute="class">
           <QueryProvider>
-            <Meta />
             <main className="mx-auto mt-32 flex w-full max-w-4xl grow flex-col items-center justify-center px-4 md:px-8">
               {children}
             </main>

@@ -1,4 +1,6 @@
 import Link from 'next/link'
+import { Clock } from './shared/clock'
+import { Weather } from './shared/weather'
 
 const links = [
   {
@@ -13,8 +15,8 @@ const links = [
 
 export const Footer = () => {
   return (
-    <footer className="mt-auto mb-0 flex h-14 w-full animate-blur items-center">
-      <div className="mx-auto flex w-full max-w-4xl flex-row items-center justify-between gap-4 px-8 text-neutral-400">
+    <footer className="mt-auto mb-0 flex h-20 w-full animate-blur items-center py-8">
+      <div className="mx-auto flex w-full max-w-4xl flex-row items-center justify-between gap-4 px-8 text-neutral-500">
         <nav className="group flex items-center justify-between gap-6 text-sm">
           {links.map((link) => (
             <Link
@@ -29,7 +31,11 @@ export const Footer = () => {
           ))}
         </nav>
 
-        <span className="text-sm">&copy;{new Date().getFullYear()}</span>
+        <div className="flex items-center justify-between gap-4">
+          <Weather />
+          <Clock />
+          <span className="text-sm">&copy;{new Date().getFullYear()}</span>
+        </div>
       </div>
     </footer>
   )
