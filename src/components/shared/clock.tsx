@@ -15,15 +15,19 @@ export const newYorkTime = () => {
 }
 
 export const Clock = () => {
+  const [isMounted, setIsMounted] = useState(false)
   const [time, setTime] = useState(newYorkTime)
 
   useEffect(() => {
+    setIsMounted(true)
     const interval = setInterval(() => {
       setTime(newYorkTime)
     }, 1000)
 
     return () => clearInterval(interval)
   }, [])
+
+  if (!isMounted) return null
 
   return (
     <Tooltip.Provider>
