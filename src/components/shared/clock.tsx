@@ -83,7 +83,7 @@ export const Clock = () => {
           </div>
         </Tooltip.Trigger>
         <Tooltip.Portal>
-          <Tooltip.Positioner sideOffset={10} side="left">
+          <Tooltip.Positioner sideOffset={10} side="top">
             <Tooltip.Popup
               className={cn(
                 'flex items-center justify-center gap-2 rounded-md border border-neutral-200/40 bg-neutral-100/40 px-2 py-1 font-mono text-sm backdrop-blur-lg transition-all dark:border-neutral-700/40 dark:bg-neutral-950/20',
