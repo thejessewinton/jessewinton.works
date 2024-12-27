@@ -63,17 +63,20 @@ export default function Home() {
     <>
       <Header />
       <div className="container mx-auto my-16 flex flex-col justify-center gap-8 space-y-12">
-        {components.map(({ title, description, tools, children, filename }) => (
-          <Component
-            key={title}
-            title={title}
-            description={description}
-            tools={tools}
-            filename={filename}
-          >
-            {children}
-          </Component>
-        ))}
+        {components.map(
+          ({ title, description, tools, children, filename, beta }) => (
+            <Component
+              key={title}
+              title={title}
+              description={description}
+              tools={tools}
+              filename={filename}
+              beta={beta}
+            >
+              {children}
+            </Component>
+          ),
+        )}
       </div>
     </>
   )
