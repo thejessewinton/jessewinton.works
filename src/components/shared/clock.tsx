@@ -1,20 +1,20 @@
 'use client'
 import { Tooltip } from '@base-ui-components/react/tooltip'
 import { format } from 'date-fns'
-import { type CSSProperties, useCallback, useEffect, useState } from 'react'
+import { type CSSProperties, useEffect, useState } from 'react'
 import { cn } from '~/utils/classnames'
 
-export const Clock = () => {
-  const newYorkTime = useCallback(() => {
-    const now = new Date()
-    return new Date(
-      now.toLocaleString('en-US', {
-        timeZone: 'America/New_York',
-        hour12: false,
-      }),
-    )
-  }, [])
+export const newYorkTime = () => {
+  const now = new Date()
+  return new Date(
+    now.toLocaleString('en-US', {
+      timeZone: 'America/New_York',
+      hour12: false,
+    }),
+  )
+}
 
+export const Clock = () => {
   const [time, setTime] = useState(newYorkTime)
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export const Clock = () => {
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [newYorkTime])
+  }, [])
 
   return (
     <Tooltip.Provider>
@@ -83,10 +83,10 @@ export const Clock = () => {
           </div>
         </Tooltip.Trigger>
         <Tooltip.Portal>
-          <Tooltip.Positioner sideOffset={10} side="bottom">
+          <Tooltip.Positioner sideOffset={10} side="left">
             <Tooltip.Popup
               className={cn(
-                'flex items-center justify-center gap-2 rounded-md border border-neutral-200/40 bg-neutral-100/40 px-2 py-1 font-mono text-sm backdrop-blur-lg transition-all dark:border-neutral-700/40 dark:bg-neutral-950/50',
+                'flex items-center justify-center gap-2 rounded-md border border-neutral-200/40 bg-neutral-100/40 px-2 py-1 font-mono text-sm backdrop-blur-lg transition-all dark:border-neutral-700/40 dark:bg-neutral-950/20',
                 'data-[starting-style]:translate-y-4 data-[starting-style]:scale-95 data-[starting-style]:opacity-0 data-[starting-style]:blur-sm',
                 'data-[ending-style]:translate-y-4 data-[ending-style]:scale-95 data-[ending-style]:opacity-0 data-[ending-style]:blur-0',
               )}
