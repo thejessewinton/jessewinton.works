@@ -10,7 +10,8 @@ import { Header } from '~/components/shared/header'
 const components = [
   {
     title: 'Mini Map',
-    description: 'Dope shit',
+    description:
+      "I don’t even know what this is, but I've seen a couple of similar implementations and was starting to feel left out.",
     tools: ['Tailwind', 'React', 'Framer Motion'],
     children: <LineGrid />,
     beta: true,
