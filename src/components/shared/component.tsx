@@ -35,7 +35,7 @@ export const Component = ({
           <h3 className="font-medium">{title}</h3>
 
           {beta ? (
-            <span className="rounded-sm bg-blue-400 px-2 py-px text-black">
+            <span className="rounded-sm bg-blue-400 px-2 py-px text-black text-xs">
               Beta
             </span>
           ) : null}
