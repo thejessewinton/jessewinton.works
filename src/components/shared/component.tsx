@@ -55,6 +55,7 @@ export const Component = ({
           <Link
             className="group flex items-center gap-1 rounded-sm bg-neutral-100 py-1 pr-2.5 pl-2 dark:bg-neutral-800"
             href={`https://github.com/thejessewinton/jessewinton.works/blob/main/src/components/lab/${filename}`}
+            target="_blank"
           >
             Source
             <CaretRight className="size-3 text-inherit transition-transform group-hover:translate-x-0.25" />
