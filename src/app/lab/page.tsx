@@ -13,6 +13,7 @@ const components = [
     description: 'Dope shit',
     tools: ['Tailwind', 'React', 'Framer Motion'],
     children: <LineGrid />,
+    beta: true,
     filename: 'line-grid.tsx',
   },
   {
