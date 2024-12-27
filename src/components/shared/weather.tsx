@@ -2,14 +2,12 @@
 
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useState } from 'react'
-import useMeasure from 'react-use-measure'
 import { useWeather } from '~/hooks/use-weather'
 import { cn } from '~/utils/classnames'
 
 export const Weather = () => {
   const { data, isLoading } = useWeather()
   const [unit, setUnit] = useState<'c' | 'f'>('f')
-  const [ref, bounds] = useMeasure()
 
   const handleSetUnit = () => {
     setUnit((prev) => (prev === 'c' ? 'f' : 'c'))
@@ -19,7 +17,7 @@ export const Weather = () => {
     <button
       type="button"
       onClick={handleSetUnit}
-      className="flex cursor-pointer items-center justify-center gap-2 font-mono text-neutral-500 text-sm"
+      className="flex cursor-pointer items-center justify-center gap-2 text-neutral-500 text-sm outline-none transition-colors focus-visible:text-neutral-400"
     >
       <motion.div
         className={cn(
@@ -27,37 +25,28 @@ export const Weather = () => {
           'data-[starting-style]:translate-y-4 data-[starting-style]:scale-95 data-[starting-style]:opacity-0 data-[starting-style]:blur-sm',
           'data-[ending-style]:translate-y-4 data-[ending-style]:scale-95 data-[ending-style]:opacity-0 data-[ending-style]:blur-0',
         )}
-        animate={{ width: bounds.width }}
-        transition={{
-          visualDuration: 0.25,
-          type: 'spring',
-          damping: 10,
-        }}
       >
-        <motion.div ref={ref}>
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <AnimatePresence mode="popLayout">
-              <motion.span
-                key={unit}
-                className="block"
-                initial={{ opacity: 0, y: -4, filter: 'blur(4px)' }}
-                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, y: 4, filter: 'blur(4px)' }}
-                transition={{
-                  visualDuration: 0.25,
-                  type: 'spring',
-                  damping: 10,
-                }}
-              >
-                {unit === 'c'
-                  ? `${data!.current.temperature_2m}°C`
-                  : `${((data!.current.temperature_2m * 9) / 5 + 32).toFixed()}°F`}
-              </motion.span>
-            </AnimatePresence>
-          )}
-        </motion.div>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <AnimatePresence mode="popLayout">
+            <motion.span
+              key={unit}
+              className="block"
+              initial={{ opacity: 0, y: -4, filter: 'blur(4px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, y: 4, filter: 'blur(4px)' }}
+              transition={{
+                type: 'spring',
+                damping: 10,
+              }}
+            >
+              {unit === 'c'
+                ? `${data!.current.temperature_2m}°C`
+                : `${((data!.current.temperature_2m * 9) / 5 + 32).toFixed()}°F`}
+            </motion.span>
+          </AnimatePresence>
+        )}
       </motion.div>
       <span className="inline-block">{'— NYC'}</span>
     </button>
