@@ -19,7 +19,7 @@ export default function Index() {
         </h1>
 
         <div
-          className="prose prose-neutral dark:prose-invert prose-a:italic! max-w-none space-y-4 font-light prose-a:font-serif! prose-a:no-underline"
+          className="prose prose-neutral dark:prose-invert max-w-none space-y-4 font-light prose-a:font-medium prose-a:no-underline"
           dangerouslySetInnerHTML={{ __html: index.html }}
         />
       </div>
