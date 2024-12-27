@@ -23,7 +23,7 @@ const components = [
       'The reaction menu from iMessage. Experimenting with filters for a nice gooey effect, and still refining. Press and hold to open the menu.',
     tools: ['Tailwind', 'React', 'Framer Motion'],
     children: <ReactionsMenu />,
-    filename: 'audio-player.tsx',
+    filename: 'reaction-menu.tsx',
   },
   {
     title: 'Interactive input',
