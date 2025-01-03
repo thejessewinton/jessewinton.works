@@ -13,7 +13,6 @@ export const TabsGroup = () => {
     'right',
   )
 
-  // Track previous active tab to determine slide direction
   const previousActiveTabRef = useRef(activeTab)
 
   useEffect(() => {
@@ -32,7 +31,6 @@ export const TabsGroup = () => {
     }
   }, [activeTab])
 
-  // Determine slide direction when active tab changes
   useEffect(() => {
     const currentIndex = TABS.findIndex((tab) => tab.name === activeTab)
     const previousIndex = TABS.findIndex(

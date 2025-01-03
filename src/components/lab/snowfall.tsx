@@ -30,7 +30,7 @@ export const Snowfall = () => {
   const createSnowflakes = useCallback(() => {
     return Array.from({ length: SNOWFLAKE_COUNT }, (_, index) => ({
       x: Math.random(),
-      y: index / SNOWFLAKE_COUNT - 1, // Spread snowflakes vertically
+      y: index / SNOWFLAKE_COUNT - 1,
       radius: Math.random() * 2.5 + 0.2,
       speed: BASE_SPEED + Math.random() * SPEED_VARIANCE,
       horizontalSpeed: (Math.random() * 2 - 1) * HORIZONTAL_SPEED_RANGE,
@@ -54,7 +54,6 @@ export const Snowfall = () => {
     handleResize()
     window.addEventListener('resize', handleResize)
 
-    // Create snowflakes only once
     if (snowflakes.current.length === 0) {
       snowflakes.current = createSnowflakes()
     }
@@ -84,14 +83,12 @@ export const Snowfall = () => {
 
         flake.oscillationProgress += flake.oscillationSpeed * deltaTime
 
-        // Wrap around horizontally
         if (flake.x > 1) {
           flake.x = 0
         } else if (flake.x < 0) {
           flake.x = 1
         }
 
-        // Reset to top when falling off the bottom
         if (flake.y > 1) {
           flake.y = -flake.radius / dimensions.height
           flake.x = Math.random()
@@ -121,7 +118,7 @@ export const Snowfall = () => {
         lastUpdateTime.current = currentTime
       }
 
-      const deltaTime = (currentTime - lastUpdateTime.current) / 1000 // Convert to seconds
+      const deltaTime = (currentTime - lastUpdateTime.current) / 1000
       lastUpdateTime.current = currentTime
 
       updateSnowflakes(deltaTime)
