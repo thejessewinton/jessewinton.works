@@ -1,14 +1,15 @@
 'use client'
 
-import { motion, useMotionValue, useTransform } from 'motion/react'
-import { type MouseEvent, useRef } from 'react'
+import { motion, useMotionValue, useSpring, useTransform } from 'motion/react'
+import { useRef } from 'react'
 import { cn } from '~/utils/classnames'
 
 export const LineGrid = () => {
   const items = Array.from({ length: 54 }, (_, i) => i)
-
   const cursorRef = useRef<HTMLDivElement>(null)
-  const mouseX = useMotionValue<number>(0)
+
+  const mouseX = useMotionValue(Number.POSITIVE_INFINITY)
+  const isHovered = useMotionValue(0)
 
   const mappedScale = useTransform(
     mouseX,
@@ -16,45 +17,40 @@ export const LineGrid = () => {
     [1, 1, 2.1, 3.2, 2.1, 1, 1],
   )
 
-  console.log(mappedScale.get(), mouseX.get())
-
-  const handleMouseMove = (event: MouseEvent) => {
-    const rect = cursorRef.current?.getBoundingClientRect()
-    if (!rect) return
-    mouseX.set(event.clientX - rect.left)
-  }
+  const scaleValue = useSpring(mappedScale, {
+    stiffness: 400,
+    damping: 90,
+  })
 
   return (
-    <div
-      className="flex items-end gap-2 p-4"
-      onMouseMove={handleMouseMove}
+    <motion.div
+      onMouseMove={({ pageX }) => {
+        isHovered.set(1)
+        mouseX.set(pageX)
+      }}
+      onMouseLeave={() => {
+        isHovered.set(0)
+        mouseX.set(Number.POSITIVE_INFINITY)
+      }}
       ref={cursorRef}
+      className="flex items-end gap-2 p-4"
     >
       {items.map((_, i) => {
-        const mappedScale = useTransform(mouseX, (value) => {
-          const itemX = i * 10
-          const distance = Math.abs(value - itemX)
-          const maxDistance = 48
-          if (distance > maxDistance) return 1
-          const scale = 1 + 3.2 * (1 - distance / maxDistance)
-          return scale
-        })
-
         return (
           <motion.div
             key={i}
+            onHoverStart={() => isHovered.set(1)}
+            onHoverEnd={() => isHovered.set(0)}
+            onFocus={() => isHovered.set(1)}
+            onBlur={() => isHovered.set(0)}
             className={cn(
-              'rounded-md',
+              'w-px rounded-md',
               i % 8 ? 'h-4 bg-neutral-500' : 'h-6 bg-white',
             )}
-            style={{
-              width: 1,
-              scaleY: mappedScale,
-            }}
-            transition={{ damping: 20, stiffness: 200, type: 'spring' }}
+            style={{ scale: scaleValue }}
           />
         )
       })}
-    </div>
+    </motion.div>
   )
 }
