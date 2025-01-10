@@ -1,5 +1,5 @@
-import { defineCollection, defineConfig } from '@content-collections/core'
-import { compileMarkdown } from '@content-collections/markdown'
+import { defineCollection, defineConfig } from '@content-collections/core';
+import { compileMarkdown } from '@content-collections/markdown';
 
 const index = defineCollection({
   name: 'index',
@@ -17,25 +17,34 @@ const index = defineCollection({
         title: z.string(),
         description: z.string(),
         url: z.string(),
-      }),
+      })
+    ),
+    writing: z.array(
+      z.object({
+        date: z.string(),
+        title: z.string(),
+        description: z.string(),
+        url: z.string(),
+      })
     ),
     projects: z.array(
       z.object({
         title: z.string(),
         description: z.string(),
+        label: z.string().optional(),
         url: z.string().optional(),
-      }),
+      })
     ),
   }),
   transform: async (document, context) => {
-    const html = await compileMarkdown(context, document)
+    const html = await compileMarkdown(context, document);
     return {
       ...document,
       html,
-    }
+    };
   },
-})
+});
 
 export default defineConfig({
   collections: [index],
-})
+});
