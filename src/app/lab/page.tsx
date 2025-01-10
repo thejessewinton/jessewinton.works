@@ -1,4 +1,5 @@
 import { AudioPlayer } from '~/components/lab/audio-player'
+import { Clock } from '~/components/lab/clock'
 import { FluidButton } from '~/components/lab/fluid-button'
 import { InteractiveInput } from '~/components/lab/interactive-input'
 import { LineGrid } from '~/components/lab/line-grid'
@@ -8,6 +9,14 @@ import { Component, type ComponentProps } from '~/components/shared/component'
 import { Header } from '~/components/shared/header'
 
 const components = [
+  {
+    title: 'Analog clock',
+    description: 'Why not make something beautiful and old?',
+    tools: ['Tailwind', 'React', 'Motion'],
+    children: <Clock />,
+    beta: true,
+    filename: 'clock.tsx',
+  },
   {
     title: 'Mini Map',
     description:

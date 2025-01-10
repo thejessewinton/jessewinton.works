@@ -1,60 +1,80 @@
 'use client'
 
-import { motion, useMotionValue, useTransform } from 'motion/react'
-import { type MouseEvent, useRef } from 'react'
+import { motion, useSpring } from 'framer-motion'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { cn } from '~/utils/classnames'
 
-export const LineGrid = () => {
-  const items = Array.from({ length: 54 }, (_, i) => i)
+const WaveBar = ({
+  hovered,
+  mouseX,
+  index,
+}: {
+  hovered: boolean
+  mouseX: number
+  index: number
+}) => {
+  const barRef = useRef<HTMLDivElement>(null)
+  const scaleY = useSpring(1, {
+    damping: 30,
+    stiffness: 200,
+  })
 
-  const cursorRef = useRef<HTMLDivElement>(null)
-  const mouseX = useMotionValue<number>(0)
+  const interpolateScale = useCallback((distance: number) => {
+    const normalizedDist = Math.abs(distance / 48)
+    if (normalizedDist > 1) return 1
 
-  const mappedScale = useTransform(
-    mouseX,
-    [-48, -38.4, -24, 0, 24, 38.4, 48],
-    [1, 1, 2.1, 3.2, 2.1, 1, 1],
-  )
+    return 1 + 2.2 * (1 - normalizedDist * normalizedDist)
+  }, [])
 
-  console.log(mappedScale.get(), mouseX.get())
+  useEffect(() => {
+    const bar = barRef.current
+    if (!bar || mouseX === null) return
 
-  const handleMouseMove = (event: MouseEvent) => {
-    const rect = cursorRef.current?.getBoundingClientRect()
-    if (!rect) return
-    mouseX.set(event.clientX - rect.left)
-  }
+    const rect = bar.getBoundingClientRect()
+    const barCenter = rect.left + rect.width / 2
+    const distance = mouseX - barCenter
+
+    const newScale = interpolateScale(distance)
+    scaleY.set(newScale)
+  }, [mouseX, interpolateScale, scaleY])
 
   return (
-    <div
-      className="flex items-end gap-2 p-4"
-      onMouseMove={handleMouseMove}
-      ref={cursorRef}
-    >
-      {items.map((_, i) => {
-        const mappedScale = useTransform(mouseX, (value) => {
-          const itemX = i * 10
-          const distance = Math.abs(value - itemX)
-          const maxDistance = 48
-          if (distance > maxDistance) return 1
-          const scale = 1 + 3.2 * (1 - distance / maxDistance)
-          return scale
-        })
+    <motion.div
+      ref={barRef}
+      className={cn(
+        'w-px rounded-md',
+        index % 8 ? 'h-4 bg-neutral-500' : 'h-6 bg-white',
+      )}
+      initial={false}
+      transition={{
+        type: 'spring',
+        stiffness: hovered ? 300 : 200,
+        damping: hovered ? 25 : 20,
+      }}
+      style={{
+        scaleY,
+      }}
+    />
+  )
+}
 
-        return (
-          <motion.div
-            key={i}
-            className={cn(
-              'rounded-md',
-              i % 8 ? 'h-4 bg-neutral-500' : 'h-6 bg-white',
-            )}
-            style={{
-              width: 1,
-              scaleY: mappedScale,
-            }}
-            transition={{ damping: 20, stiffness: 200, type: 'spring' }}
-          />
-        )
-      })}
-    </div>
+export const LineGrid = () => {
+  const [mouseX, setMouseX] = useState<number>(0)
+
+  return (
+    <motion.div
+      className="flex items-end gap-2 p-4"
+      onMouseMove={({ clientX }) => setMouseX(clientX)}
+      onMouseLeave={() => setMouseX(0)}
+    >
+      {Array.from({ length: 60 }).map((_, index) => (
+        <WaveBar
+          key={index}
+          hovered={mouseX !== null}
+          mouseX={mouseX}
+          index={index}
+        />
+      ))}
+    </motion.div>
   )
 }
