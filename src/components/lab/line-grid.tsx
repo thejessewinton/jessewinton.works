@@ -12,7 +12,6 @@ const WaveBar = ({
   hovered: boolean
   mouseX: number
   index: number
-  totalBars: number
 }) => {
   const barRef = useRef<HTMLDivElement>(null)
   const scaleY = useSpring(1, {
@@ -68,13 +67,12 @@ export const LineGrid = () => {
       onMouseMove={({ clientX }) => setMouseX(clientX)}
       onMouseLeave={() => setMouseX(0)}
     >
-      {Array.from({ length: 54 }).map((_, index) => (
+      {Array.from({ length: 60 }).map((_, index) => (
         <WaveBar
           key={index}
           hovered={mouseX !== null}
           mouseX={mouseX}
           index={index}
-          totalBars={20}
         />
       ))}
     </motion.div>
