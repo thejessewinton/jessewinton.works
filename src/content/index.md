@@ -46,6 +46,11 @@ projects:
   - title: rpshr
     description: A simple, delightful notes app. Experimenting with new design patterns.
     url: https://rpshr.app
+writing:
+  - title: Init
+    description: A write up about the design process of Appwrite's 2024 launch week.
+    url: https://appwrite.io/blog/post/designing-init-event-logo
+    date: '2024'
 ---
 
 New York City based design engineer, specializing in building exceptional, performant products, delightful interactions and user experiences, and beautifully designed surfaces on the web. Typescript and type-safety die hard, and a huge fan of React. Playwright; have written and performed original work Off-Off Broadway. Management experience, but currently preferring to write code. [Contact me here](mailto:jrandallwinton@gmail.com).
