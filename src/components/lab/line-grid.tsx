@@ -1,56 +1,82 @@
 'use client'
 
-import { motion, useMotionValue, useSpring, useTransform } from 'motion/react'
-import { useRef } from 'react'
+import { motion, useSpring } from 'framer-motion'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { cn } from '~/utils/classnames'
 
-export const LineGrid = () => {
-  const items = Array.from({ length: 54 }, (_, i) => i)
-  const cursorRef = useRef<HTMLDivElement>(null)
-
-  const mouseX = useMotionValue(Number.POSITIVE_INFINITY)
-  const isHovered = useMotionValue(0)
-
-  const mappedScale = useTransform(
-    mouseX,
-    [-48, -38.4, -24, 0, 24, 38.4, 48],
-    [1, 1, 2.1, 3.2, 2.1, 1, 1],
-  )
-
-  const scaleValue = useSpring(mappedScale, {
-    stiffness: 400,
-    damping: 90,
+const WaveBar = ({
+  hovered,
+  mouseX,
+  index,
+}: {
+  hovered: boolean
+  mouseX: number
+  index: number
+  totalBars: number
+}) => {
+  const barRef = useRef<HTMLDivElement>(null)
+  const scaleY = useSpring(1, {
+    damping: 30,
+    stiffness: 200,
   })
+
+  const interpolateScale = useCallback((distance: number) => {
+    const normalizedDist = Math.abs(distance / 48)
+    if (normalizedDist > 1) return 1
+
+    return 1 + 2.2 * (1 - normalizedDist * normalizedDist)
+  }, [])
+
+  useEffect(() => {
+    const bar = barRef.current
+    if (!bar || mouseX === null) return
+
+    const rect = bar.getBoundingClientRect()
+    const barCenter = rect.left + rect.width / 2
+    const distance = mouseX - barCenter
+
+    const newScale = interpolateScale(distance)
+    scaleY.set(newScale)
+  }, [mouseX, interpolateScale, scaleY])
 
   return (
     <motion.div
-      onMouseMove={({ pageX }) => {
-        isHovered.set(1)
-        mouseX.set(pageX)
+      ref={barRef}
+      className={cn(
+        'w-px rounded-md',
+        index % 8 ? 'h-4 bg-neutral-500' : 'h-6 bg-white',
+      )}
+      initial={false}
+      transition={{
+        type: 'spring',
+        stiffness: hovered ? 300 : 200,
+        damping: hovered ? 25 : 20,
       }}
-      onMouseLeave={() => {
-        isHovered.set(0)
-        mouseX.set(Number.POSITIVE_INFINITY)
+      style={{
+        scaleY,
       }}
-      ref={cursorRef}
+    />
+  )
+}
+
+export const LineGrid = () => {
+  const [mouseX, setMouseX] = useState<number>(0)
+
+  return (
+    <motion.div
       className="flex items-end gap-2 p-4"
+      onMouseMove={({ clientX }) => setMouseX(clientX)}
+      onMouseLeave={() => setMouseX(0)}
     >
-      {items.map((_, i) => {
-        return (
-          <motion.div
-            key={i}
-            onHoverStart={() => isHovered.set(1)}
-            onHoverEnd={() => isHovered.set(0)}
-            onFocus={() => isHovered.set(1)}
-            onBlur={() => isHovered.set(0)}
-            className={cn(
-              'w-px rounded-md',
-              i % 8 ? 'h-4 bg-neutral-500' : 'h-6 bg-white',
-            )}
-            style={{ scale: scaleValue }}
-          />
-        )
-      })}
+      {Array.from({ length: 54 }).map((_, index) => (
+        <WaveBar
+          key={index}
+          hovered={mouseX !== null}
+          mouseX={mouseX}
+          index={index}
+          totalBars={20}
+        />
+      ))}
     </motion.div>
   )
 }
