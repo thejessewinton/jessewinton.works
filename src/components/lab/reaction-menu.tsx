@@ -8,7 +8,7 @@ import { cn } from '~/utils/classnames'
 
 const reactions = ['🎅', '🎄', '🤶', '❄️', '☃️', '🎁', '🧑‍🎄', '⛪']
 
-export const ReactionsMenu = () => {
+export const ReactionMenu = () => {
   const [open, setOpen] = useState(false)
 
   const { ...longPressHandlers } = useLongPress({
