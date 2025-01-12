@@ -32,7 +32,7 @@ const components = [
       'The reaction menu from iMessage. Experimenting with filters for a nice gooey effect, and still refining. Press and hold to open the menu.',
     tools: ['Tailwind', 'React', 'Motion'],
     children: <ReactionsMenu />,
-    filename: 'reaction-menu.tsx',
+    filename: 'reactions-menu.tsx',
   },
   {
     title: 'Interactive Input',
