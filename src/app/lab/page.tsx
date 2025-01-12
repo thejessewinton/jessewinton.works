@@ -4,7 +4,7 @@ import { FluidButton } from '~/components/lab/fluid-button'
 import { InteractiveInput } from '~/components/lab/interactive-input'
 import { LineGrid } from '~/components/lab/line-grid'
 import { PowerWidget } from '~/components/lab/power-widget'
-import { ReactionsMenu } from '~/components/lab/reactions-menu'
+import { ReactionMenu } from '~/components/lab/reaction-menu'
 import { Component, type ComponentProps } from '~/components/shared/component'
 import { Header } from '~/components/shared/header'
 
@@ -31,8 +31,8 @@ const components = [
     description:
       'The reaction menu from iMessage. Experimenting with filters for a nice gooey effect, and still refining. Press and hold to open the menu.',
     tools: ['Tailwind', 'React', 'Motion'],
-    children: <ReactionsMenu />,
-    filename: 'reactions-menu.tsx',
+    children: <ReactionMenu />,
+    filename: 'reaction-menu.tsx',
   },
   {
     title: 'Interactive Input',
