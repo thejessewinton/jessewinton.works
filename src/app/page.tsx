@@ -1,14 +1,14 @@
-import type { Metadata } from 'next';
-import Link from 'next/link';
-import { Fragment } from 'react';
-import { allIndices } from '~/content-collections';
+import type { Metadata } from 'next'
+import Link from 'next/link'
+import { Fragment } from 'react'
+import { allIndices } from '~/content-collections'
 
-const index = allIndices[0]!;
+const index = allIndices[0]!
 
 export const metadata: Metadata = {
   title: index.title,
   description: index.description,
-};
+}
 
 export default function Index() {
   return (
@@ -19,7 +19,7 @@ export default function Index() {
         </h1>
 
         <div
-          className="prose prose-neutral dark:prose-invert max-w-none space-y-4 font-light prose-a:font-medium prose-a:no-underline"
+          className="max-w-none space-y-4 font-light text-neutral-900 dark:text-neutral-400"
           dangerouslySetInnerHTML={{ __html: index.html }}
         />
       </div>
@@ -32,7 +32,9 @@ export default function Index() {
           }}
         >
           <h3 className="mb-8 font-medium">Now</h3>
-          <div className="flex flex-col gap-12">{index.now}</div>
+          <div className="flex flex-col gap-12 text-neutral-900 dark:text-neutral-400">
+            {index.now}
+          </div>
         </div>
         <div
           className="group pointer-events-none relative animate-enter"
@@ -71,7 +73,7 @@ export default function Index() {
                     </div>
                   </div>
                 </Link>
-              );
+              )
             })}
           </div>
         </div>
@@ -94,7 +96,7 @@ export default function Index() {
                 >
                   {item}
                 </div>
-              );
+              )
             })}
           </div>
         </div>
@@ -159,7 +161,7 @@ export default function Index() {
                     </div>
                   )}
                 </Fragment>
-              );
+              )
             })}
           </div>
         </div>
@@ -198,11 +200,11 @@ export default function Index() {
                     </div>
                   </Link>
                 </Fragment>
-              );
+              )
             })}
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 }

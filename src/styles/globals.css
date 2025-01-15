@@ -1,7 +1,5 @@
 @import 'tailwindcss';
 
-@plugin '@tailwindcss/typography';
-
 @variant dark (&:is(.dark *));
 
 @theme {
@@ -73,5 +71,11 @@
   ::backdrop,
   ::file-selector-button {
     border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@layer utilities {
+  a {
+    @apply font-medium text-neutral-100;
   }
 }
