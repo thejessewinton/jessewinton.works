@@ -1,20 +1,20 @@
-import '~/styles/globals.css'
+import '~/styles/globals.css';
 
-import type { Metadata } from 'next'
-import { Inter, JetBrains_Mono, Newsreader } from 'next/font/google'
-import type { ReactNode } from 'react'
-import { Footer } from '~/components/footer'
+import type { Metadata } from 'next';
+import { Inter, JetBrains_Mono, Newsreader } from 'next/font/google';
+import type { ReactNode } from 'react';
+import { Footer } from '~/components/footer';
 
-import { Analytics } from '@vercel/analytics/next'
-import { ThemeProvider } from 'next-themes'
-import { Snowfall } from '~/components/lab/snowfall'
-import { QueryProvider } from '~/providers/query'
+import { Analytics } from '@vercel/analytics/next';
+import { ThemeProvider } from 'next-themes';
+//import { Snowfall } from '~/components/lab/snowfall'
+import { QueryProvider } from '~/providers/query';
 
 const sans = Inter({
   variable: '--font-sans',
   display: 'optional',
   subsets: ['latin'],
-})
+});
 
 const serif = Newsreader({
   variable: '--font-serif',
@@ -22,21 +22,21 @@ const serif = Newsreader({
   style: 'italic',
   subsets: ['latin'],
   weight: ['300'],
-})
+});
 
 const mono = JetBrains_Mono({
   variable: '--font-mono',
   display: 'optional',
   subsets: ['latin'],
   weight: ['300'],
-})
+});
 
 export const metadata: Metadata = {
   title: {
     default: 'Jesse Winton',
     template: '%s — Jesse Winton',
   },
-}
+};
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
   return (
@@ -51,14 +51,14 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
             <main className="mx-auto mt-32 flex w-full max-w-4xl grow flex-col items-center justify-center px-4 md:px-8">
               {children}
             </main>
-            <Snowfall />
+            {/* <Snowfall /> */}
             <Footer />
             <Analytics />
           </QueryProvider>
         </ThemeProvider>
       </body>
     </html>
-  )
-}
+  );
+};
 
-export default RootLayout
+export default RootLayout;
