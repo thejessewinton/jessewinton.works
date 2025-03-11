@@ -1,12 +1,12 @@
-import { AudioPlayer } from '~/components/lab/audio-player'
-import { Clock } from '~/components/lab/clock'
-import { FluidButton } from '~/components/lab/fluid-button'
-import { InteractiveInput } from '~/components/lab/interactive-input'
-import { LineGrid } from '~/components/lab/line-grid'
-import { PowerWidget } from '~/components/lab/power-widget'
-import { ReactionMenu } from '~/components/lab/reaction-menu'
-import { Component, type ComponentProps } from '~/components/shared/component'
-import { Header } from '~/components/shared/header'
+import { AudioPlayer } from '~/components/lab/audio-player';
+import { Clock } from '~/components/lab/clock';
+import { FluidButton } from '~/components/lab/fluid-button';
+import { InteractiveInput } from '~/components/lab/interactive-input';
+import { LineGrid } from '~/components/lab/line-grid';
+import { PowerWidget } from '~/components/lab/power-widget';
+import { ReactionMenu } from '~/components/lab/reaction-menu';
+import { Component, type ComponentProps } from '~/components/shared/component';
+import { Header } from '~/components/shared/header';
 
 const components = [
   {
@@ -18,12 +18,11 @@ const components = [
     filename: 'clock.tsx',
   },
   {
-    title: 'Mini Map',
+    title: 'Line Grid',
     description:
-      "I don’t even know what this is, but I've seen a couple of similar implementations and was starting to feel left out.",
+      "I don’t even know what this is, but I've seen a couple of similar implementations and I was starting to feel left out.",
     tools: ['Tailwind', 'React', 'Motion'],
     children: <LineGrid />,
-    beta: true,
     filename: 'line-grid.tsx',
   },
   {
@@ -66,7 +65,7 @@ const components = [
     children: <FluidButton />,
     filename: 'fluid-button.tsx',
   },
-] satisfies Array<ComponentProps>
+] satisfies Array<ComponentProps>;
 
 export default function Home() {
   return (
@@ -85,9 +84,9 @@ export default function Home() {
             >
               {children}
             </Component>
-          ),
+          )
         )}
       </div>
     </>
-  )
+  );
 }
