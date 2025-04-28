@@ -19,12 +19,12 @@ works:
   - dates: 2023-24
     company: PlanetScale
     title: Senior Design Engineer
-    description: Design engineering for an elite MySQL database. Worked on all features and surfaces of the marketing website, including global search, product documentation, growth features, and PlanetScales Resources Hub.
+    description: Design engineering for an elite MySQL database. Worked on all features and surfaces of the marketing website, including designing and building a global search feature, indexed into Algolia with a custom Markdoc AST parser, redesigning product documentation, building for our growth and sales team, and building the PlanetScale Resource hub (now deprecated).
     url: https://planetscale.com
   - dates: 2021-23
     company: VeroSkills
     title: Co-Founder & Head of Engineering
-    description: Rebuilt the alpha version of the platform and launched to general availability. Led a team of 12+ remote engineers and managed development of the product, including database and API design, product roadmapping, and product engineering.
+    description: Built all featurss of the platform, and launched to general availability. Led a team of 12+ remote engineers and managed development of the product, design and development of our internal component library with Radix and Tailwind, designing our database and APIs, creating product roadmaps, and general product engineering.
     url: https://veroskills.com
   - dates: 2020-21
     company: One Day Doors & Closets
