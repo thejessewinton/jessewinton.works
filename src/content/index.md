@@ -7,7 +7,10 @@ tech:
   - Typescript
   - Next.js
   - Tailwind
-  - Framer Motion
+  - Motion
+  - Three.js
+  - WebGL
+  - GLSL
   - GraphQL
   - Node.js
   - MySQL
