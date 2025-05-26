@@ -11,13 +11,7 @@ tech:
   - Three.js
   - WebGL
   - GLSL
-  - GraphQL
-  - Node.js
-  - MySQL
-  - Postgres
-  - SvelteKit
-  - Prisma
-  - Drizzle
+  - Svelte
 works:
   - dates: 2023-24
     company: PlanetScale

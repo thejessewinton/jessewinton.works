@@ -1,12 +1,12 @@
-import { AudioPlayer } from '~/components/lab/audio-player';
-import { Clock } from '~/components/lab/clock';
-import { FluidButton } from '~/components/lab/fluid-button';
-import { InteractiveInput } from '~/components/lab/interactive-input';
-import { LineGrid } from '~/components/lab/line-grid';
-import { PowerWidget } from '~/components/lab/power-widget';
-import { ReactionMenu } from '~/components/lab/reaction-menu';
-import { Component, type ComponentProps } from '~/components/shared/component';
-import { Header } from '~/components/shared/header';
+import { AudioPlayer } from '~/components/lab/audio-player'
+import { Clock } from '~/components/lab/clock'
+import { FluidButton } from '~/components/lab/fluid-button'
+import { InteractiveInput } from '~/components/lab/interactive-input'
+import { LineGrid } from '~/components/lab/line-grid'
+import { PowerWidget } from '~/components/lab/power-widget'
+import { ReactionMenu } from '~/components/lab/reaction-menu'
+import { Component, type ComponentProps } from '~/components/shared/component'
+import { Header } from '~/components/shared/header'
 
 const components = [
   {
@@ -65,13 +65,13 @@ const components = [
     children: <FluidButton />,
     filename: 'fluid-button.tsx',
   },
-] satisfies Array<ComponentProps>;
+] satisfies Array<ComponentProps>
 
 export default function Home() {
   return (
     <>
       <Header />
-      <div className="container mx-auto my-16 flex flex-col justify-center gap-8 space-y-12">
+      <div className="container mx-auto my-16 flex max-w-4xl flex-col justify-center gap-8 space-y-12">
         {components.map(
           ({ title, description, tools, children, filename, beta }) => (
             <Component
@@ -84,9 +84,9 @@ export default function Home() {
             >
               {children}
             </Component>
-          )
+          ),
         )}
       </div>
     </>
-  );
+  )
 }

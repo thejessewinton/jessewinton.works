@@ -1,5 +1,5 @@
 import type { CSSProperties, SVGProps } from 'react'
-import { cn } from '~/utils/classnames'
+import { cn } from '~/utils/cn'
 
 interface NoiseProps extends SVGProps<SVGSVGElement> {
   invert?: boolean

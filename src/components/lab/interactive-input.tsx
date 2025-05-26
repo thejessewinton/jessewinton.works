@@ -3,7 +3,7 @@
 import { AnimatePresence, MotionConfig, motion } from 'motion/react'
 import { useEffect, useState } from 'react'
 import useMeasure from 'react-use-measure'
-import { cn } from '~/utils/classnames'
+import { cn } from '~/utils/cn'
 
 export const InteractiveInput = () => {
   const [value, setValue] = useState('')

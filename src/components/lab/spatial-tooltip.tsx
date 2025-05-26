@@ -2,7 +2,7 @@
 
 import * as Tabs from '@radix-ui/react-tabs'
 import { useEffect, useRef, useState } from 'react'
-import { cn } from '~/utils/classnames'
+import { cn } from '~/utils/cn'
 
 export const TabsGroup = () => {
   const [activeTab, setActiveTab] = useState(TABS[0]!.name)

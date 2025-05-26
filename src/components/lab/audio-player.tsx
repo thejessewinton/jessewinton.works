@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { create } from 'zustand'
 import LoveSong from '~/assets/love-song.jpeg'
 import MiddleOfNowhere from '~/assets/middle-of-nowhere.jpeg'
-import { cn } from '~/utils/classnames'
+import { cn } from '~/utils/cn'
 
 const tracks = [
   {

@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useState } from 'react'
 import { useWeather } from '~/hooks/use-weather'
-import { cn } from '~/utils/classnames'
+import { cn } from '~/utils/cn'
 
 export const Weather = () => {
   const { data, isLoading } = useWeather()
