@@ -43,6 +43,9 @@ projects:
   - title: The Lab
     description: A laboratory of experimental user interfaces and components.
     url: /lab
+  - title: 'svg-dotted-map'
+    description: A lightweight utility to create beautiful, stylized SVG maps.
+    url: https://github.com/thejessewinton/svg-dotted-map
   - title: '@tinylight/ui'
     description: A simple, delightful, and performant lightbox primitive. 1.0 released, updates coming soon!
     url: https://tinylight.jessewinton.works
