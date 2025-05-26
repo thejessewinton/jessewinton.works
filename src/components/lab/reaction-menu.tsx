@@ -4,7 +4,7 @@ import { type RefObject, useRef, useState } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { useOnClickOutside } from 'usehooks-ts'
 import { useLongPress } from '~/hooks/use-long-press'
-import { cn } from '~/utils/classnames'
+import { cn } from '~/utils/cn'
 
 const reactions = ['🎅', '🎄', '🤶', '❄️', '☃️', '🎁', '🧑‍🎄', '⛪']
 

@@ -3,7 +3,7 @@
 import * as ContextMenu from '@radix-ui/react-context-menu'
 import { AnimatePresence, MotionConfig, motion } from 'motion/react'
 import { type SVGProps, useMemo, useState } from 'react'
-import { cn } from '~/utils/classnames'
+import { cn } from '~/utils/cn'
 
 type Size = 'small' | 'medium' | 'large'
 

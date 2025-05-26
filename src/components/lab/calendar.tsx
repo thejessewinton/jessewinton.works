@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { cn } from '~/utils/classnames'
+import { cn } from '~/utils/cn'
 
 export const Calendar = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0)

@@ -2,7 +2,7 @@
 
 import { type ComponentPropsWithRef, useState } from 'react'
 import { FluidText } from '~/components/lab/fluid-text'
-import { cn } from '~/utils/classnames'
+import { cn } from '~/utils/cn'
 
 type FluidButtonProps = ComponentPropsWithRef<'button'>
 

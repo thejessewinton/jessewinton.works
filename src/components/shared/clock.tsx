@@ -2,7 +2,7 @@
 import { Tooltip } from '@base-ui-components/react/tooltip'
 import { format } from 'date-fns'
 import { type CSSProperties, useEffect, useState } from 'react'
-import { cn } from '~/utils/classnames'
+import { cn } from '~/utils/cn'
 
 export const newYorkTime = () => {
   const now = new Date()
