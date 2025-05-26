@@ -30,7 +30,7 @@ export const Clock = () => {
 
   return (
     <div
-      className="relative flex size-80 rotate-180 items-center justify-center rounded-full border border-neutral-500"
+      className="relative flex size-80 rotate-180 animate-fade-blur items-center justify-center rounded-full border border-neutral-500"
       style={
         {
           '--now-h': time.getHours(),
