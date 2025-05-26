@@ -119,6 +119,9 @@ export default function Index() {
                       }}
                       key={project.title}
                       className="pointer-events-auto block animate-enter"
+                      target={
+                        project.url.startsWith('http') ? '_blank' : undefined
+                      }
                     >
                       <div className="relative block space-y-5 font-light transition-all md:group-hover:opacity-40 md:group-hover:blur-xs md:hover:opacity-100! md:hover:blur-none!">
                         <header className="flex items-center justify-between gap-5">
