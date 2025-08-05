@@ -1,14 +1,14 @@
-import Link from 'next/link';
-import type { ReactNode } from 'react';
+import Link from 'next/link'
+import type { ReactNode } from 'react'
 
 export type ComponentProps = {
-  title: string;
-  description: ReactNode;
-  tools: Array<string>;
-  children: ReactNode;
-  filename: string;
-  beta?: boolean;
-};
+  title: string
+  description: ReactNode
+  tools: Array<string>
+  children: ReactNode
+  filename: string
+  beta?: boolean
+}
 
 export const Component = ({
   title,
@@ -18,14 +18,14 @@ export const Component = ({
   beta = false,
   filename,
 }: {
-  title: string;
-  description: ReactNode;
-  tools: Array<string>;
-  children: ReactNode;
-  filename?: string;
-  beta?: boolean;
+  title: string
+  description: ReactNode
+  tools: Array<string>
+  children: ReactNode
+  filename?: string
+  beta?: boolean
 }) => {
-  if (beta && process.env.NODE_ENV === 'production') return null;
+  if (beta && process.env.NODE_ENV === 'production') return null
 
   return (
     <div className="flex min-h-[60vh] flex-col justify-center gap-8">
@@ -53,7 +53,7 @@ export const Component = ({
           </ul>
 
           <Link
-            className="group flex items-center gap-2 rounded-lg bg-neutral-100 py-1 pr-1.5 pl-2 dark:bg-neutral-800 active:scale-95 transition"
+            className="group flex items-center gap-2 rounded-lg bg-neutral-100 py-1 pr-1.5 pl-2 text-neutral-900 transition active:scale-95 dark:bg-neutral-800 dark:text-neutral-400"
             href={`https://github.com/thejessewinton/jessewinton.works/blob/main/src/components/lab/${filename}`}
             target="_blank"
           >
@@ -77,5 +77,5 @@ export const Component = ({
         {children}
       </div>
     </div>
-  );
-};
+  )
+}
