@@ -1,5 +1,6 @@
 'use client'
 
+import { useTheme } from 'next-themes'
 import { useEffect, useRef, useState } from 'react'
 
 interface Raindrop {
@@ -15,6 +16,8 @@ export const Rainfall = () => {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   const raindrops = useRef<Raindrop[]>([])
   const animationFrameId = useRef<number>()
+
+  const { theme } = useTheme()
 
   const RAINDROP_COUNT = 150
   const BASE_SPEED = 3
@@ -74,7 +77,10 @@ export const Rainfall = () => {
         ctx.beginPath()
         ctx.moveTo(drop.x, drop.y)
         ctx.lineTo(drop.x, drop.y + drop.length)
-        ctx.strokeStyle = `rgba(174, 194, 224, ${drop.opacity})`
+        ctx.strokeStyle =
+          theme === 'dark'
+            ? `rgba(174, 194, 224, ${drop.opacity})`
+            : `rgba(0, 0, 0, ${drop.opacity})`
         ctx.lineWidth = 0.5
         ctx.lineCap = 'round'
         ctx.stroke()
@@ -95,7 +101,7 @@ export const Rainfall = () => {
         cancelAnimationFrame(animationFrameId.current)
       }
     }
-  }, [dimensions])
+  }, [dimensions, theme])
 
   return (
     <canvas

@@ -7,7 +7,6 @@ import { Footer } from '~/components/footer'
 
 import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from 'next-themes'
-//import { Snowfall } from '~/components/lab/snowfall'
 import { QueryProvider } from '~/providers/query'
 
 const sans = Inter({
@@ -51,7 +50,6 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
             <main className="mx-auto mt-32 flex w-full grow flex-col items-center justify-center px-4 md:px-8">
               {children}
             </main>
-            {/* <Snowfall /> */}
             <Footer />
             <Analytics />
           </QueryProvider>
