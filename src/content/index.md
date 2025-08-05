@@ -37,15 +37,15 @@ projects:
   - title: The Lab
     description: A laboratory of experimental user interfaces and components.
     url: /lab
-  - title: 'svg-dotted-map'
-    description: A lightweight utility to create beautiful, stylized SVG maps.
-    url: https://github.com/thejessewinton/svg-dotted-map
-  - title: '@tinylight/ui'
-    description: A simple, delightful, and performant lightbox primitive. 1.0 released, updates coming soon!
-    url: https://tinylight.jessewinton.works
+  - title: Appwrite homepage
+    description: 2025 iteration on the Appwrite homepage. Assisted in design, did the engineering and motion.
+    url: https://appwrite.io
   - title: rpshr
     description: A simple, delightful notes app. Experimenting with new design patterns.
     url: https://rpshr.app
+  - title: '@tinylight/ui'
+    description: A simple, delightful, and performant lightbox primitive. 1.0 released, updates coming.
+    url: https://tinylight.jessewinton.works
 writing:
   - title: Init
     description: A write up about the design process of Appwrite's 2024 launch week.
