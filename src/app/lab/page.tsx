@@ -8,13 +8,12 @@ import { ReactionMenu } from '~/components/lab/reaction-menu'
 import { Component, type ComponentProps } from '~/components/shared/component'
 import { Header } from '~/components/shared/header'
 
-const components = [
+const components: Array<ComponentProps> = [
   {
     title: 'Analog clock',
     description: 'A more detailed version of the little guy in the footer.',
     tools: ['Tailwind', 'React', 'Motion'],
     children: <Clock />,
-    beta: true,
     filename: 'clock.tsx',
   },
   {
@@ -65,7 +64,7 @@ const components = [
     children: <FluidButton />,
     filename: 'fluid-button.tsx',
   },
-] satisfies Array<ComponentProps>
+]
 
 export default function Home() {
   return (
