@@ -76,6 +76,6 @@
 
 @layer utilities {
   a {
-    @apply font-medium text-neutral-100;
+    @apply font-medium dark:text-neutral-100 text-neutral-500;
   }
 }

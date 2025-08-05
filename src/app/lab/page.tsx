@@ -11,7 +11,7 @@ import { Header } from '~/components/shared/header'
 const components = [
   {
     title: 'Analog clock',
-    description: 'Why not make something beautiful and old?',
+    description: 'A more detailed version of the little guy in the footer.',
     tools: ['Tailwind', 'React', 'Motion'],
     children: <Clock />,
     beta: true,
