@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Clock } from './shared/clock'
+import { Transit } from './shared/transit'
 import { Weather } from './shared/weather'
 
 const links = [
@@ -32,6 +33,7 @@ export const Footer = () => {
         </nav>
 
         <div className="flex items-center justify-between gap-4">
+          <Transit />
           <Weather />
           <Clock />
           <span className="text-sm">&copy;{new Date().getFullYear()}</span>
