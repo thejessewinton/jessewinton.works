@@ -61,7 +61,7 @@ const components: Array<ComponentProps> = [
     title: 'Power Widget',
     description:
       "Innovating on the MacOS desktop power widget. I don't love the way their animations look, so I'm experimenting with a more fluid and dynamic approach. Right click to change the size.",
-    tools: ['Tailwind', 'React', 'Motion', 'Radix'],
+    tools: ['Tailwind', 'React', 'Motion', 'BaseUI'],
     children: <PowerWidget />,
     filename: 'power-widget.tsx',
   },

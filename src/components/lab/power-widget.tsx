@@ -1,6 +1,6 @@
 'use client'
 
-import * as ContextMenu from '@radix-ui/react-context-menu'
+import { ContextMenu } from '@base-ui-components/react/context-menu'
 import { AnimatePresence, MotionConfig, motion } from 'motion/react'
 import { type SVGProps, useMemo, useState } from 'react'
 import { cn } from '~/utils/cn'
@@ -225,46 +225,48 @@ export const PowerWidget = () => {
           </AnimatePresence>
         </ContextMenu.Trigger>
 
-        <ContextMenu.Content className="rounded-md border border-neutral-200/40 bg-neutral-300/40 p-2 shadow-black/10 shadow-lg backdrop-blur-xl dark:border-neutral-700/40 dark:bg-neutral-800/20">
-          <ContextMenu.Label className="mb-1 ml-4 font-light text-xs">
-            Size
-          </ContextMenu.Label>
-          <ContextMenu.RadioGroup
-            value={size}
-            onValueChange={(e) => setSize(e as Size)}
-            className="space-y-1"
-          >
-            {Object.keys(sizes).map((key) => {
-              return (
-                <ContextMenu.RadioItem
-                  value={key}
-                  key={key}
-                  className="flex items-center gap-1 rounded-xs px-2 text-sm capitalize outline-hidden focus:bg-blue-400 focus:dark:bg-blue-700"
-                >
-                  <div className="size-3">
-                    <ContextMenu.ItemIndicator>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="size-3"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="m4.5 12.75 6 6 9-13.5"
-                        />
-                      </svg>
-                    </ContextMenu.ItemIndicator>
-                  </div>
-                  {key}
-                </ContextMenu.RadioItem>
-              )
-            })}
-          </ContextMenu.RadioGroup>
-        </ContextMenu.Content>
+        <ContextMenu.Portal>
+          <ContextMenu.Positioner>
+            <ContextMenu.Popup className="rounded-md border border-neutral-200/40 bg-neutral-300/40 p-2 shadow-black/10 shadow-lg outline-none backdrop-blur-xl dark:border-neutral-700/40 dark:bg-neutral-800/20">
+              <span className="mb-1 ml-4 font-light text-xs">Size</span>
+              <ContextMenu.RadioGroup
+                value={size}
+                onValueChange={(e) => setSize(e as Size)}
+                className="space-y-1"
+              >
+                {Object.keys(sizes).map((key) => {
+                  return (
+                    <ContextMenu.RadioItem
+                      value={key}
+                      key={key}
+                      className="flex items-center gap-1 rounded-xs px-2 text-sm capitalize outline-hidden focus:bg-blue-400 focus:dark:bg-blue-700"
+                    >
+                      <div className="size-3">
+                        <ContextMenu.RadioItemIndicator>
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="size-3"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="m4.5 12.75 6 6 9-13.5"
+                            />
+                          </svg>
+                        </ContextMenu.RadioItemIndicator>
+                      </div>
+                      {key}
+                    </ContextMenu.RadioItem>
+                  )
+                })}
+              </ContextMenu.RadioGroup>
+            </ContextMenu.Popup>
+          </ContextMenu.Positioner>
+        </ContextMenu.Portal>
       </MotionConfig>
     </ContextMenu.Root>
   )
