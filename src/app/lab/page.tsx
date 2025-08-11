@@ -1,5 +1,6 @@
 import { AudioPlayer } from '~/components/lab/audio-player'
 import { Clock } from '~/components/lab/clock'
+import { Cosmos } from '~/components/lab/cosmos'
 import { FluidButton } from '~/components/lab/fluid-button'
 import { InteractiveInput } from '~/components/lab/interactive-input'
 import { LineGrid } from '~/components/lab/line-grid'
@@ -9,6 +10,14 @@ import { Component, type ComponentProps } from '~/components/shared/component'
 import { Header } from '~/components/shared/header'
 
 const components: Array<ComponentProps> = [
+  {
+    title: 'Cosmos.so',
+    description: 'WIP.',
+    tools: ['Tailwind', 'React', 'Motion'],
+    children: <Cosmos />,
+    filename: 'cosmos.tsx',
+    beta: true,
+  },
   {
     title: 'Analog clock',
     description: 'A more detailed version of the little guy in the footer.',
