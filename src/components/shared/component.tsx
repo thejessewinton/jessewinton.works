@@ -73,7 +73,7 @@ export const Component = ({
           </Link>
         </div>
       </div>
-      <div className="relative order-1 flex flex-1 items-center justify-center overflow-hidden rounded-2xl border border-neutral-300 p-10 md:order-2 md:col-span-8 dark:border-neutral-700/30">
+      <div className="group relative order-1 flex flex-1 items-center justify-center overflow-hidden rounded-2xl border border-neutral-300 p-10 md:order-2 md:col-span-8 dark:border-neutral-700/30">
         {children}
       </div>
     </div>
