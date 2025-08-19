@@ -11,17 +11,23 @@ const getDefaultUnit = (): 'c' | 'f' => {
   return hourDiff >= 6 && hourDiff <= 18 ? 'c' : 'f'
 }
 
+const convertTemp = (unit: 'c' | 'f', temp: number) => {
+  return unit === 'c' ? temp.toFixed() : ((temp * 9) / 5 + 32).toFixed()
+}
+
 export const Weather = () => {
   const { data, isLoading } = useWeather()
   const unit = getDefaultUnit()
+  const suffix = unit === 'c' ? '° C' : '° F'
 
   if (isLoading) return <span />
 
   return (
-    <span className="block animate-fade-blur tabular-nums focus-visible:text-neutral-400">
-      {unit === 'c'
-        ? `${data!.current.temperature_2m.toFixed()}° C`
-        : `${((data!.current.temperature_2m * 9) / 5 + 32).toFixed()}° F`}
+    <span className="block animate-fade-blur focus-visible:text-neutral-400">
+      <span className="font-mono tabular-nums tracking-tighter">
+        {convertTemp(unit, data!.current.temperature_2m)}
+      </span>
+      {suffix}
     </span>
   )
 }

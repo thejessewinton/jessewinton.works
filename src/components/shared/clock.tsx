@@ -27,5 +27,12 @@ export const Clock = () => {
 
   if (!isMounted) return <span className="block" />
 
-  return <span className="block tabular-nums">{format(time, 'h:mm:ss a')}</span>
+  return (
+    <div>
+      <span className="font-mono tabular-nums tracking-tighter">
+        {format(time, 'h:mm:ss')}
+      </span>
+      <span>{format(time, ' a')}</span>
+    </div>
+  )
 }

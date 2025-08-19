@@ -74,8 +74,13 @@
   }
 }
 
+@utility container {
+  @apply mx-auto px-8;
+}
+
 @layer utilities {
   a {
     @apply font-medium dark:text-neutral-100 text-neutral-500;
   }
 }
+
