@@ -1,10 +1,10 @@
-import { ArrowUpRightIcon } from '@phosphor-icons/react/dist/ssr'
+import { ArrowUpRight } from '@phosphor-icons/react/dist/ssr'
 import { Clock } from '~/components/shared/clock'
 import { Weather } from '~/components/shared/weather'
 
 export default function Index() {
   return (
-    <div className="flex w-full flex-wrap justify-between">
+    <div className="flex w-full flex-col flex-wrap justify-between gap-24 md:flex-row">
       <div>
         <span className="font-medium">Jesse Winton</span>
         <p>Senior Frontend Engineer</p>
@@ -40,13 +40,13 @@ export default function Index() {
       <div className="w-fit">
         <span className="font-medium">Connect</span>
         <a href="/" className="flex items-center justify-between gap-1">
-          [Github] <ArrowUpRightIcon />
+          [Github] <ArrowUpRight />
         </a>
         <a href="/" className="flex items-center justify-between gap-1">
-          [Twitter] <ArrowUpRightIcon />
+          [Twitter] <ArrowUpRight />
         </a>
         <a href="/" className="flex items-center justify-between gap-1">
-          [Email] <ArrowUpRightIcon />
+          [Email] <ArrowUpRight />
         </a>
       </div>
     </div>
