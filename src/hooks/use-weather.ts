@@ -44,5 +44,7 @@ export const useWeather = () => {
   return useQuery({
     queryKey: ['weather'],
     queryFn: fetchWeatherApi,
+    refetchInterval: 1000 * 60 * 5,
+    refetchOnWindowFocus: true,
   });
 };
