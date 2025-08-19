@@ -19,14 +19,6 @@ const index = defineCollection({
         url: z.string(),
       })
     ),
-    writing: z.array(
-      z.object({
-        date: z.string(),
-        title: z.string(),
-        description: z.string(),
-        url: z.string(),
-      })
-    ),
     projects: z.array(
       z.object({
         title: z.string(),
