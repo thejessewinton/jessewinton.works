@@ -5,12 +5,9 @@ now: Design Engineer at Appwrite, working on creating beautiful, performant, and
 tech:
   - React
   - Typescript
-  - Next.js
-  - Tailwind
   - Motion
   - Three.js
   - WebGL
-  - GLSL
   - Svelte
 works:
   - dates: 2023-24
