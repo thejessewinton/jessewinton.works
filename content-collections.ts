@@ -10,12 +10,11 @@ const index = defineCollection({
     description: z.string(),
     now: z.string(),
     tech: z.array(z.string()),
-    works: z.array(
+    experience: z.array(
       z.object({
         dates: z.string(),
         company: z.string(),
         title: z.string(),
-        description: z.string(),
         url: z.string(),
       })
     ),
