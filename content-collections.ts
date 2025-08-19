@@ -8,7 +8,11 @@ const index = defineCollection({
   schema: (z) => ({
     title: z.string(),
     description: z.string(),
-    now: z.string(),
+    now: z.object({
+      title: z.string(),
+      company: z.string(),
+      url: z.string(),
+    }),
     tech: z.array(z.string()),
     experience: z.array(
       z.object({
@@ -21,9 +25,13 @@ const index = defineCollection({
     projects: z.array(
       z.object({
         title: z.string(),
-        description: z.string(),
-        label: z.string().optional(),
-        url: z.string().optional(),
+        url: z.string(),
+      })
+    ),
+    connections: z.array(
+      z.object({
+        title: z.string(),
+        url: z.string(),
       })
     ),
   }),
