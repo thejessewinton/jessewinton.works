@@ -37,20 +37,15 @@ projects:
   - title: The Lab
     description: A laboratory of experimental user interfaces and components.
     url: /lab
-  - title: Appwrite homepage
-    description: 2025 iteration on the Appwrite homepage. Assisted in design, did the engineering and motion.
-    url: https://appwrite.io
+  - title: 'sveltekit-themes'
+    description: A SvelteKit port of the popular next-themes library.
+    url: https://github.com/thejessewinton/sveltekit-themes
   - title: rpshr
     description: A simple, delightful notes app. Experimenting with new design patterns.
     url: https://rpshr.app
   - title: '@tinylight/ui'
-    description: A simple, delightful, and performant lightbox primitive. 1.0 released, updates coming.
+    description: An accessible and performant lightbox primitive. 1.0 released, updates coming.
     url: https://tinylight.jessewinton.works
-writing:
-  - title: Init
-    description: A write up about the design process of Appwrite's 2024 launch week.
-    url: https://appwrite.io/blog/post/designing-init-event-logo
-    date: '2024'
 ---
 
-New York City based design engineer, specializing in building exceptional, performant products, delightful interactions and user experiences, and beautifully designed surfaces on the web. Typescript and type-safety die hard, and a huge fan of React. Playwright; have written and performed original work Off-Off Broadway. Management experience, but currently preferring to write code. [Contact me here](mailto:jrandallwinton@gmail.com).
+New York City based front-end engineer, specializing in building exceptional, performant products, delightful interactions and user experiences, and beautifully designed surfaces on the web. Typescript and type-safety die hard, big fan of React. Playwright; have written and performed original work Off-Off Broadway. 

@@ -170,45 +170,6 @@ export default function Index() {
               })}
             </div>
           </div>
-          <div
-            className="group pointer-events-none relative animate-enter"
-            style={{
-              animationDelay: '1000ms',
-            }}
-          >
-            <h3 className="mb-8 animate-enter font-medium">Writing</h3>
-            <div className="flex flex-col gap-12">
-              {index.writing.map((post, i) => {
-                return (
-                  <Fragment key={post.title}>
-                    <Link
-                      href={post.url}
-                      style={{
-                        animationDelay: `${i * 150 + 750}ms`,
-                      }}
-                      key={post.title}
-                      className="pointer-events-auto block animate-enter"
-                    >
-                      <div className="relative block space-y-5 font-light transition-all md:group-hover:opacity-40 md:group-hover:blur-xs md:hover:opacity-100! md:hover:blur-none!">
-                        <header className="flex items-center justify-between gap-5">
-                          <div className="flex items-center font-normal">
-                            <span>{post.title}</span>
-                          </div>
-                          <div className="h-px grow bg-neutral-300 dark:bg-neutral-800" />
-                          <span className="text-neutral-900 dark:text-neutral-400">
-                            {post.date}
-                          </span>
-                        </header>
-                        <div className="text-neutral-900 dark:text-neutral-400">
-                          {post.description}
-                        </div>
-                      </div>
-                    </Link>
-                  </Fragment>
-                )
-              })}
-            </div>
-          </div>
         </div>
       </div>
       <Precipitation />
