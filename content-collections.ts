@@ -13,21 +13,6 @@ const index = defineCollection({
       company: z.string(),
       url: z.string(),
     }),
-    tech: z.array(z.string()),
-    experience: z.array(
-      z.object({
-        dates: z.string(),
-        company: z.string(),
-        title: z.string(),
-        url: z.string(),
-      })
-    ),
-    projects: z.array(
-      z.object({
-        title: z.string(),
-        url: z.string(),
-      })
-    ),
     connections: z.array(
       z.object({
         title: z.string(),
