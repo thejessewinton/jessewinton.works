@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function Index() {
   return (
-    <div className="grid w-full grid-cols-1 gap-28 leading-tight md:justify-items-center md:gap-16 lg:grid-cols-3">
+    <div className="grid w-full grid-cols-1 justify-between gap-28 leading-tight md:grid-cols-[repeat(3,max-content)] md:justify-items-center md:gap-16">
       <Section title="Jesse Winton">
         <span>
           {index.now.title} at{' '}
