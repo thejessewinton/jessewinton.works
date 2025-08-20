@@ -2,12 +2,12 @@ import '~/styles/globals.css'
 
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import type { ReactNode } from 'react'
 
 import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from 'next-themes'
 import { QueryProvider } from '~/providers/query'
 import { cn } from '~/utils/cn'
+import type { LayoutProps } from '.next/types/app/page'
 
 const sans = Inter({
   variable: '--font-sans',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
 }
 
-const RootLayout = ({ children }: { children: ReactNode }) => {
+const RootLayout = ({ children }: LayoutProps) => {
   return (
     <html
       lang="en"
