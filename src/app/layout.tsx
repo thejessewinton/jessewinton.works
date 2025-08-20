@@ -28,7 +28,7 @@ const RootLayout = ({ children }: LayoutProps) => {
       className={cn(sans.variable, 'text-sm')}
       suppressHydrationWarning
     >
-      <body className="flex min-h-screen flex-col items-center justify-center bg-neutral-950 font-light text-white antialiased selection:bg-gray-800 selection:text-white">
+      <body className="flex min-h-dvh flex-col items-center justify-center bg-neutral-950 font-light text-white antialiased selection:bg-gray-800 selection:text-white">
         <ThemeProvider attribute="class">
           <main className="relative mx-auto h-full w-full px-12 lg:px-40">
             {children}
