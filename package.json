@@ -10,6 +10,7 @@
     "lint:fix": "biome format --write"
   },
   "dependencies": {
+    "@number-flow/react": "^0.5.10",
     "@tanstack/react-query": "^5.62.10",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",

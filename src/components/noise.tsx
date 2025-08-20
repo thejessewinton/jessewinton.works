@@ -50,8 +50,8 @@ export const Noise = ({
             <animate
               attributeName="seed"
               from="0"
-              to="100"
-              dur="1.5s"
+              to="200"
+              dur="2.5s"
               repeatCount="indefinite"
             />
           )}
