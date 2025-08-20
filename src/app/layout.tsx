@@ -3,7 +3,6 @@ import '~/styles/globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
-import { Analytics } from '@vercel/analytics/next'
 import { ThemeProvider } from 'next-themes'
 import { QueryProvider } from '~/providers/query'
 import { cn } from '~/utils/cn'
@@ -12,7 +11,7 @@ import type { LayoutProps } from '.next/types/app/page'
 const sans = Inter({
   variable: '--font-sans',
   display: 'optional',
-  weight: ['300', '400', '500'],
+  weight: ['300', '500'],
   subsets: ['latin'],
 })
 
@@ -30,11 +29,10 @@ const RootLayout = ({ children }: LayoutProps) => {
       className={cn(sans.variable, 'text-sm')}
       suppressHydrationWarning
     >
-      <body className="flex min-h-screen flex-col items-center justify-center bg-white font-light text-neutral-800 antialiased selection:bg-neutral-100 dark:bg-neutral-900 dark:text-neutral-200 dark:selection:bg-neutral-800 dark:selection:text-white">
+      <body className="flex min-h-screen flex-col items-center justify-center bg-white font-light text-black antialiased selection:bg-neutral-100 dark:bg-neutral-950 dark:text-white dark:selection:bg-neutral-800 dark:selection:text-white">
         <ThemeProvider attribute="class">
           <QueryProvider>
-            <main className="container mx-auto w-full">{children}</main>
-            <Analytics />
+            <main className="mx-auto w-full px-40">{children}</main>
           </QueryProvider>
         </ThemeProvider>
       </body>
