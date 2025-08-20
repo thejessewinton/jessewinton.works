@@ -1,10 +1,10 @@
-import { ArrowUpRight } from '@phosphor-icons/react/dist/ssr'
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import type { ReactNode } from 'react'
-import { Clock } from '~/components/shared/clock'
-import { Glitch } from '~/components/shared/glitch'
-import { Weather } from '~/components/shared/weather'
+import { type ReactNode, Suspense } from 'react'
+import { Clock } from '~/components/clock'
+import { Glitch } from '~/components/glitch'
+import { Arrow } from '~/components/icons'
+import { Weather } from '~/components/weather'
 
 import { allIndices } from '~/content-collections'
 
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 export default function Index() {
   return (
-    <div className="grid w-full grid-cols-1 justify-between gap-12 leading-tight md:grid-cols-[repeat(2,max-content)] md:gap-30 lg:grid-cols-[repeat(4,max-content)]">
+    <div className="grid w-full grid-cols-1 justify-between gap-12 leading-tight md:grid-cols-[repeat(2,max-content)] md:gap-30 lg:grid-cols-[repeat(5,max-content)]">
       <Section title="Jesse Winton">
         <span>{index.now.title}</span>
         <Link href={index.now.url} target="_blank">
@@ -26,7 +26,9 @@ export default function Index() {
       </Section>
       <Section title="Location">
         <Clock />
-        <Weather />
+        <Suspense fallback={null}>
+          <Weather />
+        </Suspense>
       </Section>
       <Section title="Tech">
         {index.tech.map((tech) => {
@@ -46,20 +48,6 @@ export default function Index() {
           )
         })}
       </Section>
-      <Section title="Projects">
-        {index.projects.map((project) => {
-          return (
-            <Link
-              href={project.url}
-              key={project.title}
-              className="group flex items-center justify-between gap-1 py-1 font-medium first-of-type:pt-0"
-            >
-              <span>{project.title}</span>
-              <ArrowUpRight className="opacity-0 blur-sm transition-all group-hover:opacity-100 group-hover:blur-none" />
-            </Link>
-          )
-        })}
-      </Section>
       <div className="flex flex-col gap-8">
         <span className="font-medium">Connect</span>
         <div className="flex flex-col">
@@ -68,10 +56,10 @@ export default function Index() {
               <Link
                 href={connection.url}
                 key={connection.title}
-                className="group flex items-center justify-between py-1 font-medium first-of-type:pt-0"
+                className="group flex items-center gap-2.5 py-1 font-medium first-of-type:pt-0"
               >
                 <span>{connection.title}</span>
-                <ArrowUpRight className="opacity-0 blur-sm transition-all group-hover:opacity-100 group-hover:blur-none" />
+                <Arrow className="size-4 opacity-0 transition-all group-hover:opacity-100" />
               </Link>
             )
           })}

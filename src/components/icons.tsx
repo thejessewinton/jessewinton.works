@@ -1,20 +1,17 @@
 import type { SVGProps } from 'react'
 
-export const Arrow = (props: SVGProps<SVGSVGElement>) => {
+export const Arrow = ({
+  fill = 'currentColor',
+  ...props
+}: SVGProps<SVGSVGElement>) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24"
-      strokeWidth={1.5}
-      stroke="currentColor"
+      fill={fill}
+      viewBox="0 0 256 256"
       {...props}
     >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
-      />
+      <path d="M200,64V168a8,8,0,0,1-16,0V83.31L69.66,197.66a8,8,0,0,1-11.32-11.32L172.69,72H88a8,8,0,0,1,0-16H192A8,8,0,0,1,200,64Z" />
     </svg>
   )
 }
