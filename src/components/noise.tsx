@@ -39,7 +39,7 @@ export const Noise = ({
         <feTurbulence
           type="fractalNoise"
           baseFrequency={baseFrequency}
-          numOctaves={3}
+          numOctaves={4}
           stitchTiles="stitch"
           seed={0}
         >

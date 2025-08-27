@@ -25,7 +25,7 @@ export const Clock = () => {
 
   return (
     <span className="tabular-nums tracking-tighter">
-      {format(time, 'hh:mm:ss a')}
+      {format(time, 'h:mm:ss a')}
     </span>
   )
 }
