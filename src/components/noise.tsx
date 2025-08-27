@@ -26,10 +26,7 @@ export const Noise = ({
       width="100%"
       height="100%"
       xmlns="http://www.w3.org/2000/svg"
-      className={cn(
-        'pointer-events-none absolute inset-0 rounded-[inherit]',
-        className,
-      )}
+      className={cn('pointer-events-none absolute inset-0', className)}
       style={{
         ...style,
         mixBlendMode: blendMode,
@@ -42,7 +39,7 @@ export const Noise = ({
         <feTurbulence
           type="fractalNoise"
           baseFrequency={baseFrequency}
-          numOctaves={3}
+          numOctaves={4}
           stitchTiles="stitch"
           seed={0}
         >
@@ -50,8 +47,8 @@ export const Noise = ({
             <animate
               attributeName="seed"
               from="0"
-              to="100"
-              dur="1.5s"
+              to="200"
+              dur="2.5s"
               repeatCount="indefinite"
             />
           )}
