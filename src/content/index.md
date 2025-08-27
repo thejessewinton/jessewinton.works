@@ -12,4 +12,6 @@ connections:
     url: https://x.com/thejessewinton
   - title: Spotify
     url: https://open.spotify.com/user/jrandallw
+  - title: Letterboxd
+    url: https://letterboxd.com/thejessewinton
 ---

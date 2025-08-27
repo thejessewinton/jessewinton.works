@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import type { ReactNode } from 'react'
 import { Clock } from '~/components/clock'
 import { Link } from '~/components/link'
 
@@ -14,20 +13,21 @@ export const metadata: Metadata = {
 
 export default function Index() {
   return (
-    <div className="grid w-full grid-cols-1 justify-between gap-28 leading-tight md:grid-cols-[repeat(3,max-content)] md:justify-items-center md:gap-16">
-      <Section title="Jesse Winton">
-        <span>
-          {index.now.title} at{' '}
+    <div className="flex w-full gap-16 leading-tight md:gap-48">
+      <div className="flex flex-col gap-8">
+        <span className="font-medium">Jesse Winton</span>
+        <span className="flex flex-col gap-1 md:flex-row">
+          {index.now.title}
+          <span className="hidden md:inline">—</span>
           <Link href={index.now.url} target="_blank">
             {index.now.company}
           </Link>
         </span>
-      </Section>
-      <Section title="NYC">
-        <Clock />
-      </Section>
+      </div>
+
       <div className="flex flex-col gap-8">
-        <span className="font-medium">Connect</span>
+        <span className="font-medium">NYC</span>
+        <Clock />
         <div className="flex flex-col">
           {index.connections.map((connection) => {
             return (
@@ -35,7 +35,7 @@ export default function Index() {
                 href={connection.url}
                 key={connection.title}
                 target="_blank"
-                className="py-1 font-medium first-of-type:pt-0"
+                className="py-1 first-of-type:pt-0"
               >
                 {connection.title}
               </Link>
@@ -43,18 +43,6 @@ export default function Index() {
           })}
         </div>
       </div>
-    </div>
-  )
-}
-
-const Section = ({
-  title,
-  children,
-}: { title: string; children: ReactNode }) => {
-  return (
-    <div className="flex flex-col gap-8">
-      <span className="font-medium">{title}</span>
-      <div className="flex flex-col gap-2">{children}</div>
     </div>
   )
 }

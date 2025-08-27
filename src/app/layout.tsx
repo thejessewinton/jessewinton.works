@@ -4,6 +4,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
 import { ThemeProvider } from 'next-themes'
+import { Noise } from '~/components/noise'
 import { cn } from '~/utils/cn'
 import type { LayoutProps } from '.next/types/app/page'
 
@@ -28,11 +29,12 @@ const RootLayout = ({ children }: LayoutProps) => {
       className={cn(sans.variable, 'text-sm')}
       suppressHydrationWarning
     >
-      <body className="flex min-h-dvh flex-col items-center justify-center bg-neutral-950 font-light text-white antialiased selection:bg-gray-800 selection:text-white">
+      <body className="flex min-h-dvh flex-col items-center justify-center bg-neutral-950 font-light text-white antialiased selection:bg-cyan-900 selection:text-white">
         <ThemeProvider attribute="class">
           <main className="relative mx-auto h-full w-full px-12 lg:px-40">
             {children}
           </main>
+          <Noise grainSize={1.5} animate />
         </ThemeProvider>
       </body>
     </html>
