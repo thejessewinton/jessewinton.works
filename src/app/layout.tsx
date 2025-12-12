@@ -6,7 +6,7 @@ import { Inter } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import { Noise } from '~/components/noise'
 import { cn } from '~/utils/cn'
-import type { LayoutProps } from '.next/types/app/page'
+import { Snowfall } from '~/components/snow'
 
 const sans = Inter({
   variable: '--font-sans',
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
 }
 
-const RootLayout = ({ children }: LayoutProps) => {
+const RootLayout = ({ children }: LayoutProps<'/'>) => {
   return (
     <html
       lang="en"
@@ -34,6 +34,7 @@ const RootLayout = ({ children }: LayoutProps) => {
           <main className="relative mx-auto h-full w-full px-12 lg:px-40">
             {children}
           </main>
+          <Snowfall />
           <Noise blendMode="multiply" animate />
         </ThemeProvider>
       </body>
