@@ -31,7 +31,7 @@ export const Snowfall = () => {
     return Array.from({ length: SNOWFLAKE_COUNT }, (_, index) => ({
       x: Math.random(),
       y: index / SNOWFLAKE_COUNT - 1,
-      radius: Math.random() * 2.5 + 0.2,
+      radius: Math.random() * 2.25 + 0.2,
       speed: BASE_SPEED + Math.random() * SPEED_VARIANCE,
       horizontalSpeed: (Math.random() * 2 - 1) * HORIZONTAL_SPEED_RANGE,
       oscillationSpeed: Math.random() * OSCILLATION_SPEED_RANGE,
@@ -137,7 +137,7 @@ export const Snowfall = () => {
 
   return (
     <canvas
-      className="pointer-events-none fixed inset-0 z-[9999]"
+      className="pointer-events-none hidden fixed inset-0 z-9999 md:block"
       height={dimensions.height}
       width={dimensions.width}
       ref={canvasRef}
