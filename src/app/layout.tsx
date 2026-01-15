@@ -34,7 +34,7 @@ const RootLayout = ({ children }: LayoutProps<'/'>) => {
           <main className="relative mx-auto h-full w-full px-12 lg:px-40">
             {children}
           </main>
-          <Snowfall />
+         
           <Noise blendMode="multiply" animate />
         </ThemeProvider>
       </body>
