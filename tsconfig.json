@@ -1,15 +1,25 @@
 {
   "compilerOptions": {
     "target": "es2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"],
-      "~/content-collections": ["./.content-collections/generated"],
-      "~/public/*": ["./public/*"]
+      "~/*": [
+        "./src/*"
+      ],
+      "~/content-collections": [
+        "./.content-collections/generated"
+      ],
+      "~/public/*": [
+        "./public/*"
+      ]
     },
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
@@ -18,7 +28,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
     "noUncheckedIndexedAccess": true,
     "plugins": [
@@ -35,7 +45,10 @@
     "**/*.mjs",
     ".next/types/**/*.ts",
     ".contentlayer/generated",
-    "contentlayer.config.js"
+    "contentlayer.config.js",
+    ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

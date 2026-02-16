@@ -3,7 +3,6 @@ import type { NextConfig } from 'next';
 
 const config = {
   experimental: {
-    reactCompiler: true,
     optimizePackageImports: ['@phosphor-icons/react'],
   },
   redirects: async () => [
