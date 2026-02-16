@@ -1,11 +1,12 @@
 import { defineCollection, defineConfig } from '@content-collections/core';
 import { compileMarkdown } from '@content-collections/markdown';
+import { z } from 'zod';
 
 const index = defineCollection({
   name: 'index',
   directory: 'src/content',
   include: 'index.md',
-  schema: (z) => ({
+  schema: z.object({
     title: z.string(),
     description: z.string(),
     now: z.object({
@@ -19,6 +20,7 @@ const index = defineCollection({
         url: z.string(),
       })
     ),
+    content: z.string(),
   }),
   transform: async (document, context) => {
     const html = await compileMarkdown(context, document);
