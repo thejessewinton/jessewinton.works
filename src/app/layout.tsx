@@ -6,7 +6,6 @@ import { Inter } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import { Noise } from '~/components/noise'
 import { cn } from '~/utils/cn'
-import { Snowfall } from '~/components/snow'
 
 const sans = Inter({
   variable: '--font-sans',
@@ -34,7 +33,7 @@ const RootLayout = ({ children }: LayoutProps<'/'>) => {
           <main className="relative mx-auto h-full w-full px-12 lg:px-40">
             {children}
           </main>
-         
+
           <Noise blendMode="multiply" animate />
         </ThemeProvider>
       </body>

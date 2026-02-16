@@ -2,9 +2,6 @@ import { withContentCollections } from '@content-collections/next';
 import type { NextConfig } from 'next';
 
 const config = {
-  experimental: {
-    optimizePackageImports: ['@phosphor-icons/react'],
-  },
   redirects: async () => [
     {
       source: '/lab',
