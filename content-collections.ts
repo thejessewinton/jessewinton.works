@@ -1,6 +1,6 @@
-import { defineCollection, defineConfig } from '@content-collections/core';
-import { compileMarkdown } from '@content-collections/markdown';
-import { z } from 'zod';
+import { defineCollection, defineConfig } from '@content-collections/core'
+import { compileMarkdown } from '@content-collections/markdown'
+import { z } from 'zod'
 
 const index = defineCollection({
   name: 'index',
@@ -18,19 +18,19 @@ const index = defineCollection({
       z.object({
         title: z.string(),
         url: z.string(),
-      })
+      }),
     ),
     content: z.string(),
   }),
   transform: async (document, context) => {
-    const html = await compileMarkdown(context, document);
+    const html = await compileMarkdown(context, document)
     return {
       ...document,
       html,
-    };
+    }
   },
-});
+})
 
 export default defineConfig({
-  collections: [index],
-});
+  content: [index],
+})
