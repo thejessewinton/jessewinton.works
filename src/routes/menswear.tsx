@@ -1,14 +1,21 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Canvas, CanvasItem, loadImages } from '~/components/canvas'
+import { Canvas, CanvasItem, type CanvasImage, loadImages } from '~/components/canvas'
 
-const images = Array.from(
+const paths = Array.from(
   { length: 72 },
   (_, i) => `/canvas/csms-${String(i + 1).padStart(3, '0')}.webp`,
 )
 
+let cached: CanvasImage[] | null = null
+
 export const Route = createFileRoute('/menswear')({
   component: Index,
-  loader: () => loadImages(images),
+  loader: async () => {
+    if (typeof document === 'undefined') return []
+    if (cached) return cached
+    cached = await loadImages(paths)
+    return cached
+  },
 })
 
 function Index() {
