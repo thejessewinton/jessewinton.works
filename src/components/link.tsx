@@ -1,23 +1,25 @@
-import type { ComponentProps } from 'react'
-
-import { Link as TanstackLink } from '@tanstack/react-router'
+import {
+  type LinkComponentProps,
+  Link as TanstackLink,
+} from '@tanstack/react-router'
 import { Arrow } from '~/components/icons'
 import { cn } from '~/utils/cn'
 
 export const Link = ({
   className,
   children,
-  ...props
-}: ComponentProps<typeof TanstackLink>) => {
+  to,
+  ...rest
+}: LinkComponentProps<'a'>) => {
   return (
     <TanstackLink
-      to={props.href}
+      to={to}
       className={cn(
         'group inline-flex items-center gap-2.5 decoration-[1.15px] underline-offset-6 hover:underline',
         className,
       )}
       preload="intent"
-      {...props}
+      {...rest}
     >
       <span>
         {typeof children === 'function'
