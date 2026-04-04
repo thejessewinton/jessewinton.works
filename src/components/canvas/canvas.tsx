@@ -103,8 +103,7 @@ const computeLayout = (
   return { items: results, tileWidth, tileHeight }
 }
 
-// Max total items across all tiles
-const MAX_ITEMS = 500
+const MAX_ITEMS = 1200
 
 export const Canvas = ({
   children,
@@ -192,18 +191,25 @@ export const Canvas = ({
     if (itemsPerTile === 0) return []
     const maxTiles = Math.max(1, Math.floor(MAX_ITEMS / itemsPerTile))
 
-    const result: { key: string; ox: number; oy: number }[] = []
+    const centerCol = (startCol + endCol) / 2
+    const centerRow = (startRow + endRow) / 2
+
+    const all: { key: string; ox: number; oy: number; dist: number }[] = []
     for (let row = startRow; row <= endRow; row++) {
       for (let col = startCol; col <= endCol; col++) {
-        result.push({
+        all.push({
           key: `${col},${row}`,
           ox: col * tile.tileWidth,
           oy: row * tile.tileHeight,
+          dist: (col - centerCol) ** 2 + (row - centerRow) ** 2,
         })
-        if (result.length >= maxTiles) return result
       }
     }
-    return result
+
+    all.sort((a, b) => a.dist - b.dist)
+    if (all.length > maxTiles) all.length = maxTiles
+
+    return all
   }, [tileRange, tile.tileWidth, tile.tileHeight, tile.items.length])
 
   return (
