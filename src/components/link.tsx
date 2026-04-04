@@ -1,23 +1,32 @@
-import type { HTMLProps } from 'react'
-
+import {
+  type LinkComponentProps,
+  Link as TanstackLink,
+} from '@tanstack/react-router'
 import { Arrow } from '~/components/icons'
 import { cn } from '~/utils/cn'
 
 export const Link = ({
   className,
   children,
-  ...props
-}: HTMLProps<HTMLAnchorElement>) => {
+  to,
+  ...rest
+}: LinkComponentProps<'a'>) => {
   return (
-    <a
+    <TanstackLink
+      to={to}
       className={cn(
-        'group inline-flex items-center gap-2.5 underline-offset-6 [text-decoration-thickness:0.15px] hover:underline',
+        'group inline-flex items-center gap-2.5 decoration-[1.15px] underline-offset-6 hover:underline',
         className,
       )}
-      {...props}
+      preload="intent"
+      {...rest}
     >
-      <span>{children}</span>
+      <span>
+        {typeof children === 'function'
+          ? children({ isActive: false, isTransitioning: false })
+          : children}
+      </span>
       <Arrow className="size-4 opacity-0 transition-all group-hover:translate-x-0.5 group-hover:opacity-100" />
-    </a>
+    </TanstackLink>
   )
 }

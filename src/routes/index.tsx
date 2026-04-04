@@ -1,4 +1,4 @@
-import { ClientOnly, createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { Clock } from '~/components/clock'
 import { Link } from '~/components/link'
 import { site } from '~/data/site'
@@ -9,7 +9,7 @@ export const Route = createFileRoute('/')({
 
 function Index() {
   return (
-    <div className="flex w-full gap-16 leading-tight md:gap-48">
+    <div className="relative flex h-full w-full gap-16 px-12 leading-tight md:gap-48 lg:px-40">
       <div className="flex flex-col gap-8">
         <span className="font-medium">Jesse Winton</span>
         <span className="flex flex-col gap-1 md:flex-row">
@@ -23,18 +23,14 @@ function Index() {
 
       <div className="flex flex-col gap-8">
         <span className="font-medium">NYC</span>
-        <ClientOnly
-          fallback={
-            <span className="tabular-nums tracking-tighter">&nbsp;</span>
-          }
-        >
-          <Clock />
-        </ClientOnly>
+
+        <Clock />
+
         <div className="flex flex-col">
           {site.connections.map((connection) => {
             return (
               <Link
-                href={connection.url}
+                to={connection.url}
                 key={connection.title}
                 target="_blank"
                 className="py-1 first-of-type:pt-0"
