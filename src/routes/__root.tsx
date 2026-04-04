@@ -4,8 +4,6 @@ import {
   Scripts,
   createRootRoute,
 } from '@tanstack/react-router'
-
-import { Noise } from '~/components/noise'
 import appCss from '~/styles/globals.css?url'
 
 export const Route = createRootRoute({
@@ -45,10 +43,9 @@ function RootComponent() {
         <HeadContent />
       </head>
       <body className="flex min-h-dvh flex-col items-center justify-center bg-neutral-950 font-light text-white antialiased selection:bg-cyan-900 selection:text-white">
-        <main className="relative mx-auto h-full w-full px-12 lg:px-40">
+        <main className="w-full">
           <Outlet />
         </main>
-        <Noise blendMode="multiply" animate />
         <Scripts />
       </body>
     </html>

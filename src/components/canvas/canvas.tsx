@@ -8,7 +8,11 @@ import {
   useMemo,
 } from 'react'
 import { cn } from '~/utils/cn'
-import { type CanvasBounds, type CanvasTransform, useCanvas } from './use-canvas'
+import {
+  type CanvasBounds,
+  type CanvasTransform,
+  useCanvas,
+} from './use-canvas'
 
 interface CanvasContextValue {
   transform: CanvasTransform
@@ -95,7 +99,7 @@ export const Canvas = ({
     <CanvasContext.Provider value={ctx}>
       <div
         ref={containerRef}
-        className={cn('relative h-full w-full overflow-hidden', className)}
+        className={cn('relative h-dvh w-dvw overflow-hidden', className)}
         {...handlers}
       >
         <div
