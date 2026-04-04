@@ -70,25 +70,31 @@ const computeLayout = (
 ): TileLayout => {
   if (items.length === 0) return { items: [], tileWidth: 0, tileHeight: 0 }
 
-  // Shuffle items for randomized placement
-  const indices = shuffle(
-    Array.from({ length: items.length }, (_, i) => i),
-    42,
-  )
+  // Build a large pool of shuffled items (3x) so we have enough to fill
+  // all columns to a uniform height without visible repetition
+  const pool: number[] = []
+  for (let pass = 0; pass < 3; pass++) {
+    pool.push(
+      ...shuffle(
+        Array.from({ length: items.length }, (_, i) => i),
+        42 + pass * 97,
+      ),
+    )
+  }
 
-  // First pass: place all items in shuffled order
+  // Place items into columns
   const columnHeights = new Array(columns).fill(0)
-  const results: LayoutItem[] = []
+  const columnItems: LayoutItem[][] = Array.from({ length: columns }, () => [])
 
-  for (const idx of indices) {
+  for (const idx of pool) {
     const item = items[idx]
+    if (!item) continue
     const shortest = columnHeights.indexOf(Math.min(...columnHeights))
     const x = shortest * (columnWidth + gap)
     const y = columnHeights[shortest]
-    const scaledHeight =
-      ((item?.height ?? 0) / (item?.width ?? 0)) * columnWidth
+    const scaledHeight = (item.height / item.width) * columnWidth
 
-    results.push({
+    columnItems[shortest].push({
       x,
       y,
       width: columnWidth,
@@ -98,35 +104,17 @@ const computeLayout = (
     columnHeights[shortest] += scaledHeight + gap
   }
 
-  // Use the tallest column as the fixed tile height
-  const tileHeight = Math.max(...columnHeights)
+  // Use the SHORTEST column as tile height — guarantees every column
+  // reaches it, and taller columns get clipped by overflow: hidden
+  const tileHeight = Math.min(...columnHeights) - gap
   const tileWidth = columns * (columnWidth + gap)
 
-  // Second pass: fill shorter columns up to tileHeight
-  const fillIndices = shuffle(indices, 137)
-  let fillPos = 0
-  for (let col = 0; col < columns; col++) {
-    while (columnHeights[col] + gap < tileHeight) {
-      const idx = fillIndices[fillPos % fillIndices.length]
-      const item = items[idx]
-      const x = col * (columnWidth + gap)
-      const y = columnHeights[col]
-      const scaledHeight =
-        ((item?.height ?? 0) / (item?.width ?? 0)) * columnWidth
-
-      // Clamp height so items never extend past tileHeight
-      const maxH = tileHeight - y
-      const clampedHeight = Math.min(scaledHeight, maxH)
-
-      results.push({
-        x,
-        y,
-        width: columnWidth,
-        height: clampedHeight,
-        sourceIndex: idx,
-      })
-      columnHeights[col] = y + clampedHeight + gap
-      fillPos++
+  // Flatten and filter: only keep items that start before tileHeight
+  const results: LayoutItem[] = []
+  for (const colItems of columnItems) {
+    for (const item of colItems) {
+      if (item.y >= tileHeight) break
+      results.push(item)
     }
   }
 
@@ -286,7 +274,7 @@ interface TileGroupProps {
 const TileGroup = memo(({ ox, oy, tw, th, layout, items }: TileGroupProps) => {
   return (
     <div
-      className="absolute"
+      className="absolute overflow-hidden"
       style={{
         transform: `translate(${ox}px, ${oy}px)`,
         width: tw,
