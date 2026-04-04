@@ -11,6 +11,7 @@
 /.vercel/
 /dist/
 /.vinxi/
+/.tanstack/
 
 # generated
 src/routeTree.gen.ts
