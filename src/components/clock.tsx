@@ -11,20 +11,15 @@ const newYorkTime = () => {
 }
 
 export const Clock = () => {
-  const [time, setTime] = useState<Date | null>(null)
+  const [time, setTime] = useState(newYorkTime)
 
   useEffect(() => {
-    setTime(newYorkTime())
     const interval = setInterval(() => {
       setTime(newYorkTime())
     }, 1000)
 
     return () => clearInterval(interval)
   }, [])
-
-  if (!time) {
-    return <span className="tabular-nums tracking-tighter">&nbsp;</span>
-  }
 
   return (
     <span className="tabular-nums tracking-tighter">
