@@ -185,7 +185,7 @@ const CanvasItemInner = memo(
 
     return (
       <div
-        className={cn('absolute', className)}
+        className={cn('absolute overflow-hidden [&>img]:h-full [&>img]:w-full [&>img]:object-cover', className)}
         style={{
           transform: `translate(${x}px, ${y}px)`,
           width,
