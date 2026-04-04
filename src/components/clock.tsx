@@ -1,31 +1,28 @@
-import { format } from 'date-fns'
 import { useEffect, useState } from 'react'
 
-const newYorkTime = () => {
-  return new Date(
-    new Date().toLocaleString('en-US', {
-      timeZone: 'America/New_York',
-      hour12: false,
-    }),
-  )
+const getNewYorkTime = () => {
+  const time = Temporal.Now.zonedDateTimeISO('America/New_York')
+  const hour = time.hour % 12 || 12
+  const minute = String(time.minute).padStart(2, '0')
+  const second = String(time.second).padStart(2, '0')
+  const period = time.hour >= 12 ? 'PM' : 'AM'
+  return `${hour}:${minute}:${second} ${period}`
 }
 
 export const Clock = () => {
-  const [time, setTime] = useState(() => newYorkTime())
+  const [display, setDisplay] = useState(getNewYorkTime)
 
   useEffect(() => {
-    setTime(newYorkTime())
-
     const interval = setInterval(() => {
-      setTime(newYorkTime())
+      setDisplay(getNewYorkTime())
     }, 1000)
 
     return () => clearInterval(interval)
   }, [])
 
   return (
-    <span className="tabular-nums tracking-tighter" suppressHydrationWarning>
-      {format(time, 'h:mm:ss a')}
+    <span className="tabular-nums tracking-tighter">
+      {display}
     </span>
   )
 }
