@@ -59,6 +59,7 @@ const computeLayout = (
   if (items.length === 0)
     return { items: [], tileWidth: 0, tileHeight: 0 }
 
+  // First pass: place all items to find the natural max height
   const columnHeights = new Array(columns).fill(0)
   const results: LayoutItem[] = []
 
@@ -73,32 +74,34 @@ const computeLayout = (
     columnHeights[shortest] += scaledHeight + gap
   }
 
+  // Use the tallest column as the fixed tile height
+  const tileHeight = Math.max(...columnHeights)
   const tileWidth = columns * (columnWidth + gap)
-  const maxHeight = Math.max(...columnHeights)
 
+  // Second pass: keep filling every column up to tileHeight by cycling items
   let fillIdx = 0
   for (let col = 0; col < columns; col++) {
-    while (columnHeights[col] < maxHeight) {
+    while (columnHeights[col] + gap < tileHeight) {
       const item = items[fillIdx % items.length]
       const x = col * (columnWidth + gap)
       const y = columnHeights[col]
       const scaledHeight = (item.height / item.width) * columnWidth
 
-      if (columnHeights[col] + scaledHeight > maxHeight + scaledHeight * 0.5) break
+      // Clip the last item in each column so it ends exactly at tileHeight
+      const remaining = tileHeight - y
+      const clippedHeight = Math.min(scaledHeight, remaining)
 
       results.push({
         x,
         y,
         width: columnWidth,
-        height: scaledHeight,
+        height: clippedHeight,
         sourceIndex: fillIdx % items.length,
       })
       columnHeights[col] += scaledHeight + gap
       fillIdx++
     }
   }
-
-  const tileHeight = Math.max(...columnHeights)
 
   return { items: results, tileWidth, tileHeight }
 }
