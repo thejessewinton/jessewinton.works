@@ -1,5 +1,5 @@
 import { useAnimationFrame } from 'motion/react'
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 export interface CanvasTransform {
   x: number
@@ -7,18 +7,12 @@ export interface CanvasTransform {
   scale: number
 }
 
-export interface CanvasBounds {
-  left: number
-  top: number
-  right: number
-  bottom: number
-}
-
 interface UseCanvasOptions {
   minScale?: number
   maxScale?: number
   friction?: number
   initialTransform?: Partial<CanvasTransform>
+  onTransformChange?: (transform: CanvasTransform, container: HTMLDivElement | null) => void
 }
 
 export const useCanvas = ({
@@ -26,21 +20,30 @@ export const useCanvas = ({
   maxScale = 5,
   friction = 0.95,
   initialTransform,
+  onTransformChange,
 }: UseCanvasOptions = {}) => {
-  const [transform, setTransform] = useState<CanvasTransform>({
+  const initial: CanvasTransform = {
     x: initialTransform?.x ?? 0,
     y: initialTransform?.y ?? 0,
     scale: initialTransform?.scale ?? 1,
-  })
+  }
 
-  const targetRef = useRef<CanvasTransform>({ ...transform })
+  const targetRef = useRef<CanvasTransform>({ ...initial })
+  const currentRef = useRef<CanvasTransform>({ ...initial })
   const containerRef = useRef<HTMLDivElement>(null)
+  const innerRef = useRef<HTMLDivElement>(null)
   const isPanning = useRef(false)
   const lastPointer = useRef({ x: 0, y: 0 })
   const velocity = useRef({ x: 0, y: 0 })
+  const onChangeRef = useRef(onTransformChange)
+
+  useEffect(() => {
+    onChangeRef.current = onTransformChange
+  }, [onTransformChange])
 
   useAnimationFrame(() => {
     const target = targetRef.current
+    const current = currentRef.current
 
     if (!isPanning.current) {
       const vx = velocity.current.x
@@ -49,11 +52,8 @@ export const useCanvas = ({
       if (Math.abs(vx) > 0.5 || Math.abs(vy) > 0.5) {
         velocity.current.x *= friction
         velocity.current.y *= friction
-        targetRef.current = {
-          ...target,
-          x: target.x + velocity.current.x,
-          y: target.y + velocity.current.y,
-        }
+        target.x += velocity.current.x
+        target.y += velocity.current.y
       } else {
         velocity.current.x = 0
         velocity.current.y = 0
@@ -61,25 +61,26 @@ export const useCanvas = ({
     }
 
     const lerp = 0.15
-    setTransform((prev) => {
-      const curr = targetRef.current
-      const dx = curr.x - prev.x
-      const dy = curr.y - prev.y
-      const ds = curr.scale - prev.scale
+    const dx = target.x - current.x
+    const dy = target.y - current.y
+    const ds = target.scale - current.scale
 
-      if (
-        Math.abs(dx) < 0.01 &&
-        Math.abs(dy) < 0.01 &&
-        Math.abs(ds) < 0.0001
-      )
-        return prev
+    if (
+      Math.abs(dx) < 0.01 &&
+      Math.abs(dy) < 0.01 &&
+      Math.abs(ds) < 0.0001
+    )
+      return
 
-      return {
-        x: prev.x + dx * lerp,
-        y: prev.y + dy * lerp,
-        scale: prev.scale + ds * lerp,
-      }
-    })
+    current.x += dx * lerp
+    current.y += dy * lerp
+    current.scale += ds * lerp
+
+    if (innerRef.current) {
+      innerRef.current.style.transform = `translate(${current.x}px, ${current.y}px) scale(${current.scale})`
+    }
+
+    onChangeRef.current?.(current, containerRef.current)
   })
 
   const clampScale = useCallback(
@@ -108,11 +109,8 @@ export const useCanvas = ({
           scale: newScale,
         }
       } else {
-        targetRef.current = {
-          ...target,
-          x: target.x - e.deltaX,
-          y: target.y - e.deltaY,
-        }
+        target.x -= e.deltaX
+        target.y -= e.deltaY
       }
     },
     [clampScale],
@@ -138,35 +136,13 @@ export const useCanvas = ({
     velocity.current = { x: dx, y: dy }
 
     const target = targetRef.current
-    targetRef.current = {
-      ...target,
-      x: target.x + dx,
-      y: target.y + dy,
-    }
+    target.x += dx
+    target.y += dy
   }, [])
 
   const onPointerUp = useCallback(() => {
     isPanning.current = false
   }, [])
-
-  const getViewportBounds = useCallback((): CanvasBounds => {
-    const rect = containerRef.current?.getBoundingClientRect()
-    if (!rect || (rect.width === 0 && rect.height === 0)) {
-      return {
-        left: -Infinity,
-        top: -Infinity,
-        right: Infinity,
-        bottom: Infinity,
-      }
-    }
-
-    return {
-      left: -transform.x / transform.scale,
-      top: -transform.y / transform.scale,
-      right: (rect.width - transform.x) / transform.scale,
-      bottom: (rect.height - transform.y) / transform.scale,
-    }
-  }, [transform])
 
   const handlers = {
     onWheel,
@@ -176,10 +152,10 @@ export const useCanvas = ({
   }
 
   return {
-    transform,
+    currentRef,
     containerRef,
+    innerRef,
     handlers,
-    getViewportBounds,
     isPanning,
   }
 }
