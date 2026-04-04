@@ -34,15 +34,16 @@ interface CanvasProps {
   initialTransform?: Partial<CanvasTransform>
 }
 
-interface LayoutResult {
+interface LayoutItem {
   x: number
   y: number
   width: number
   height: number
+  sourceIndex: number
 }
 
 interface TileLayout {
-  items: LayoutResult[]
+  items: LayoutItem[]
   tileWidth: number
   tileHeight: number
 }
@@ -57,19 +58,47 @@ const computeLayout = (
     return { items: [], tileWidth: 0, tileHeight: 0 }
 
   const columnHeights = new Array(columns).fill(0)
-  const results: LayoutResult[] = []
+  const results: LayoutItem[] = []
 
-  for (const item of items) {
+  for (let idx = 0; idx < items.length; idx++) {
+    const item = items[idx]
     const shortest = columnHeights.indexOf(Math.min(...columnHeights))
     const x = shortest * (columnWidth + gap)
     const y = columnHeights[shortest]
     const scaledHeight = (item.height / item.width) * columnWidth
 
-    results.push({ x, y, width: columnWidth, height: scaledHeight })
+    results.push({ x, y, width: columnWidth, height: scaledHeight, sourceIndex: idx })
     columnHeights[shortest] += scaledHeight + gap
   }
 
   const tileWidth = columns * (columnWidth + gap)
+  const maxHeight = Math.max(...columnHeights)
+
+  // Fill shorter columns by repeating items so all columns reach the same height
+  // This eliminates the visible seam when tiles repeat vertically
+  let fillIdx = 0
+  for (let col = 0; col < columns; col++) {
+    while (columnHeights[col] < maxHeight) {
+      const item = items[fillIdx % items.length]
+      const x = col * (columnWidth + gap)
+      const y = columnHeights[col]
+      const scaledHeight = (item.height / item.width) * columnWidth
+
+      // Don't overshoot — clip if adding this item would exceed maxHeight significantly
+      if (columnHeights[col] + scaledHeight > maxHeight + scaledHeight * 0.5) break
+
+      results.push({
+        x,
+        y,
+        width: columnWidth,
+        height: scaledHeight,
+        sourceIndex: fillIdx % items.length,
+      })
+      columnHeights[col] += scaledHeight + gap
+      fillIdx++
+    }
+  }
+
   const tileHeight = Math.max(...columnHeights)
 
   return { items: results, tileWidth, tileHeight }
@@ -81,8 +110,8 @@ export const Canvas = ({
   columns = 6,
   gap = 24,
   columnWidth = 300,
-  minScale,
-  maxScale,
+  minScale = 0.5,
+  maxScale = 5,
   initialTransform,
 }: CanvasProps) => {
   const { transform, containerRef, handlers } = useCanvas({
@@ -185,7 +214,7 @@ export const Canvas = ({
 interface TileGroupProps {
   ox: number
   oy: number
-  layout: LayoutResult[]
+  layout: LayoutItem[]
   items: ReactElement<CanvasItemProps>[]
 }
 
@@ -193,7 +222,7 @@ const TileGroup = memo(({ ox, oy, layout, items }: TileGroupProps) => {
   return (
     <>
       {layout.map((layoutItem, i) => {
-        const child = items[i]
+        const child = items[layoutItem.sourceIndex]
         if (!child) return null
         return (
           <div
