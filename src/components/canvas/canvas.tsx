@@ -4,9 +4,11 @@ import {
   type ReactNode,
   createContext,
   memo,
+  useCallback,
   useContext,
   useMemo,
   useRef,
+  useState,
 } from 'react'
 import { cn } from '~/utils/cn'
 import { type CanvasTransform, useCanvas } from './use-canvas'
@@ -74,8 +76,6 @@ const computeLayout = (
   const tileWidth = columns * (columnWidth + gap)
   const maxHeight = Math.max(...columnHeights)
 
-  // Fill shorter columns by repeating items so all columns reach the same height
-  // This eliminates the visible seam when tiles repeat vertically
   let fillIdx = 0
   for (let col = 0; col < columns; col++) {
     while (columnHeights[col] < maxHeight) {
@@ -84,7 +84,6 @@ const computeLayout = (
       const y = columnHeights[col]
       const scaledHeight = (item.height / item.width) * columnWidth
 
-      // Don't overshoot — clip if adding this item would exceed maxHeight significantly
       if (columnHeights[col] + scaledHeight > maxHeight + scaledHeight * 0.5) break
 
       results.push({
@@ -104,6 +103,8 @@ const computeLayout = (
   return { items: results, tileWidth, tileHeight }
 }
 
+const MAX_TILES = 12
+
 export const Canvas = ({
   children,
   className,
@@ -114,14 +115,6 @@ export const Canvas = ({
   maxScale = 5,
   initialTransform,
 }: CanvasProps) => {
-  const { transform, containerRef, handlers } = useCanvas({
-    minScale,
-    maxScale,
-    initialTransform,
-  })
-
-  const ctx = useMemo(() => ({ transform }), [transform])
-
   const items = Children.toArray(children) as ReactElement<CanvasItemProps>[]
 
   const tile = useMemo(() => {
@@ -132,43 +125,65 @@ export const Canvas = ({
     return computeLayout(dims, columns, gap, columnWidth)
   }, [items, columns, gap, columnWidth])
 
-  const prevRangeRef = useRef({ startCol: 0, endCol: 0, startRow: 0, endRow: 0 })
+  const tileRef = useRef(tile)
+  tileRef.current = tile
 
-  const tileRange = useMemo(() => {
-    if (tile.tileWidth === 0 || tile.tileHeight === 0)
-      return { startCol: 0, endCol: 0, startRow: 0, endRow: 0 }
+  const [tileRange, setTileRange] = useState({
+    startCol: 0,
+    endCol: 1,
+    startRow: 0,
+    endRow: 1,
+  })
+  const prevRangeRef = useRef(tileRange)
 
-    const rect = containerRef.current?.getBoundingClientRect()
-    const vw = rect?.width ?? 1920
-    const vh = rect?.height ?? 1080
+  const onTransformChange = useCallback(
+    (current: CanvasTransform, container: HTMLDivElement | null) => {
+      const t = tileRef.current
+      const rect = container?.getBoundingClientRect()
+      const vw = rect?.width ?? 1920
+      const vh = rect?.height ?? 1080
 
-    const viewLeft = -transform.x / transform.scale
-    const viewTop = -transform.y / transform.scale
-    const viewRight = (vw - transform.x) / transform.scale
-    const viewBottom = (vh - transform.y) / transform.scale
+      const tw = t.tileWidth
+      const th = t.tileHeight
+      if (tw === 0 || th === 0) return
 
-    const tw = tile.tileWidth
-    const th = tile.tileHeight
+      const viewLeft = -current.x / current.scale
+      const viewTop = -current.y / current.scale
+      const viewRight = (vw - current.x) / current.scale
+      const viewBottom = (vh - current.y) / current.scale
 
-    const startCol = Math.floor(viewLeft / tw) - 1
-    const endCol = Math.ceil(viewRight / tw)
-    const startRow = Math.floor(viewTop / th) - 1
-    const endRow = Math.ceil(viewBottom / th)
+      const startCol = Math.floor(viewLeft / tw) - 1
+      const endCol = Math.ceil(viewRight / tw)
+      const startRow = Math.floor(viewTop / th) - 1
+      const endRow = Math.ceil(viewBottom / th)
 
-    const prev = prevRangeRef.current
-    if (
-      prev.startCol === startCol &&
-      prev.endCol === endCol &&
-      prev.startRow === startRow &&
-      prev.endRow === endRow
-    ) {
-      return prev
-    }
+      const prev = prevRangeRef.current
+      if (
+        prev.startCol === startCol &&
+        prev.endCol === endCol &&
+        prev.startRow === startRow &&
+        prev.endRow === endRow
+      )
+        return
 
-    const next = { startCol, endCol, startRow, endRow }
-    prevRangeRef.current = next
-    return next
-  }, [tile, transform, containerRef])
+      const next = { startCol, endCol, startRow, endRow }
+      prevRangeRef.current = next
+      setTileRange(next)
+    },
+    [],
+  )
+
+  const { currentRef, containerRef, innerRef, handlers } = useCanvas({
+    minScale,
+    maxScale,
+    initialTransform,
+    onTransformChange,
+  })
+
+  const ctx = useMemo(
+    () => ({ transform: currentRef.current }),
+    [currentRef],
+  )
 
   const tiles = useMemo(() => {
     const { startCol, endCol, startRow, endRow } = tileRange
@@ -180,6 +195,7 @@ export const Canvas = ({
           ox: col * tile.tileWidth,
           oy: row * tile.tileHeight,
         })
+        if (result.length >= MAX_TILES) return result
       }
     }
     return result
@@ -196,8 +212,9 @@ export const Canvas = ({
         {...handlers}
       >
         <div
+          ref={innerRef}
           style={{
-            transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`,
+            transform: `translate(${currentRef.current.x}px, ${currentRef.current.y}px) scale(${currentRef.current.scale})`,
             transformOrigin: '0 0',
             willChange: 'transform',
           }}
@@ -232,6 +249,8 @@ const TileGroup = memo(({ ox, oy, layout, items }: TileGroupProps) => {
               transform: `translate(${ox + layoutItem.x}px, ${oy + layoutItem.y}px)`,
               width: layoutItem.width,
               height: layoutItem.height,
+              contentVisibility: 'auto',
+              containIntrinsicSize: `${layoutItem.width}px ${layoutItem.height}px`,
             }}
           >
             {child.props.children}
