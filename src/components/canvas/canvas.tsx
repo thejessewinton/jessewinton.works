@@ -38,11 +38,6 @@ interface CanvasProps {
   initialTransform?: Partial<CanvasTransform>
 }
 
-interface Position {
-  x: number
-  y: number
-}
-
 interface LayoutResult {
   x: number
   y: number
@@ -109,7 +104,10 @@ export const Canvas = ({
     <CanvasContext.Provider value={ctx}>
       <div
         ref={containerRef}
-        className={cn('relative h-dvh w-dvw overflow-hidden', className)}
+        className={cn(
+          'relative h-dvh w-dvw cursor-grab overflow-hidden select-none active:cursor-grabbing',
+          className,
+        )}
         {...handlers}
       >
         <div
@@ -185,7 +183,7 @@ const CanvasItemInner = memo(
 
     return (
       <div
-        className={cn('absolute overflow-hidden [&>img]:h-full [&>img]:w-full [&>img]:object-cover', className)}
+        className={cn('absolute overflow-hidden', className)}
         style={{
           transform: `translate(${x}px, ${y}px)`,
           width,
