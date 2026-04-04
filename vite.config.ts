@@ -12,7 +12,9 @@ export default defineConfig({
         enabled: true,
       },
     }),
-    nitro(),
+    nitro({
+      preset: 'vercel',
+    }),
   ],
   resolve: {
     alias: {
