@@ -6,17 +6,13 @@ import {
   memo,
   useContext,
   useMemo,
+  useRef,
 } from 'react'
 import { cn } from '~/utils/cn'
-import {
-  type CanvasBounds,
-  type CanvasTransform,
-  useCanvas,
-} from './use-canvas'
+import { type CanvasTransform, useCanvas } from './use-canvas'
 
 interface CanvasContextValue {
   transform: CanvasTransform
-  getViewportBounds: () => CanvasBounds
 }
 
 const CanvasContext = createContext<CanvasContextValue | null>(null)
@@ -73,7 +69,7 @@ const computeLayout = (
     columnHeights[shortest] += scaledHeight + gap
   }
 
-  const tileWidth = columns * (columnWidth + gap) - gap
+  const tileWidth = columns * (columnWidth + gap)
   const tileHeight = Math.max(...columnHeights)
 
   return { items: results, tileWidth, tileHeight }
@@ -89,16 +85,13 @@ export const Canvas = ({
   maxScale,
   initialTransform,
 }: CanvasProps) => {
-  const { transform, containerRef, handlers, getViewportBounds } = useCanvas({
+  const { transform, containerRef, handlers } = useCanvas({
     minScale,
     maxScale,
     initialTransform,
   })
 
-  const ctx = useMemo(
-    () => ({ transform, getViewportBounds }),
-    [transform, getViewportBounds],
-  )
+  const ctx = useMemo(() => ({ transform }), [transform])
 
   const items = Children.toArray(children) as ReactElement<CanvasItemProps>[]
 
@@ -110,27 +103,58 @@ export const Canvas = ({
     return computeLayout(dims, columns, gap, columnWidth)
   }, [items, columns, gap, columnWidth])
 
-  const bounds = getViewportBounds()
+  const prevRangeRef = useRef({ startCol: 0, endCol: 0, startRow: 0, endRow: 0 })
 
-  const visibleTiles = useMemo(() => {
-    if (tile.tileWidth === 0 || tile.tileHeight === 0) return []
+  const tileRange = useMemo(() => {
+    if (tile.tileWidth === 0 || tile.tileHeight === 0)
+      return { startCol: 0, endCol: 0, startRow: 0, endRow: 0 }
 
-    const tw = tile.tileWidth + gap
-    const th = tile.tileHeight + gap
+    const rect = containerRef.current?.getBoundingClientRect()
+    const vw = rect?.width ?? 1920
+    const vh = rect?.height ?? 1080
 
-    const startCol = Math.floor(bounds.left / tw) - 1
-    const endCol = Math.ceil(bounds.right / tw) + 1
-    const startRow = Math.floor(bounds.top / th) - 1
-    const endRow = Math.ceil(bounds.bottom / th) + 1
+    const viewLeft = -transform.x / transform.scale
+    const viewTop = -transform.y / transform.scale
+    const viewRight = (vw - transform.x) / transform.scale
+    const viewBottom = (vh - transform.y) / transform.scale
 
-    const tiles: { col: number; row: number; ox: number; oy: number }[] = []
+    const tw = tile.tileWidth
+    const th = tile.tileHeight
+
+    const startCol = Math.floor(viewLeft / tw) - 1
+    const endCol = Math.ceil(viewRight / tw)
+    const startRow = Math.floor(viewTop / th) - 1
+    const endRow = Math.ceil(viewBottom / th)
+
+    const prev = prevRangeRef.current
+    if (
+      prev.startCol === startCol &&
+      prev.endCol === endCol &&
+      prev.startRow === startRow &&
+      prev.endRow === endRow
+    ) {
+      return prev
+    }
+
+    const next = { startCol, endCol, startRow, endRow }
+    prevRangeRef.current = next
+    return next
+  }, [tile, transform, containerRef])
+
+  const tiles = useMemo(() => {
+    const { startCol, endCol, startRow, endRow } = tileRange
+    const result: { key: string; ox: number; oy: number }[] = []
     for (let row = startRow; row <= endRow; row++) {
       for (let col = startCol; col <= endCol; col++) {
-        tiles.push({ col, row, ox: col * tw, oy: row * th })
+        result.push({
+          key: `${col},${row}`,
+          ox: col * tile.tileWidth,
+          oy: row * tile.tileHeight,
+        })
       }
     }
-    return tiles
-  }, [tile, gap, bounds])
+    return result
+  }, [tileRange, tile.tileWidth, tile.tileHeight])
 
   return (
     <CanvasContext.Provider value={ctx}>
@@ -149,30 +173,47 @@ export const Canvas = ({
             willChange: 'transform',
           }}
         >
-          {visibleTiles.map(({ col, row, ox, oy }) =>
-            tile.items.map((layoutItem, i) => {
-              const child = items[i]
-              if (!child) return null
-              return (
-                <div
-                  key={`${col},${row},${i}`}
-                  className="absolute overflow-hidden"
-                  style={{
-                    transform: `translate(${ox + layoutItem.x}px, ${oy + layoutItem.y}px)`,
-                    width: layoutItem.width,
-                    height: layoutItem.height,
-                  }}
-                >
-                  {child.props.children}
-                </div>
-              )
-            }),
-          )}
+          {tiles.map(({ key, ox, oy }) => (
+            <TileGroup key={key} ox={ox} oy={oy} layout={tile.items} items={items} />
+          ))}
         </div>
       </div>
     </CanvasContext.Provider>
   )
 }
+
+interface TileGroupProps {
+  ox: number
+  oy: number
+  layout: LayoutResult[]
+  items: ReactElement<CanvasItemProps>[]
+}
+
+const TileGroup = memo(({ ox, oy, layout, items }: TileGroupProps) => {
+  return (
+    <>
+      {layout.map((layoutItem, i) => {
+        const child = items[i]
+        if (!child) return null
+        return (
+          <div
+            key={i}
+            className="absolute overflow-hidden"
+            style={{
+              transform: `translate(${ox + layoutItem.x}px, ${oy + layoutItem.y}px)`,
+              width: layoutItem.width,
+              height: layoutItem.height,
+            }}
+          >
+            {child.props.children}
+          </div>
+        )
+      })}
+    </>
+  )
+})
+
+TileGroup.displayName = 'TileGroup'
 
 interface CanvasItemProps {
   children: ReactNode
