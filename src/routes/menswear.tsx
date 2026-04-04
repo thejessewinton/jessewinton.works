@@ -25,16 +25,10 @@ function Index() {
   const items = Route.useLoaderData()
 
   return (
-    <Canvas>
+    <Canvas columns={6} gap={24}>
       {items.map((item) => (
-        <CanvasItem
-          key={item.id}
-          x={item.x}
-          y={item.y}
-          width={item.width}
-          height={item.height}
-        >
-          <img src={item.src} alt={item.id} />
+        <CanvasItem key={item.id} width={item.width} height={item.height}>
+          <img src={item.src} alt={`Placeholder ${item.id}`} />
         </CanvasItem>
       ))}
     </Canvas>

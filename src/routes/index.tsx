@@ -9,7 +9,7 @@ export const Route = createFileRoute('/')({
 
 function Index() {
   return (
-    <div className="flex w-full gap-16 leading-tight md:gap-48">
+    <div className="relative flex h-full w-full gap-16 px-12 leading-tight md:gap-48 lg:px-40">
       <div className="flex flex-col gap-8">
         <span className="font-medium">Jesse Winton</span>
         <span className="flex flex-col gap-1 md:flex-row">
