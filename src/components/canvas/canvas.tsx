@@ -72,24 +72,26 @@ interface CanvasItemProps {
   children: ReactNode
   x: number
   y: number
-  width: number
-  height: number
+  width?: number
+  height?: number
   className?: string
   padding?: number
 }
 
 export const CanvasItem = memo(
   ({ children, x, y, width, height, className, padding = 200 }: CanvasItemProps) => {
-    const { transform, getViewportBounds } = useCanvasContext()
+    const { getViewportBounds } = useCanvasContext()
 
-    const bounds = getViewportBounds()
-    const visible =
-      x + width + padding > bounds.left &&
-      x - padding < bounds.right &&
-      y + height + padding > bounds.top &&
-      y - padding < bounds.bottom
+    if (width != null && height != null) {
+      const bounds = getViewportBounds()
+      const visible =
+        x + width + padding > bounds.left &&
+        x - padding < bounds.right &&
+        y + height + padding > bounds.top &&
+        y - padding < bounds.bottom
 
-    if (!visible) return null
+      if (!visible) return null
+    }
 
     return (
       <div
