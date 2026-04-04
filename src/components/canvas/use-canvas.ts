@@ -17,12 +17,14 @@ export interface CanvasBounds {
 interface UseCanvasOptions {
   minScale?: number
   maxScale?: number
+  friction?: number
   initialTransform?: Partial<CanvasTransform>
 }
 
 export const useCanvas = ({
   minScale = 0.1,
   maxScale = 5,
+  friction = 0.95,
   initialTransform,
 }: UseCanvasOptions = {}) => {
   const [transform, setTransform] = useState<CanvasTransform>({
@@ -35,15 +37,35 @@ export const useCanvas = ({
   const containerRef = useRef<HTMLDivElement>(null)
   const isPanning = useRef(false)
   const lastPointer = useRef({ x: 0, y: 0 })
+  const velocity = useRef({ x: 0, y: 0 })
 
   useAnimationFrame(() => {
     const target = targetRef.current
-    const lerp = 0.15
 
+    if (!isPanning.current) {
+      const vx = velocity.current.x
+      const vy = velocity.current.y
+
+      if (Math.abs(vx) > 0.5 || Math.abs(vy) > 0.5) {
+        velocity.current.x *= friction
+        velocity.current.y *= friction
+        targetRef.current = {
+          ...target,
+          x: target.x + velocity.current.x,
+          y: target.y + velocity.current.y,
+        }
+      } else {
+        velocity.current.x = 0
+        velocity.current.y = 0
+      }
+    }
+
+    const lerp = 0.15
     setTransform((prev) => {
-      const dx = target.x - prev.x
-      const dy = target.y - prev.y
-      const ds = target.scale - prev.scale
+      const curr = targetRef.current
+      const dx = curr.x - prev.x
+      const dy = curr.y - prev.y
+      const ds = curr.scale - prev.scale
 
       if (
         Math.abs(dx) < 0.01 &&
@@ -100,6 +122,7 @@ export const useCanvas = ({
     if (e.button === 0) {
       e.preventDefault()
       isPanning.current = true
+      velocity.current = { x: 0, y: 0 }
       lastPointer.current = { x: e.clientX, y: e.clientY }
       ;(e.target as HTMLElement).setPointerCapture(e.pointerId)
     }
@@ -111,6 +134,8 @@ export const useCanvas = ({
     const dx = e.clientX - lastPointer.current.x
     const dy = e.clientY - lastPointer.current.y
     lastPointer.current = { x: e.clientX, y: e.clientY }
+
+    velocity.current = { x: dx, y: dy }
 
     const target = targetRef.current
     targetRef.current = {
