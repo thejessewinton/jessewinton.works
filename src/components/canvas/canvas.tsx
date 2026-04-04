@@ -50,6 +50,18 @@ interface TileLayout {
   tileHeight: number
 }
 
+// Seeded shuffle so layout is deterministic but randomized
+const shuffle = <T,>(arr: T[], seed: number): T[] => {
+  const result = [...arr]
+  let s = seed
+  for (let i = result.length - 1; i > 0; i--) {
+    s = (s * 1664525 + 1013904223) & 0xffffffff
+    const j = ((s >>> 0) % (i + 1))
+    ;[result[i], result[j]] = [result[j], result[i]]
+  }
+  return result
+}
+
 const computeLayout = (
   items: { width: number; height: number }[],
   columns: number,
@@ -58,11 +70,17 @@ const computeLayout = (
 ): TileLayout => {
   if (items.length === 0) return { items: [], tileWidth: 0, tileHeight: 0 }
 
-  // First pass: place all items to find the natural max height
+  // Shuffle items for randomized placement
+  const indices = shuffle(
+    Array.from({ length: items.length }, (_, i) => i),
+    42,
+  )
+
+  // First pass: place all items in shuffled order
   const columnHeights = new Array(columns).fill(0)
   const results: LayoutItem[] = []
 
-  for (let idx = 0; idx < items.length; idx++) {
+  for (const idx of indices) {
     const item = items[idx]
     const shortest = columnHeights.indexOf(Math.min(...columnHeights))
     const x = shortest * (columnWidth + gap)
@@ -84,29 +102,27 @@ const computeLayout = (
   const tileHeight = Math.max(...columnHeights)
   const tileWidth = columns * (columnWidth + gap)
 
-  // Second pass: keep filling every column up to tileHeight by cycling items
-  let fillIdx = 0
+  // Second pass: fill shorter columns with a differently-shuffled order
+  const fillIndices = shuffle(indices, 137)
+  let fillPos = 0
   for (let col = 0; col < columns; col++) {
     while (columnHeights[col] + gap < tileHeight) {
-      const item = items[fillIdx % items.length]
+      const idx = fillIndices[fillPos % fillIndices.length]
+      const item = items[idx]
       const x = col * (columnWidth + gap)
       const y = columnHeights[col]
       const scaledHeight =
         ((item?.height ?? 0) / (item?.width ?? 0)) * columnWidth
 
-      // Clip the last item in each column so it ends exactly at tileHeight
-      const remaining = tileHeight - y
-      const clippedHeight = Math.min(scaledHeight, remaining)
-
       results.push({
         x,
         y,
         width: columnWidth,
-        height: clippedHeight,
-        sourceIndex: fillIdx % items.length,
+        height: scaledHeight,
+        sourceIndex: idx,
       })
       columnHeights[col] += scaledHeight + gap
-      fillIdx++
+      fillPos++
     }
   }
 
