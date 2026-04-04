@@ -1,3 +1,5 @@
 export { Canvas, CanvasItem, useCanvasContext } from './canvas'
+export { loadImages } from './load-images'
 export { useCanvas } from './use-canvas'
+export type { CanvasImage } from './load-images'
 export type { CanvasTransform, CanvasBounds } from './use-canvas'
