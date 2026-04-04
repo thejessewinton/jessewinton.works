@@ -1,4 +1,4 @@
 # jessewinton.works
 
-* TanStack Start
-* Tailwind CSS
+- TanStack Start
+- Tailwind CSS

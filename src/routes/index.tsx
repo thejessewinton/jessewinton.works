@@ -23,7 +23,11 @@ function Index() {
 
       <div className="flex flex-col gap-8">
         <span className="font-medium">NYC</span>
-        <ClientOnly fallback={<span className="tabular-nums tracking-tighter">&nbsp;</span>}>
+        <ClientOnly
+          fallback={
+            <span className="tabular-nums tracking-tighter">&nbsp;</span>
+          }
+        >
           <Clock />
         </ClientOnly>
         <div className="flex flex-col">

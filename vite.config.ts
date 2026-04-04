@@ -1,8 +1,8 @@
-import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import tailwindcss from '@tailwindcss/vite'
-import { defineConfig } from 'vite'
+import { tanstackStart } from '@tanstack/react-start/plugin/vite'
+import react from '@vitejs/plugin-react'
 import { nitro } from 'nitro/vite'
-import path from 'node:path'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   plugins: [
@@ -12,13 +12,12 @@ export default defineConfig({
         enabled: true,
       },
     }),
+    react(),
     nitro({
       preset: 'vercel',
     }),
   ],
   resolve: {
-    alias: {
-      '~': path.resolve(import.meta.dirname, './src'),
-    },
+    tsconfigPaths: true,
   },
 })
