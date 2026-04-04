@@ -4,7 +4,14 @@ import { defineConfig } from 'vite'
 import path from 'node:path'
 
 export default defineConfig({
-  plugins: [tailwindcss(), ...tanstackStart()],
+  plugins: [
+    tailwindcss(),
+    ...tanstackStart({
+      prerender: {
+        enabled: true,
+      },
+    }),
+  ],
   resolve: {
     alias: {
       '~': path.resolve(import.meta.dirname, './src'),
