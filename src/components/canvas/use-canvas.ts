@@ -122,7 +122,14 @@ export const useCanvas = ({
 
   const getViewportBounds = useCallback((): CanvasBounds => {
     const rect = containerRef.current?.getBoundingClientRect()
-    if (!rect) return { left: 0, top: 0, right: 0, bottom: 0 }
+    if (!rect || (rect.width === 0 && rect.height === 0)) {
+      return {
+        left: -Infinity,
+        top: -Infinity,
+        right: Infinity,
+        bottom: Infinity,
+      }
+    }
 
     return {
       left: -transform.x / transform.scale,

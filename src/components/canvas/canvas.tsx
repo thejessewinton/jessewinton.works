@@ -42,20 +42,23 @@ const computeLayout = (
   items: { width: number; height: number }[],
   columns: number,
   gap: number,
-): Position[] => {
+): { positions: Position[]; columnWidth: number } => {
+  if (items.length === 0) return { positions: [], columnWidth: 0 }
+
+  const columnWidth = Math.max(...items.map((i) => i.width))
   const columnHeights = new Array(columns).fill(0)
   const positions: Position[] = []
 
   for (const item of items) {
     const shortest = columnHeights.indexOf(Math.min(...columnHeights))
-    const x = shortest * (item.width + gap)
+    const x = shortest * (columnWidth + gap)
     const y = columnHeights[shortest]
 
     positions.push({ x, y })
     columnHeights[shortest] += item.height + gap
   }
 
-  return positions
+  return { positions, columnWidth }
 }
 
 export const Canvas = ({
@@ -80,7 +83,7 @@ export const Canvas = ({
 
   const items = Children.toArray(children) as ReactElement<CanvasItemProps>[]
 
-  const positions = useMemo(() => {
+  const layout = useMemo(() => {
     const dims = items.map((child) => ({
       width: child.props.width ?? 0,
       height: child.props.height ?? 0,
@@ -103,14 +106,14 @@ export const Canvas = ({
           }}
         >
           {items.map((child, i) => {
-            const pos = positions[i]
+            const pos = layout.positions[i]
             if (!pos) return null
             return (
               <CanvasItemInner
                 key={child.key}
                 x={pos.x}
                 y={pos.y}
-                width={child.props.width}
+                width={layout.columnWidth}
                 height={child.props.height}
                 className={child.props.className}
               >
