@@ -11,9 +11,11 @@ const newYorkTime = () => {
 }
 
 export const Clock = () => {
-  const [time, setTime] = useState(newYorkTime)
+  const [time, setTime] = useState(() => newYorkTime())
 
   useEffect(() => {
+    setTime(newYorkTime())
+
     const interval = setInterval(() => {
       setTime(newYorkTime())
     }, 1000)
@@ -22,7 +24,7 @@ export const Clock = () => {
   }, [])
 
   return (
-    <span className="tabular-nums tracking-tighter">
+    <span className="tabular-nums tracking-tighter" suppressHydrationWarning>
       {format(time, 'h:mm:ss a')}
     </span>
   )
