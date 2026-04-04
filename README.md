@@ -1,4 +1,4 @@
 # jessewinton.works
 
-* Next.js
-* tailwindcss
+- TanStack Start
+- Tailwind CSS
