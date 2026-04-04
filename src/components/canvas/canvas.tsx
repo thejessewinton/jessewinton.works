@@ -1,4 +1,6 @@
 import {
+  Children,
+  type ReactElement,
   type ReactNode,
   createContext,
   memo,
@@ -24,14 +26,43 @@ export const useCanvasContext = () => {
 interface CanvasProps {
   children: ReactNode
   className?: string
+  columns?: number
+  gap?: number
   minScale?: number
   maxScale?: number
   initialTransform?: Partial<CanvasTransform>
 }
 
+interface Position {
+  x: number
+  y: number
+}
+
+const computeLayout = (
+  items: { width: number; height: number }[],
+  columns: number,
+  gap: number,
+): Position[] => {
+  const columnHeights = new Array(columns).fill(0)
+  const positions: Position[] = []
+
+  for (const item of items) {
+    const shortest = columnHeights.indexOf(Math.min(...columnHeights))
+    const x = shortest * (item.width + gap)
+    const y = columnHeights[shortest]
+
+    positions.push({ x, y })
+    columnHeights[shortest] += item.height + gap
+  }
+
+  return positions
+}
+
 export const Canvas = ({
   children,
   className,
+  columns = 6,
+  gap = 24,
   minScale,
   maxScale,
   initialTransform,
@@ -47,6 +78,16 @@ export const Canvas = ({
     [transform, getViewportBounds],
   )
 
+  const items = Children.toArray(children) as ReactElement<CanvasItemProps>[]
+
+  const positions = useMemo(() => {
+    const dims = items.map((child) => ({
+      width: child.props.width ?? 0,
+      height: child.props.height ?? 0,
+    }))
+    return computeLayout(dims, columns, gap)
+  }, [items, columns, gap])
+
   return (
     <CanvasContext.Provider value={ctx}>
       <div
@@ -61,7 +102,22 @@ export const Canvas = ({
             willChange: 'transform',
           }}
         >
-          {children}
+          {items.map((child, i) => {
+            const pos = positions[i]
+            if (!pos) return null
+            return (
+              <CanvasItemInner
+                key={child.key}
+                x={pos.x}
+                y={pos.y}
+                width={child.props.width}
+                height={child.props.height}
+                className={child.props.className}
+              >
+                {child.props.children}
+              </CanvasItemInner>
+            )
+          })}
         </div>
       </div>
     </CanvasContext.Provider>
@@ -70,28 +126,45 @@ export const Canvas = ({
 
 interface CanvasItemProps {
   children: ReactNode
+  width: number
+  height: number
+  className?: string
+}
+
+export const CanvasItem = ({ children }: CanvasItemProps) => {
+  return <>{children}</>
+}
+
+interface CanvasItemInnerProps {
+  children: ReactNode
   x: number
   y: number
-  width?: number
-  height?: number
+  width: number
+  height: number
   className?: string
   padding?: number
 }
 
-export const CanvasItem = memo(
-  ({ children, x, y, width, height, className, padding = 200 }: CanvasItemProps) => {
+const CanvasItemInner = memo(
+  ({
+    children,
+    x,
+    y,
+    width,
+    height,
+    className,
+    padding = 200,
+  }: CanvasItemInnerProps) => {
     const { getViewportBounds } = useCanvasContext()
 
-    if (width != null && height != null) {
-      const bounds = getViewportBounds()
-      const visible =
-        x + width + padding > bounds.left &&
-        x - padding < bounds.right &&
-        y + height + padding > bounds.top &&
-        y - padding < bounds.bottom
+    const bounds = getViewportBounds()
+    const visible =
+      x + width + padding > bounds.left &&
+      x - padding < bounds.right &&
+      y + height + padding > bounds.top &&
+      y - padding < bounds.bottom
 
-      if (!visible) return null
-    }
+    if (!visible) return null
 
     return (
       <div
@@ -108,4 +181,4 @@ export const CanvasItem = memo(
   },
 )
 
-CanvasItem.displayName = 'CanvasItem'
+CanvasItemInner.displayName = 'CanvasItemInner'
