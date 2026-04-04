@@ -45,13 +45,20 @@ interface LayoutResult {
   height: number
 }
 
+interface TileLayout {
+  items: LayoutResult[]
+  tileWidth: number
+  tileHeight: number
+}
+
 const computeLayout = (
   items: { width: number; height: number }[],
   columns: number,
   gap: number,
   columnWidth: number,
-): LayoutResult[] => {
-  if (items.length === 0) return []
+): TileLayout => {
+  if (items.length === 0)
+    return { items: [], tileWidth: 0, tileHeight: 0 }
 
   const columnHeights = new Array(columns).fill(0)
   const results: LayoutResult[] = []
@@ -66,7 +73,10 @@ const computeLayout = (
     columnHeights[shortest] += scaledHeight + gap
   }
 
-  return results
+  const tileWidth = columns * (columnWidth + gap) - gap
+  const tileHeight = Math.max(...columnHeights)
+
+  return { items: results, tileWidth, tileHeight }
 }
 
 export const Canvas = ({
@@ -92,13 +102,35 @@ export const Canvas = ({
 
   const items = Children.toArray(children) as ReactElement<CanvasItemProps>[]
 
-  const layout = useMemo(() => {
+  const tile = useMemo(() => {
     const dims = items.map((child) => ({
       width: child.props.width ?? 0,
       height: child.props.height ?? 0,
     }))
     return computeLayout(dims, columns, gap, columnWidth)
   }, [items, columns, gap, columnWidth])
+
+  const bounds = getViewportBounds()
+
+  const visibleTiles = useMemo(() => {
+    if (tile.tileWidth === 0 || tile.tileHeight === 0) return []
+
+    const tw = tile.tileWidth + gap
+    const th = tile.tileHeight + gap
+
+    const startCol = Math.floor(bounds.left / tw) - 1
+    const endCol = Math.ceil(bounds.right / tw) + 1
+    const startRow = Math.floor(bounds.top / th) - 1
+    const endRow = Math.ceil(bounds.bottom / th) + 1
+
+    const tiles: { col: number; row: number; ox: number; oy: number }[] = []
+    for (let row = startRow; row <= endRow; row++) {
+      for (let col = startCol; col <= endCol; col++) {
+        tiles.push({ col, row, ox: col * tw, oy: row * th })
+      }
+    }
+    return tiles
+  }, [tile, gap, bounds])
 
   return (
     <CanvasContext.Provider value={ctx}>
@@ -117,22 +149,25 @@ export const Canvas = ({
             willChange: 'transform',
           }}
         >
-          {items.map((child, i) => {
-            const item = layout[i]
-            if (!item) return null
-            return (
-              <CanvasItemInner
-                key={child.key}
-                x={item.x}
-                y={item.y}
-                width={item.width}
-                height={item.height}
-                className={child.props.className}
-              >
-                {child.props.children}
-              </CanvasItemInner>
-            )
-          })}
+          {visibleTiles.map(({ col, row, ox, oy }) =>
+            tile.items.map((layoutItem, i) => {
+              const child = items[i]
+              if (!child) return null
+              return (
+                <div
+                  key={`${col},${row},${i}`}
+                  className="absolute overflow-hidden"
+                  style={{
+                    transform: `translate(${ox + layoutItem.x}px, ${oy + layoutItem.y}px)`,
+                    width: layoutItem.width,
+                    height: layoutItem.height,
+                  }}
+                >
+                  {child.props.children}
+                </div>
+              )
+            }),
+          )}
         </div>
       </div>
     </CanvasContext.Provider>
@@ -149,51 +184,3 @@ interface CanvasItemProps {
 export const CanvasItem = ({ children }: CanvasItemProps) => {
   return <>{children}</>
 }
-
-interface CanvasItemInnerProps {
-  children: ReactNode
-  x: number
-  y: number
-  width: number
-  height: number
-  className?: string
-  padding?: number
-}
-
-const CanvasItemInner = memo(
-  ({
-    children,
-    x,
-    y,
-    width,
-    height,
-    className,
-    padding = 200,
-  }: CanvasItemInnerProps) => {
-    const { getViewportBounds } = useCanvasContext()
-
-    const bounds = getViewportBounds()
-    const visible =
-      x + width + padding > bounds.left &&
-      x - padding < bounds.right &&
-      y + height + padding > bounds.top &&
-      y - padding < bounds.bottom
-
-    if (!visible) return null
-
-    return (
-      <div
-        className={cn('absolute overflow-hidden', className)}
-        style={{
-          transform: `translate(${x}px, ${y}px)`,
-          width,
-          height,
-        }}
-      >
-        {children}
-      </div>
-    )
-  },
-)
-
-CanvasItemInner.displayName = 'CanvasItemInner'
