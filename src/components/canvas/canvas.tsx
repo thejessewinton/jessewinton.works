@@ -109,12 +109,16 @@ const computeLayout = (
   const tileHeight = Math.min(...columnHeights) - gap
   const tileWidth = columns * (columnWidth + gap)
 
-  // Flatten and filter: only keep items that start before tileHeight
+  // Flatten, filter, and clamp: no item may extend past tileHeight
   const results: LayoutItem[] = []
   for (const colItems of columnItems) {
     for (const item of colItems) {
       if (item.y >= tileHeight) break
-      results.push(item)
+      const maxH = tileHeight - item.y
+      results.push({
+        ...item,
+        height: Math.min(item.height, maxH),
+      })
     }
   }
 
@@ -279,7 +283,6 @@ const TileGroup = memo(({ ox, oy, tw, th, layout, items }: TileGroupProps) => {
         transform: `translate(${ox}px, ${oy}px)`,
         width: tw,
         height: th,
-        contain: 'strict',
       }}
     >
       {layout.map((layoutItem, i) => {
