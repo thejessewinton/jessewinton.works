@@ -1,4 +1,4 @@
-import { ClientOnly, createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { Clock } from '~/components/clock'
 import { Link } from '~/components/link'
 import { site } from '~/data/site'
@@ -23,13 +23,9 @@ function Index() {
 
       <div className="flex flex-col gap-8">
         <span className="font-medium">NYC</span>
-        <ClientOnly
-          fallback={
-            <span className="tabular-nums tracking-tighter">&nbsp;</span>
-          }
-        >
-          <Clock />
-        </ClientOnly>
+
+        <Clock />
+
         <div className="flex flex-col">
           {site.connections.map((connection) => {
             return (
