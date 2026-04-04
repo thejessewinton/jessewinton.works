@@ -32,6 +32,7 @@ interface CanvasProps {
   className?: string
   columns?: number
   gap?: number
+  columnWidth?: number
   minScale?: number
   maxScale?: number
   initialTransform?: Partial<CanvasTransform>
@@ -42,27 +43,35 @@ interface Position {
   y: number
 }
 
+interface LayoutResult {
+  x: number
+  y: number
+  width: number
+  height: number
+}
+
 const computeLayout = (
   items: { width: number; height: number }[],
   columns: number,
   gap: number,
-): { positions: Position[]; columnWidth: number } => {
-  if (items.length === 0) return { positions: [], columnWidth: 0 }
+  columnWidth: number,
+): LayoutResult[] => {
+  if (items.length === 0) return []
 
-  const columnWidth = Math.max(...items.map((i) => i.width))
   const columnHeights = new Array(columns).fill(0)
-  const positions: Position[] = []
+  const results: LayoutResult[] = []
 
   for (const item of items) {
     const shortest = columnHeights.indexOf(Math.min(...columnHeights))
     const x = shortest * (columnWidth + gap)
     const y = columnHeights[shortest]
+    const scaledHeight = (item.height / item.width) * columnWidth
 
-    positions.push({ x, y })
-    columnHeights[shortest] += item.height + gap
+    results.push({ x, y, width: columnWidth, height: scaledHeight })
+    columnHeights[shortest] += scaledHeight + gap
   }
 
-  return { positions, columnWidth }
+  return results
 }
 
 export const Canvas = ({
@@ -70,6 +79,7 @@ export const Canvas = ({
   className,
   columns = 6,
   gap = 24,
+  columnWidth = 300,
   minScale,
   maxScale,
   initialTransform,
@@ -92,8 +102,8 @@ export const Canvas = ({
       width: child.props.width ?? 0,
       height: child.props.height ?? 0,
     }))
-    return computeLayout(dims, columns, gap)
-  }, [items, columns, gap])
+    return computeLayout(dims, columns, gap, columnWidth)
+  }, [items, columns, gap, columnWidth])
 
   return (
     <CanvasContext.Provider value={ctx}>
@@ -110,15 +120,15 @@ export const Canvas = ({
           }}
         >
           {items.map((child, i) => {
-            const pos = layout.positions[i]
-            if (!pos) return null
+            const item = layout[i]
+            if (!item) return null
             return (
               <CanvasItemInner
                 key={child.key}
-                x={pos.x}
-                y={pos.y}
-                width={layout.columnWidth}
-                height={child.props.height}
+                x={item.x}
+                y={item.y}
+                width={item.width}
+                height={item.height}
                 className={child.props.className}
               >
                 {child.props.children}
