@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 
-const getNewYorkTime = () => {
-  const time = Temporal.Now.zonedDateTimeISO('America/New_York')
-  const hour = time.hour % 12 || 12
-  const minute = String(time.minute).padStart(2, '0')
-  const second = String(time.second).padStart(2, '0')
-  const period = time.hour >= 12 ? 'PM' : 'AM'
-  return `${hour}:${minute}:${second} ${period}`
-}
+const formatter = new Intl.DateTimeFormat('en-US', {
+  timeZone: 'America/New_York',
+  hour: 'numeric',
+  minute: '2-digit',
+  second: '2-digit',
+  hour12: true,
+})
+
+const getNewYorkTime = () => formatter.format(new Date())
 
 export const Clock = () => {
   const [display, setDisplay] = useState(getNewYorkTime)
@@ -20,9 +21,5 @@ export const Clock = () => {
     return () => clearInterval(interval)
   }, [])
 
-  return (
-    <span className="tabular-nums tracking-tighter">
-      {display}
-    </span>
-  )
+  return <span className="tabular-nums tracking-tighter">{display}</span>
 }

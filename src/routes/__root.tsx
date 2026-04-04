@@ -4,8 +4,9 @@ import {
   Scripts,
   createRootRoute,
 } from '@tanstack/react-router'
-import appCss from '~/styles/globals.css?url'
+
 import { Noise } from '~/components/noise'
+import appCss from '~/styles/globals.css?url'
 
 export const Route = createRootRoute({
   head: () => ({
