@@ -103,7 +103,8 @@ const computeLayout = (
   return { items: results, tileWidth, tileHeight }
 }
 
-const MAX_TILES = 12
+// Max total items across all tiles
+const MAX_ITEMS = 500
 
 export const Canvas = ({
   children,
@@ -187,6 +188,10 @@ export const Canvas = ({
 
   const tiles = useMemo(() => {
     const { startCol, endCol, startRow, endRow } = tileRange
+    const itemsPerTile = tile.items.length
+    if (itemsPerTile === 0) return []
+    const maxTiles = Math.max(1, Math.floor(MAX_ITEMS / itemsPerTile))
+
     const result: { key: string; ox: number; oy: number }[] = []
     for (let row = startRow; row <= endRow; row++) {
       for (let col = startCol; col <= endCol; col++) {
@@ -195,11 +200,11 @@ export const Canvas = ({
           ox: col * tile.tileWidth,
           oy: row * tile.tileHeight,
         })
-        if (result.length >= MAX_TILES) return result
+        if (result.length >= maxTiles) return result
       }
     }
     return result
-  }, [tileRange, tile.tileWidth, tile.tileHeight])
+  }, [tileRange, tile.tileWidth, tile.tileHeight, tile.items.length])
 
   return (
     <CanvasContext.Provider value={ctx}>
@@ -220,7 +225,15 @@ export const Canvas = ({
           }}
         >
           {tiles.map(({ key, ox, oy }) => (
-            <TileGroup key={key} ox={ox} oy={oy} layout={tile.items} items={items} />
+            <TileGroup
+              key={key}
+              ox={ox}
+              oy={oy}
+              tw={tile.tileWidth}
+              th={tile.tileHeight}
+              layout={tile.items}
+              items={items}
+            />
           ))}
         </div>
       </div>
@@ -231,13 +244,23 @@ export const Canvas = ({
 interface TileGroupProps {
   ox: number
   oy: number
+  tw: number
+  th: number
   layout: LayoutItem[]
   items: ReactElement<CanvasItemProps>[]
 }
 
-const TileGroup = memo(({ ox, oy, layout, items }: TileGroupProps) => {
+const TileGroup = memo(({ ox, oy, tw, th, layout, items }: TileGroupProps) => {
   return (
-    <>
+    <div
+      className="absolute"
+      style={{
+        transform: `translate(${ox}px, ${oy}px)`,
+        width: tw,
+        height: th,
+        contain: 'strict',
+      }}
+    >
       {layout.map((layoutItem, i) => {
         const child = items[layoutItem.sourceIndex]
         if (!child) return null
@@ -246,7 +269,7 @@ const TileGroup = memo(({ ox, oy, layout, items }: TileGroupProps) => {
             key={i}
             className="absolute overflow-hidden"
             style={{
-              transform: `translate(${ox + layoutItem.x}px, ${oy + layoutItem.y}px)`,
+              transform: `translate(${layoutItem.x}px, ${layoutItem.y}px)`,
               width: layoutItem.width,
               height: layoutItem.height,
               contentVisibility: 'auto',
@@ -257,7 +280,7 @@ const TileGroup = memo(({ ox, oy, layout, items }: TileGroupProps) => {
           </div>
         )
       })}
-    </>
+    </div>
   )
 })
 
