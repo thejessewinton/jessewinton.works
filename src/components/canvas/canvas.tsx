@@ -6,6 +6,7 @@ import {
   memo,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -127,16 +128,45 @@ const computeLayout = (
 
 const MAX_ITEMS = 1200
 
+const useResponsiveColumns = (
+  columns: number,
+  columnWidth: number,
+): { columns: number; columnWidth: number } => {
+  const [screen, setScreen] = useState<{ columns: number; columnWidth: number }>({
+    columns,
+    columnWidth,
+  })
+
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth
+      if (w < 640) {
+        setScreen({ columns: 2, columnWidth: Math.floor((w - 48) / 2) })
+      } else if (w < 1024) {
+        setScreen({ columns: 3, columnWidth: Math.floor((w - 80) / 3) })
+      } else {
+        setScreen({ columns, columnWidth })
+      }
+    }
+    update()
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [columns, columnWidth])
+
+  return screen
+}
+
 export const Canvas = ({
   children,
   className,
-  columns = 6,
+  columns: columnsProp = 6,
   gap = 24,
-  columnWidth = 300,
+  columnWidth: columnWidthProp = 300,
   minScale = 0.75,
   maxScale = 5,
   initialTransform,
 }: CanvasProps) => {
+  const { columns, columnWidth } = useResponsiveColumns(columnsProp, columnWidthProp)
   const items = Children.toArray(children) as ReactElement<CanvasItemProps>[]
 
   const tile = useMemo(() => {
@@ -236,7 +266,7 @@ export const Canvas = ({
       <div
         ref={containerRef}
         className={cn(
-          'relative h-dvh w-dvw cursor-grab select-none overflow-hidden active:cursor-grabbing',
+          'relative h-dvh w-dvw cursor-grab touch-none select-none overflow-hidden active:cursor-grabbing',
           className,
         )}
         {...handlers}

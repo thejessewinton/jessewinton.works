@@ -12,7 +12,10 @@ interface UseCanvasOptions {
   maxScale?: number
   friction?: number
   initialTransform?: Partial<CanvasTransform>
-  onTransformChange?: (transform: CanvasTransform, container: HTMLDivElement | null) => void
+  onTransformChange?: (
+    transform: CanvasTransform,
+    container: HTMLDivElement | null,
+  ) => void
 }
 
 export const useCanvas = ({
@@ -37,15 +40,42 @@ export const useCanvas = ({
   const velocity = useRef({ x: 0, y: 0 })
   const onChangeRef = useRef(onTransformChange)
 
+  // Pinch state
+  const pinchRef = useRef<{
+    active: boolean
+    startDist: number
+    startScale: number
+    centerX: number
+    centerY: number
+  }>({ active: false, startDist: 0, startScale: 1, centerX: 0, centerY: 0 })
+
   useEffect(() => {
     onChangeRef.current = onTransformChange
   }, [onTransformChange])
+
+  // Prevent default touch behaviors (pull-to-refresh, browser zoom)
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+
+    const preventDefaults = (e: TouchEvent) => {
+      if (e.touches.length >= 1) e.preventDefault()
+    }
+
+    el.addEventListener('touchmove', preventDefaults, { passive: false })
+    el.addEventListener('touchstart', preventDefaults, { passive: false })
+
+    return () => {
+      el.removeEventListener('touchmove', preventDefaults)
+      el.removeEventListener('touchstart', preventDefaults)
+    }
+  }, [])
 
   useAnimationFrame(() => {
     const target = targetRef.current
     const current = currentRef.current
 
-    if (!isPanning.current) {
+    if (!isPanning.current && !pinchRef.current.active) {
       const vx = velocity.current.x
       const vy = velocity.current.y
 
@@ -116,7 +146,104 @@ export const useCanvas = ({
     [clampScale],
   )
 
+  const getTouchDistance = (t1: React.Touch, t2: React.Touch) =>
+    Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY)
+
+  const getTouchCenter = (t1: React.Touch, t2: React.Touch) => ({
+    x: (t1.clientX + t2.clientX) / 2,
+    y: (t1.clientY + t2.clientY) / 2,
+  })
+
+  const onTouchStart = useCallback(
+    (e: React.TouchEvent) => {
+      velocity.current = { x: 0, y: 0 }
+
+      if (e.touches.length === 2) {
+        // Start pinch
+        const dist = getTouchDistance(e.touches[0], e.touches[1])
+        const center = getTouchCenter(e.touches[0], e.touches[1])
+        pinchRef.current = {
+          active: true,
+          startDist: dist,
+          startScale: targetRef.current.scale,
+          centerX: center.x,
+          centerY: center.y,
+        }
+        isPanning.current = false
+      } else if (e.touches.length === 1) {
+        isPanning.current = true
+        lastPointer.current = {
+          x: e.touches[0].clientX,
+          y: e.touches[0].clientY,
+        }
+      }
+    },
+    [],
+  )
+
+  const onTouchMove = useCallback(
+    (e: React.TouchEvent) => {
+      if (e.touches.length === 2 && pinchRef.current.active) {
+        const dist = getTouchDistance(e.touches[0], e.touches[1])
+        const center = getTouchCenter(e.touches[0], e.touches[1])
+        const rect = containerRef.current?.getBoundingClientRect()
+        if (!rect) return
+
+        const newScale = clampScale(
+          pinchRef.current.startScale * (dist / pinchRef.current.startDist),
+        )
+        const ratio = newScale / targetRef.current.scale
+
+        const pointerX = center.x - rect.left
+        const pointerY = center.y - rect.top
+
+        // Zoom toward pinch center + pan with center movement
+        const dx = center.x - pinchRef.current.centerX
+        const dy = center.y - pinchRef.current.centerY
+        pinchRef.current.centerX = center.x
+        pinchRef.current.centerY = center.y
+
+        targetRef.current = {
+          x: pointerX - (pointerX - targetRef.current.x) * ratio + dx,
+          y: pointerY - (pointerY - targetRef.current.y) * ratio + dy,
+          scale: newScale,
+        }
+      } else if (e.touches.length === 1 && isPanning.current) {
+        const dx = e.touches[0].clientX - lastPointer.current.x
+        const dy = e.touches[0].clientY - lastPointer.current.y
+        lastPointer.current = {
+          x: e.touches[0].clientX,
+          y: e.touches[0].clientY,
+        }
+
+        velocity.current = { x: dx, y: dy }
+        targetRef.current.x += dx
+        targetRef.current.y += dy
+      }
+    },
+    [clampScale],
+  )
+
+  const onTouchEnd = useCallback((e: React.TouchEvent) => {
+    if (e.touches.length < 2) {
+      pinchRef.current.active = false
+    }
+    if (e.touches.length === 0) {
+      isPanning.current = false
+    }
+    // If going from pinch to single finger, reset pan origin
+    if (e.touches.length === 1) {
+      isPanning.current = true
+      lastPointer.current = {
+        x: e.touches[0].clientX,
+        y: e.touches[0].clientY,
+      }
+    }
+  }, [])
+
   const onPointerDown = useCallback((e: React.PointerEvent) => {
+    // Only handle mouse, not touch (touch is handled separately)
+    if (e.pointerType === 'touch') return
     if (e.button === 0) {
       e.preventDefault()
       isPanning.current = true
@@ -127,6 +254,7 @@ export const useCanvas = ({
   }, [])
 
   const onPointerMove = useCallback((e: React.PointerEvent) => {
+    if (e.pointerType === 'touch') return
     if (!isPanning.current) return
 
     const dx = e.clientX - lastPointer.current.x
@@ -140,7 +268,8 @@ export const useCanvas = ({
     target.y += dy
   }, [])
 
-  const onPointerUp = useCallback(() => {
+  const onPointerUp = useCallback((e: React.PointerEvent) => {
+    if (e.pointerType === 'touch') return
     isPanning.current = false
   }, [])
 
@@ -149,6 +278,9 @@ export const useCanvas = ({
     onPointerDown,
     onPointerMove,
     onPointerUp,
+    onTouchStart,
+    onTouchMove,
+    onTouchEnd,
   }
 
   return {
