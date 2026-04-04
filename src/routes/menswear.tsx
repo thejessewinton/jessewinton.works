@@ -28,7 +28,12 @@ function Index() {
     <Canvas columns={6} gap={24}>
       {items.map((item) => (
         <CanvasItem key={item.id} width={item.width} height={item.height}>
-          <img src={item.src} alt={`Placeholder ${item.id}`} />
+          <img
+            src={item.src}
+            alt={`Placeholder ${item.id}`}
+            className="h-full w-full object-cover"
+            draggable={false}
+          />
         </CanvasItem>
       ))}
     </Canvas>

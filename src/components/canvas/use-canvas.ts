@@ -45,7 +45,11 @@ export const useCanvas = ({
       const dy = target.y - prev.y
       const ds = target.scale - prev.scale
 
-      if (Math.abs(dx) < 0.01 && Math.abs(dy) < 0.01 && Math.abs(ds) < 0.0001)
+      if (
+        Math.abs(dx) < 0.01 &&
+        Math.abs(dy) < 0.01 &&
+        Math.abs(ds) < 0.0001
+      )
         return prev
 
       return {
@@ -93,7 +97,7 @@ export const useCanvas = ({
   )
 
   const onPointerDown = useCallback((e: React.PointerEvent) => {
-    if (e.button === 1 || (e.button === 0 && e.altKey)) {
+    if (e.button === 0) {
       e.preventDefault()
       isPanning.current = true
       lastPointer.current = { x: e.clientX, y: e.clientY }
