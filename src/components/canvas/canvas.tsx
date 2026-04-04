@@ -301,8 +301,6 @@ const TileGroup = memo(({ ox, oy, tw, th, layout, items }: TileGroupProps) => {
               transform: `translate(${layoutItem.x}px, ${layoutItem.y}px)`,
               width: layoutItem.width,
               height: layoutItem.height,
-              contentVisibility: 'auto',
-              containIntrinsicSize: `${layoutItem.width}px ${layoutItem.height}px`,
             }}
           >
             {child.props.children}
