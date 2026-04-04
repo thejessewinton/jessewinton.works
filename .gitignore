@@ -1,5 +1,3 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
 /node_modules
 /.pnp
@@ -8,17 +6,17 @@
 # testing
 /coverage
 
-# next.js
-/.next/
-/out/
+# build output
+/.output/
+/dist/
+/.vinxi/
 
-# production
-/build
+# generated
+src/routeTree.gen.ts
 
 # misc
 .DS_Store
 *.pem
-.content-collections
 
 # debug
 npm-debug.log*
