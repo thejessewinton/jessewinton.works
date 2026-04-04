@@ -31,7 +31,7 @@ function Index() {
         <CanvasItem key={item.src} width={item.width} height={item.height}>
           <img
             src={item.src}
-            className="h-full w-full object-cover"
+            className="h-full w-full rounded-[3px] object-cover"
             draggable={false}
             alt={`CSMS ${item.src.split('/').pop()?.split('.').shift()}`}
           />
