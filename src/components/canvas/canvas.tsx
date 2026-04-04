@@ -56,8 +56,7 @@ const computeLayout = (
   gap: number,
   columnWidth: number,
 ): TileLayout => {
-  if (items.length === 0)
-    return { items: [], tileWidth: 0, tileHeight: 0 }
+  if (items.length === 0) return { items: [], tileWidth: 0, tileHeight: 0 }
 
   // First pass: place all items to find the natural max height
   const columnHeights = new Array(columns).fill(0)
@@ -68,9 +67,16 @@ const computeLayout = (
     const shortest = columnHeights.indexOf(Math.min(...columnHeights))
     const x = shortest * (columnWidth + gap)
     const y = columnHeights[shortest]
-    const scaledHeight = (item.height / item.width) * columnWidth
+    const scaledHeight =
+      ((item?.height ?? 0) / (item?.width ?? 0)) * columnWidth
 
-    results.push({ x, y, width: columnWidth, height: scaledHeight, sourceIndex: idx })
+    results.push({
+      x,
+      y,
+      width: columnWidth,
+      height: scaledHeight,
+      sourceIndex: idx,
+    })
     columnHeights[shortest] += scaledHeight + gap
   }
 
@@ -85,7 +91,8 @@ const computeLayout = (
       const item = items[fillIdx % items.length]
       const x = col * (columnWidth + gap)
       const y = columnHeights[col]
-      const scaledHeight = (item.height / item.width) * columnWidth
+      const scaledHeight =
+        ((item?.height ?? 0) / (item?.width ?? 0)) * columnWidth
 
       // Clip the last item in each column so it ends exactly at tileHeight
       const remaining = tileHeight - y
@@ -114,7 +121,7 @@ export const Canvas = ({
   columns = 6,
   gap = 24,
   columnWidth = 300,
-  minScale = 0.5,
+  minScale = 0.75,
   maxScale = 5,
   initialTransform,
 }: CanvasProps) => {
@@ -183,10 +190,7 @@ export const Canvas = ({
     onTransformChange,
   })
 
-  const ctx = useMemo(
-    () => ({ transform: currentRef.current }),
-    [currentRef],
-  )
+  const ctx = useMemo(() => ({ transform: currentRef.current }), [currentRef])
 
   const tiles = useMemo(() => {
     const { startCol, endCol, startRow, endRow } = tileRange
@@ -220,7 +224,7 @@ export const Canvas = ({
       <div
         ref={containerRef}
         className={cn(
-          'relative h-dvh w-dvw cursor-grab overflow-hidden select-none active:cursor-grabbing',
+          'relative h-dvh w-dvw cursor-grab select-none overflow-hidden active:cursor-grabbing',
           className,
         )}
         {...handlers}
