@@ -102,7 +102,7 @@ const computeLayout = (
   const tileHeight = Math.max(...columnHeights)
   const tileWidth = columns * (columnWidth + gap)
 
-  // Second pass: fill shorter columns with a differently-shuffled order
+  // Second pass: fill shorter columns up to tileHeight
   const fillIndices = shuffle(indices, 137)
   let fillPos = 0
   for (let col = 0; col < columns; col++) {
@@ -114,14 +114,18 @@ const computeLayout = (
       const scaledHeight =
         ((item?.height ?? 0) / (item?.width ?? 0)) * columnWidth
 
+      // Clamp height so items never extend past tileHeight
+      const maxH = tileHeight - y
+      const clampedHeight = Math.min(scaledHeight, maxH)
+
       results.push({
         x,
         y,
         width: columnWidth,
-        height: scaledHeight,
+        height: clampedHeight,
         sourceIndex: idx,
       })
-      columnHeights[col] += scaledHeight + gap
+      columnHeights[col] = y + clampedHeight + gap
       fillPos++
     }
   }
