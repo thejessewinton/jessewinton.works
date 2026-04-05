@@ -76,7 +76,7 @@ export const Drawer = () => {
                     type="button"
                     onClick={handleSave}
                     disabled={saving || selectedTags.length === 0}
-                    className="rounded-full bg-white px-4 py-1.5 text-sm font-medium text-neutral-900 transition-colors hover:bg-neutral-200 disabled:opacity-50"
+                    className="rounded-full bg-white px-4 py-1.5 font-medium text-neutral-900 text-sm transition-colors hover:bg-neutral-200 disabled:opacity-50"
                   >
                     {saving ? 'Saving...' : 'Save'}
                   </button>

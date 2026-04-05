@@ -1,9 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Canvas } from '~/components/common/canvas'
 import { Dropzone } from '~/components/common/dropzone'
-import { Teleport } from '~/components/common/teleport'
 import { Drawer } from '~/components/ds/drawer'
-import { Toolbar } from '~/components/ds/toolbar'
 import { UploadProvider } from '~/context/upload'
 import { getImages } from '~/server/api/get-images'
 import { getTags } from '~/server/api/get-tags'
@@ -29,16 +27,12 @@ export const Route = createFileRoute('/style')({
 })
 
 function Index() {
-  const { images, tags } = Route.useLoaderData()
-  const { tags: selectedTags } = Route.useSearch()
+  const { images } = Route.useLoaderData()
 
   return (
     <UploadProvider>
       <Dropzone />
       <Drawer />
-      <Teleport>
-        <Toolbar tags={tags} selectedTags={selectedTags} />
-      </Teleport>
       <Canvas columns={6} gap={40}>
         {(CanvasItem) => {
           return images.map((image) => {
