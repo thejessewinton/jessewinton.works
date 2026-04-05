@@ -2,10 +2,8 @@ import {
   Children,
   type ReactElement,
   type ReactNode,
-  createContext,
   memo,
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -13,18 +11,6 @@ import {
 } from 'react'
 import { cn } from '~/utils/cn'
 import { type CanvasTransform, useCanvas } from './use-canvas'
-
-interface CanvasContextValue {
-  transform: CanvasTransform
-}
-
-const CanvasContext = createContext<CanvasContextValue | null>(null)
-
-export const useCanvasContext = () => {
-  const ctx = useContext(CanvasContext)
-  if (!ctx) throw new Error('useCanvasContext must be used within a Canvas')
-  return ctx
-}
 
 interface CanvasProps {
   children: ReactNode
@@ -51,53 +37,54 @@ interface TileLayout {
   tileHeight: number
 }
 
-// Seeded shuffle so layout is deterministic but randomized
-const shuffle = <T,>(arr: T[], seed: number): T[] => {
-  const result = [...arr]
-  let s = seed
-  for (let i = result.length - 1; i > 0; i--) {
-    s = (s * 1664525 + 1013904223) & 0xffffffff
-    const j = ((s >>> 0) % (i + 1))
-    ;[result[i], result[j]] = [result[j], result[i]]
-  }
-  return result
-}
-
 const computeLayout = (
   items: { width: number; height: number }[],
   columns: number,
   gap: number,
   columnWidth: number,
 ): TileLayout => {
-  if (items.length === 0) return { items: [], tileWidth: 0, tileHeight: 0 }
+  const n = items.length
+  if (n === 0) return { items: [], tileWidth: 0, tileHeight: 0 }
 
-  // Build a large pool of shuffled items (3x) so we have enough to fill
-  // all columns to a uniform height without visible repetition
-  const pool: number[] = []
+  // Pre-allocate pool and shuffle each segment in-place
+  const poolSize = n * 3
+  const pool = new Array<number>(poolSize)
   for (let pass = 0; pass < 3; pass++) {
-    pool.push(
-      ...shuffle(
-        Array.from({ length: items.length }, (_, i) => i),
-        42 + pass * 97,
-      ),
-    )
+    const offset = pass * n
+    for (let i = 0; i < n; i++) pool[offset + i] = i
+    let s = 42 + pass * 97
+    for (let i = n - 1; i > 0; i--) {
+      s = (s * 1664525 + 1013904223) & 0xffffffff
+      const j = (s >>> 0) % (i + 1)
+      const ai = offset + i
+      const aj = offset + j
+      const tmp = pool[ai]!
+      pool[ai] = pool[aj]!
+      pool[aj] = tmp
+    }
   }
 
-  // Place items into columns
-  const columnHeights = new Array(columns).fill(0)
+  const columnHeights = new Float64Array(columns)
   const columnItems: LayoutItem[][] = Array.from({ length: columns }, () => [])
 
-  for (const idx of pool) {
-    const item = items[idx]
-    if (!item) continue
-    const shortest = columnHeights.indexOf(Math.min(...columnHeights))
-    const x = shortest * (columnWidth + gap)
-    const y = columnHeights[shortest]
-    const scaledHeight = (item.height / item.width) * columnWidth
+  for (let p = 0; p < poolSize; p++) {
+    const idx = pool[p]!
+    const item = items[idx]!
 
-    columnItems[shortest].push({
-      x,
-      y,
+    // Linear scan for shortest column
+    let shortest = 0
+    let shortestH = columnHeights[0]!
+    for (let c = 1; c < columns; c++) {
+      if (columnHeights[c]! < shortestH) {
+        shortest = c
+        shortestH = columnHeights[c]!
+      }
+    }
+
+    const scaledHeight = (item.height / item.width) * columnWidth
+    columnItems[shortest]!.push({
+      x: shortest * (columnWidth + gap),
+      y: columnHeights[shortest]!,
       width: columnWidth,
       height: scaledHeight,
       sourceIndex: idx,
@@ -105,21 +92,34 @@ const computeLayout = (
     columnHeights[shortest] += scaledHeight + gap
   }
 
-  // Use the SHORTEST column as tile height — guarantees every column
-  // reaches it, and taller columns get clipped by overflow: hidden
-  const tileHeight = Math.min(...columnHeights) - gap
+  // Tile height from shortest column
+  let tileHeight = columnHeights[0]!
+  for (let c = 1; c < columns; c++) {
+    if (columnHeights[c]! < tileHeight) tileHeight = columnHeights[c]!
+  }
+  tileHeight -= gap
+
   const tileWidth = columns * (columnWidth + gap)
 
-  // Flatten, filter, and clamp: no item may extend past tileHeight
+  // Flatten + clamp, reuse objects when no clamping needed
   const results: LayoutItem[] = []
-  for (const colItems of columnItems) {
-    for (const item of colItems) {
+  for (let c = 0; c < columns; c++) {
+    const col = columnItems[c]!
+    for (let i = 0; i < col.length; i++) {
+      const item = col[i]!
       if (item.y >= tileHeight) break
       const maxH = tileHeight - item.y
-      results.push({
-        ...item,
-        height: Math.min(item.height, maxH),
-      })
+      if (item.height <= maxH) {
+        results.push(item)
+      } else {
+        results.push({
+          x: item.x,
+          y: item.y,
+          width: item.width,
+          height: maxH,
+          sourceIndex: item.sourceIndex,
+        })
+      }
     }
   }
 
@@ -128,27 +128,23 @@ const computeLayout = (
 
 const MAX_ITEMS = 1200
 
-const useResponsiveColumns = (
-  columns: number,
-  columnWidth: number,
-): { columns: number; columnWidth: number } => {
-  const [screen, setScreen] = useState<{ columns: number; columnWidth: number }>({
-    columns,
-    columnWidth,
-  })
+const getResponsiveValues = (columns: number, columnWidth: number) => {
+  if (typeof window === 'undefined') return { columns, columnWidth }
+  const w = window.innerWidth
+  if (w < 640) return { columns: 2, columnWidth: Math.floor((w - 48) / 2) }
+  if (w < 1024) return { columns: 3, columnWidth: Math.floor((w - 80) / 3) }
+  return { columns, columnWidth }
+}
+
+const useResponsiveColumns = (columns: number, columnWidth: number) => {
+  const [screen, setScreen] = useState(() =>
+    getResponsiveValues(columns, columnWidth),
+  )
 
   useEffect(() => {
     const update = () => {
-      const w = window.innerWidth
-      if (w < 640) {
-        setScreen({ columns: 2, columnWidth: Math.floor((w - 48) / 2) })
-      } else if (w < 1024) {
-        setScreen({ columns: 3, columnWidth: Math.floor((w - 80) / 3) })
-      } else {
-        setScreen({ columns, columnWidth })
-      }
+      setScreen(getResponsiveValues(columns, columnWidth))
     }
-    update()
     window.addEventListener('resize', update)
     return () => window.removeEventListener('resize', update)
   }, [columns, columnWidth])
@@ -166,8 +162,23 @@ export const Canvas = ({
   maxScale = 5,
   initialTransform,
 }: CanvasProps) => {
-  const { columns, columnWidth } = useResponsiveColumns(columnsProp, columnWidthProp)
-  const items = Children.toArray(children) as ReactElement<CanvasItemProps>[]
+  const { columns, columnWidth } = useResponsiveColumns(
+    columnsProp,
+    columnWidthProp,
+  )
+
+  // Stabilize children array — only update ref when keys change
+  const childArrayRef = useRef<ReactElement<CanvasItemProps>[]>([])
+  const rawChildren = Children.toArray(
+    children,
+  ) as ReactElement<CanvasItemProps>[]
+  const childrenChanged =
+    rawChildren.length !== childArrayRef.current.length ||
+    rawChildren.some((c, i) => c.key !== childArrayRef.current[i]?.key)
+  if (childrenChanged) {
+    childArrayRef.current = rawChildren
+  }
+  const items = childArrayRef.current
 
   const tile = useMemo(() => {
     const dims = items.map((child) => ({
@@ -177,6 +188,45 @@ export const Canvas = ({
     return computeLayout(dims, columns, gap, columnWidth)
   }, [items, columns, gap, columnWidth])
 
+  const renderItem = useCallback(
+    (sourceIndex: number) =>
+      childArrayRef.current[sourceIndex]?.props.children ?? null,
+    [],
+  )
+
+  return (
+    <div
+      className={cn(
+        'relative h-dvh w-dvw cursor-grab touch-none select-none overflow-hidden active:cursor-grabbing',
+        className,
+      )}
+    >
+      <TileRenderer
+        tile={tile}
+        renderItem={renderItem}
+        minScale={minScale}
+        maxScale={maxScale}
+        initialTransform={initialTransform}
+      />
+    </div>
+  )
+}
+
+interface TileRendererProps {
+  tile: TileLayout
+  renderItem: (sourceIndex: number) => ReactNode
+  minScale: number
+  maxScale: number
+  initialTransform?: Partial<CanvasTransform>
+}
+
+const TileRenderer = ({
+  tile,
+  renderItem,
+  minScale,
+  maxScale,
+  initialTransform,
+}: TileRendererProps) => {
   const tileRef = useRef(tile)
   tileRef.current = tile
 
@@ -232,17 +282,31 @@ export const Canvas = ({
     onTransformChange,
   })
 
-  const ctx = useMemo(() => ({ transform: currentRef.current }), [currentRef])
-
   const tiles = useMemo(() => {
     const { startCol, endCol, startRow, endRow } = tileRange
     const itemsPerTile = tile.items.length
     if (itemsPerTile === 0) return []
     const maxTiles = Math.max(1, Math.floor(MAX_ITEMS / itemsPerTile))
+    const totalTiles = (endCol - startCol + 1) * (endRow - startRow + 1)
 
+    // Fast path: no sorting needed when all tiles fit
+    if (totalTiles <= maxTiles) {
+      const result: { key: string; ox: number; oy: number }[] = []
+      for (let row = startRow; row <= endRow; row++) {
+        for (let col = startCol; col <= endCol; col++) {
+          result.push({
+            key: `${col},${row}`,
+            ox: col * tile.tileWidth,
+            oy: row * tile.tileHeight,
+          })
+        }
+      }
+      return result
+    }
+
+    // Slow path: sort by distance from center, keep closest
     const centerCol = (startCol + endCol) / 2
     const centerRow = (startRow + endRow) / 2
-
     const all: { key: string; ox: number; oy: number; dist: number }[] = []
     for (let row = startRow; row <= endRow; row++) {
       for (let col = startCol; col <= endCol; col++) {
@@ -254,45 +318,39 @@ export const Canvas = ({
         })
       }
     }
-
     all.sort((a, b) => a.dist - b.dist)
-    if (all.length > maxTiles) all.length = maxTiles
-
+    all.length = maxTiles
     return all
   }, [tileRange, tile.tileWidth, tile.tileHeight, tile.items.length])
 
   return (
-    <CanvasContext.Provider value={ctx}>
+    <div
+      ref={containerRef}
+      className="absolute inset-0 touch-none"
+      {...handlers}
+    >
       <div
-        ref={containerRef}
-        className={cn(
-          'relative h-dvh w-dvw cursor-grab touch-none select-none overflow-hidden active:cursor-grabbing',
-          className,
-        )}
-        {...handlers}
+        ref={innerRef}
+        style={{
+          transform: `translate(${currentRef.current.x}px, ${currentRef.current.y}px) scale(${currentRef.current.scale})`,
+          transformOrigin: '0 0',
+          willChange: 'transform',
+        }}
+        className="animate-fade-in"
       >
-        <div
-          ref={innerRef}
-          style={{
-            transform: `translate(${currentRef.current.x}px, ${currentRef.current.y}px) scale(${currentRef.current.scale})`,
-            transformOrigin: '0 0',
-            willChange: 'transform',
-          }}
-        >
-          {tiles.map(({ key, ox, oy }) => (
-            <TileGroup
-              key={key}
-              ox={ox}
-              oy={oy}
-              tw={tile.tileWidth}
-              th={tile.tileHeight}
-              layout={tile.items}
-              items={items}
-            />
-          ))}
-        </div>
+        {tiles.map(({ key, ox, oy }) => (
+          <TileGroup
+            key={key}
+            ox={ox}
+            oy={oy}
+            tw={tile.tileWidth}
+            th={tile.tileHeight}
+            layout={tile.items}
+            renderItem={renderItem}
+          />
+        ))}
       </div>
-    </CanvasContext.Provider>
+    </div>
   )
 }
 
@@ -302,23 +360,21 @@ interface TileGroupProps {
   tw: number
   th: number
   layout: LayoutItem[]
-  items: ReactElement<CanvasItemProps>[]
+  renderItem: (sourceIndex: number) => ReactNode
 }
 
-const TileGroup = memo(({ ox, oy, tw, th, layout, items }: TileGroupProps) => {
-  return (
-    <div
-      className="absolute overflow-hidden"
-      style={{
-        transform: `translate(${ox}px, ${oy}px)`,
-        width: tw,
-        height: th,
-      }}
-    >
-      {layout.map((layoutItem, i) => {
-        const child = items[layoutItem.sourceIndex]
-        if (!child) return null
-        return (
+const TileGroup = memo(
+  ({ ox, oy, tw, th, layout, renderItem }: TileGroupProps) => {
+    return (
+      <div
+        className="absolute overflow-hidden"
+        style={{
+          transform: `translate(${ox}px, ${oy}px)`,
+          width: tw,
+          height: th,
+        }}
+      >
+        {layout.map((layoutItem, i) => (
           <div
             key={i}
             className="absolute overflow-hidden"
@@ -328,13 +384,13 @@ const TileGroup = memo(({ ox, oy, tw, th, layout, items }: TileGroupProps) => {
               height: layoutItem.height,
             }}
           >
-            {child.props.children}
+            {renderItem(layoutItem.sourceIndex)}
           </div>
-        )
-      })}
-    </div>
-  )
-})
+        ))}
+      </div>
+    )
+  },
+)
 
 TileGroup.displayName = 'TileGroup'
 
