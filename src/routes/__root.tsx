@@ -18,6 +18,22 @@ export const Route = createRootRoute({
         content:
           'NYC based frontend engineer. Specialized in creating exceptional, well-designed web experiences.',
       },
+      { property: 'og:title', content: 'Jesse Winton' },
+      {
+        property: 'og:description',
+        content:
+          'NYC based frontend engineer. Specialized in creating exceptional, well-designed web experiences.',
+      },
+      { property: 'og:image', content: 'https://jessewinton.works/opengraph-image.jpg' },
+      { property: 'og:type', content: 'website' },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:title', content: 'Jesse Winton' },
+      {
+        name: 'twitter:description',
+        content:
+          'NYC based frontend engineer. Specialized in creating exceptional, well-designed web experiences.',
+      },
+      { name: 'twitter:image', content: 'https://jessewinton.works/opengraph-image.jpg' },
     ],
     links: [
       { rel: 'stylesheet', href: appCss },
