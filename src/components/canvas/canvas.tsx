@@ -89,7 +89,7 @@ const computeLayout = (
       height: scaledHeight,
       sourceIndex: idx,
     })
-    columnHeights[shortest] += scaledHeight + gap
+    columnHeights[shortest]! += scaledHeight + gap
   }
 
   // Tile height from shortest column
