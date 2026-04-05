@@ -1,4 +1,4 @@
-export { Canvas, CanvasItem, useCanvasContext } from './canvas'
+export { Canvas, CanvasItem } from './canvas'
 export { loadImages } from './load-images'
 export { useCanvas } from './use-canvas'
 export type { CanvasImage } from './load-images'
