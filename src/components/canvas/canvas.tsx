@@ -57,8 +57,8 @@ const shuffle = <T,>(arr: T[], seed: number): T[] => {
   let s = seed
   for (let i = result.length - 1; i > 0; i--) {
     s = (s * 1664525 + 1013904223) & 0xffffffff
-    const j = ((s >>> 0) % (i + 1))
-    ;[result[i], result[j]] = [result[j], result[i]]
+    const j = (s >>> 0) % (i + 1)
+    ;[result[i], result[j]!] = [result[j]!, result[i]!]
   }
   return result
 }
@@ -95,7 +95,7 @@ const computeLayout = (
     const y = columnHeights[shortest]
     const scaledHeight = (item.height / item.width) * columnWidth
 
-    columnItems[shortest].push({
+    columnItems[shortest]!.push({
       x,
       y,
       width: columnWidth,
@@ -132,7 +132,10 @@ const useResponsiveColumns = (
   columns: number,
   columnWidth: number,
 ): { columns: number; columnWidth: number } => {
-  const [screen, setScreen] = useState<{ columns: number; columnWidth: number }>({
+  const [screen, setScreen] = useState<{
+    columns: number
+    columnWidth: number
+  }>({
     columns,
     columnWidth,
   })
@@ -166,7 +169,10 @@ export const Canvas = ({
   maxScale = 5,
   initialTransform,
 }: CanvasProps) => {
-  const { columns, columnWidth } = useResponsiveColumns(columnsProp, columnWidthProp)
+  const { columns, columnWidth } = useResponsiveColumns(
+    columnsProp,
+    columnWidthProp,
+  )
   const items = Children.toArray(children) as ReactElement<CanvasItemProps>[]
 
   const tile = useMemo(() => {
@@ -278,6 +284,7 @@ export const Canvas = ({
             transformOrigin: '0 0',
             willChange: 'transform',
           }}
+          className="animate-fade-in"
         >
           {tiles.map(({ key, ox, oy }) => (
             <TileGroup
