@@ -4,7 +4,7 @@ import { cn } from '~/utils/cn'
 import styles from './drawer.module.css'
 
 export const Drawer = () => {
-  const { isUploading, handleReset } = useUploadContext()
+  const { isUploading, handleReset, src } = useUploadContext()
 
   return (
     <DrawerPrimitive.Root
@@ -31,7 +31,16 @@ export const Drawer = () => {
               'relative box-border h-full touch-auto overflow-y-auto overscroll-contain rounded-2xl bg-neutral-900 p-8 text-white outline-none',
             )}
           >
-            <DrawerPrimitive.Content>Content here</DrawerPrimitive.Content>
+            <DrawerPrimitive.Content>
+              {src ? (
+                <img
+                  src={src}
+                  className="pointer-events-none h-full max-h-120 w-full rounded-[3px] object-contain"
+                  alt="just uploaded"
+                  draggable={false}
+                />
+              ) : null}
+            </DrawerPrimitive.Content>
           </DrawerPrimitive.Popup>
         </DrawerPrimitive.Viewport>
       </DrawerPrimitive.Portal>

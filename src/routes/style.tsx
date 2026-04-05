@@ -47,7 +47,6 @@ function Index() {
                 key={image.id}
                 width={image.width}
                 height={image.height}
-                className="animate-fade-in"
               >
                 <img
                   src={image.url}

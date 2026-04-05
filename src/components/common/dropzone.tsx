@@ -45,7 +45,7 @@ export const Dropzone = () => {
 
 const DropzoneInner = () => {
   const [fileDragDepth, setFileDragDepth] = useState(0)
-  const { setIsUploading, setProgress } = useUploadContext()
+  const { setIsUploading, setProgress, setSrc } = useUploadContext()
 
   useEffect(() => {
     let depth = 0
@@ -101,15 +101,16 @@ const DropzoneInner = () => {
     onUploadProgress(progress) {
       setProgress(progress)
     },
-    onClientUploadComplete: (res) => {
+    onClientUploadComplete: async (res) => {
       for (const file of res) {
         const dimensions = dimensionsRef.current.get(file.name)
         if (!dimensions) continue
         dimensionsRef.current.delete(file.name)
-        void syncUpload({
+        await syncUpload({
           data: { url: file.ufsUrl, key: file.key, ...dimensions },
         })
       }
+      setSrc(res[0]?.ufsUrl ?? '')
     },
   })
 
