@@ -12,6 +12,17 @@ import {
 import { cn } from '~/utils/cn'
 import { type CanvasTransform, useCanvas } from './use-canvas'
 
+export interface CanvasItemProps {
+  children?: ReactNode
+  width: number
+  height: number
+  className?: string
+}
+
+export const CanvasItem = ({ children }: CanvasItemProps) => {
+  return <>{children}</>
+}
+
 interface CanvasProps {
   children: ReactNode
   className?: string
@@ -184,7 +195,6 @@ export const Canvas = ({
     columnWidthProp,
   )
 
-  // Stabilize children array — only update ref when keys change
   const childArrayRef = useRef<ReactElement<CanvasItemProps>[]>([])
   const rawChildren = Children.toArray(
     children,
@@ -211,6 +221,12 @@ export const Canvas = ({
     [],
   )
 
+  const cellClassName = useCallback(
+    (sourceIndex: number) =>
+      childArrayRef.current[sourceIndex]?.props.className,
+    [],
+  )
+
   return (
     <div
       className={cn(
@@ -221,6 +237,7 @@ export const Canvas = ({
       <TileRenderer
         tile={tile}
         renderItem={renderItem}
+        cellClassName={cellClassName}
         minScale={minScale}
         maxScale={maxScale}
         initialTransform={initialTransform}
@@ -232,6 +249,7 @@ export const Canvas = ({
 interface TileRendererProps {
   tile: TileLayout
   renderItem: (sourceIndex: number) => ReactNode
+  cellClassName: (sourceIndex: number) => string | undefined
   minScale: number
   maxScale: number
   initialTransform?: Partial<CanvasTransform>
@@ -240,6 +258,7 @@ interface TileRendererProps {
 const TileRenderer = ({
   tile,
   renderItem,
+  cellClassName,
   minScale,
   maxScale,
   initialTransform,
@@ -363,6 +382,7 @@ const TileRenderer = ({
             th={tile.tileHeight}
             layout={tile.items}
             renderItem={renderItem}
+            cellClassName={cellClassName}
           />
         ))}
       </div>
@@ -377,10 +397,11 @@ interface TileGroupProps {
   th: number
   layout: LayoutItem[]
   renderItem: (sourceIndex: number) => ReactNode
+  cellClassName: (sourceIndex: number) => string | undefined
 }
 
 const TileGroup = memo(
-  ({ ox, oy, tw, th, layout, renderItem }: TileGroupProps) => {
+  ({ ox, oy, tw, th, layout, renderItem, cellClassName }: TileGroupProps) => {
     return (
       <div
         className="absolute overflow-hidden"
@@ -390,33 +411,27 @@ const TileGroup = memo(
           height: th,
         }}
       >
-        {layout.map((layoutItem, i) => (
-          <div
-            key={i}
-            className="absolute overflow-hidden"
-            style={{
-              transform: `translate(${layoutItem.x}px, ${layoutItem.y}px)`,
-              width: layoutItem.width,
-              height: layoutItem.height,
-            }}
-          >
-            {renderItem(layoutItem.sourceIndex)}
-          </div>
-        ))}
+        {layout.map((layoutItem, i) => {
+          return (
+            <div
+              key={i}
+              className={cn(
+                'absolute overflow-hidden',
+                cellClassName(layoutItem.sourceIndex),
+              )}
+              style={{
+                transform: `translate(${layoutItem.x}px, ${layoutItem.y}px)`,
+                width: layoutItem.width,
+                height: layoutItem.height,
+              }}
+            >
+              {renderItem(layoutItem.sourceIndex)}
+            </div>
+          )
+        })}
       </div>
     )
   },
 )
 
 TileGroup.displayName = 'TileGroup'
-
-interface CanvasItemProps {
-  children: ReactNode
-  width: number
-  height: number
-  className?: string
-}
-
-export const CanvasItem = ({ children }: CanvasItemProps) => {
-  return <>{children}</>
-}

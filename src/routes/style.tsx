@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Canvas, CanvasItem } from '~/components/canvas'
-import { Drawer } from '~/components/drawer'
+import { Canvas, CanvasItem } from '~/components/common/canvas'
+import { Drawer } from '~/components/common/drawer'
 import { Dropzone } from '~/components/dropzone'
 import { UploadProvider } from '~/context/upload-context'
 import { getImages } from '~/server/api/get-images'
