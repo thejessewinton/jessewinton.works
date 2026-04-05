@@ -19,12 +19,14 @@ export interface CanvasItemProps {
   className?: string
 }
 
-export const CanvasItem = ({ children }: CanvasItemProps) => {
+export type CanvasItemComponent = (props: CanvasItemProps) => ReactNode
+
+const CanvasItem: CanvasItemComponent = ({ children }) => {
   return <>{children}</>
 }
 
 interface CanvasProps {
-  children: ReactNode
+  children: (CanvasItem: CanvasItemComponent) => ReactNode
   className?: string
   columns?: number
   gap?: number
@@ -197,7 +199,7 @@ export const Canvas = ({
 
   const childArrayRef = useRef<ReactElement<CanvasItemProps>[]>([])
   const rawChildren = Children.toArray(
-    children,
+    children(CanvasItem),
   ) as ReactElement<CanvasItemProps>[]
   const childrenChanged =
     rawChildren.length !== childArrayRef.current.length ||
