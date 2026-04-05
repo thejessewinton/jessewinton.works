@@ -2,7 +2,12 @@ import { Toolbar as ToolbarPrimitive } from '@base-ui/react/toolbar'
 import { motion } from 'motion/react'
 import { Tags } from './tags'
 
-export const Toolbar = () => {
+interface ToolbarProps {
+  tags: string[]
+  selectedTags?: string[]
+}
+
+export const Toolbar = ({ tags, selectedTags }: ToolbarProps) => {
   return (
     <ToolbarPrimitive.Root
       className="fixed bottom-8 left-8 flex h-16 items-center justify-between gap-2 rounded-full bg-neutral-800 px-8 shadow-black/20 shadow-lg ring ring-neutral-600/50"
@@ -17,7 +22,7 @@ export const Toolbar = () => {
         />
       }
     >
-      <Tags />
+      <Tags tags={tags} selectedTags={selectedTags} />
     </ToolbarPrimitive.Root>
   )
 }

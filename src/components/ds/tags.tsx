@@ -1,45 +1,71 @@
 import { Combobox } from '@base-ui/react/combobox'
+import { useNavigate } from '@tanstack/react-router'
 import * as React from 'react'
 
-export const Tags = () => {
-  const id = React.useId()
+interface TagsProps {
+  tags: string[]
+  selectedTags?: string[]
+}
+
+export const Tags = ({ tags, selectedTags = [] }: TagsProps) => {
+  const navigate = useNavigate()
+
+  const items = tags.map((tag) => ({ label: tag, value: tag }))
+
+  const selectedItems = items.filter((item) =>
+    selectedTags.includes(item.value),
+  )
+
+  const handleValueChange = (
+    values: { label: string; value: string }[],
+  ) => {
+    const next = values.map((v) => v.value)
+    navigate({
+      to: '/style',
+      search: next.length > 0 ? { tags: next } : {},
+    })
+  }
+
+  const label = React.useMemo(() => {
+    if (selectedTags.length === 0) return 'Tags'
+    if (selectedTags.length === 1) return selectedTags[0]
+    return `${selectedTags[0]} +${selectedTags.length - 1}`
+  }, [selectedTags])
+
   return (
-    <Combobox.Root items={fruits} multiple>
-      <div className="relative flex flex-col gap-1 font-medium text-gray-900 text-sm leading-5">
-        <Combobox.InputGroup className="focus-within:-outline-offset-1 relative box-content h-10 w-64 rounded-md border border-gray-200 bg-[canvas] focus-within:outline-2 focus-within:outline-blue-800 [&>input]:pr-[calc(0.5rem+1.5rem)] has-[.combobox-clear]:[&>input]:pr-[calc(0.5rem+1.5rem*2)]">
-          <Combobox.Input
-            placeholder="e.g. Apple"
-            id={id}
-            className="h-full w-full border-0 bg-transparent pl-3.5 font-normal text-base text-gray-900 outline-none"
-          />
-          <div className="absolute right-2 bottom-0 flex h-10 items-center justify-center text-gray-600">
-            <Combobox.Clear
-              className="combobox-clear flex h-10 w-6 items-center justify-center rounded bg-transparent p-0"
-              aria-label="Clear selection"
-            ></Combobox.Clear>
-            <Combobox.Trigger
-              className="flex h-10 w-6 items-center justify-center rounded bg-transparent p-0"
-              aria-label="Open popup"
-            ></Combobox.Trigger>
-          </div>
-        </Combobox.InputGroup>
-      </div>
+    <Combobox.Root
+      items={items}
+      multiple
+      value={selectedItems}
+      onValueChange={handleValueChange}
+    >
+      <Combobox.Trigger className="flex items-center gap-2 rounded-full bg-neutral-700 px-4 py-1.5 text-neutral-200 text-sm transition-colors hover:bg-neutral-600">
+        <span>{label}</span>
+      </Combobox.Trigger>
 
       <Combobox.Portal>
-        <Combobox.Positioner className="outline-none" sideOffset={4}>
-          <Combobox.Popup className="dark:-outline-offset-1 max-h-[23rem] w-[var(--anchor-width)] max-w-[var(--available-width)] origin-[var(--transform-origin)] rounded-md bg-[canvas] text-gray-900 shadow-gray-200 shadow-lg outline-1 outline-gray-200 transition-[transform,scale,opacity] duration-100 data-[ending-style]:scale-95 data-[starting-style]:scale-95 data-[ending-style]:opacity-0 data-[starting-style]:opacity-0 dark:shadow-none dark:outline-gray-300">
-            <Combobox.Empty className="p-4 text-[0.925rem] text-gray-600 leading-4 empty:m-0 empty:p-0">
-              No fruits found.
+        <Combobox.Positioner className="outline-none" sideOffset={8}>
+          <Combobox.Popup className="max-h-[20rem] w-56 origin-[var(--transform-origin)] rounded-lg bg-neutral-800 p-1 text-neutral-200 shadow-lg ring ring-neutral-600/50 transition-[transform,scale,opacity] duration-100 data-[ending-style]:scale-95 data-[starting-style]:scale-95 data-[ending-style]:opacity-0 data-[starting-style]:opacity-0">
+            <div className="p-2">
+              <Combobox.Input
+                placeholder="Search tags..."
+                className="w-full rounded-md border border-neutral-600 bg-neutral-700 px-3 py-1.5 text-neutral-200 text-sm outline-none placeholder:text-neutral-400 focus:border-neutral-500"
+              />
+            </div>
+            <Combobox.Empty className="px-3 py-2 text-neutral-400 text-sm">
+              No tags found.
             </Combobox.Empty>
-            <Combobox.List className="max-h-[min(23rem,var(--available-height))] scroll-py-[0.5rem] overflow-y-auto overscroll-contain py-2 outline-0 data-[empty]:p-0">
-              {(item: Fruit) => (
+            <Combobox.List className="max-h-[min(16rem,var(--available-height))] scroll-py-1 overflow-y-auto overscroll-contain outline-0">
+              {(item: { label: string; value: string }) => (
                 <Combobox.Item
                   key={item.value}
                   value={item}
-                  className="grid cursor-default select-none grid-cols-[0.75rem_1fr] items-center gap-2 py-2 pr-8 pl-4 text-base leading-4 outline-none data-[highlighted]:relative data-[highlighted]:z-0 data-[highlighted]:text-gray-50 data-[highlighted]:before:absolute data-[highlighted]:before:inset-x-2 data-[highlighted]:before:inset-y-0 data-[highlighted]:before:z-[-1] data-[highlighted]:before:rounded-sm data-[highlighted]:before:bg-gray-900"
+                  className="flex cursor-default select-none items-center gap-2 rounded-md px-3 py-1.5 text-sm outline-none data-[highlighted]:bg-neutral-700"
                 >
-                  <Combobox.ItemIndicator className="col-start-1"></Combobox.ItemIndicator>
-                  <div className="col-start-2">{item.label}</div>
+                  <Combobox.ItemIndicator className="size-4 text-neutral-400">
+                    &#10003;
+                  </Combobox.ItemIndicator>
+                  <span>{item.label}</span>
                 </Combobox.Item>
               )}
             </Combobox.List>
@@ -49,36 +75,3 @@ export const Tags = () => {
     </Combobox.Root>
   )
 }
-
-interface Fruit {
-  label: string
-  value: string
-}
-
-const fruits: Fruit[] = [
-  { label: 'Apple', value: 'apple' },
-  { label: 'Banana', value: 'banana' },
-  { label: 'Orange', value: 'orange' },
-  { label: 'Pineapple', value: 'pineapple' },
-  { label: 'Grape', value: 'grape' },
-  { label: 'Mango', value: 'mango' },
-  { label: 'Strawberry', value: 'strawberry' },
-  { label: 'Blueberry', value: 'blueberry' },
-  { label: 'Raspberry', value: 'raspberry' },
-  { label: 'Blackberry', value: 'blackberry' },
-  { label: 'Cherry', value: 'cherry' },
-  { label: 'Peach', value: 'peach' },
-  { label: 'Pear', value: 'pear' },
-  { label: 'Plum', value: 'plum' },
-  { label: 'Kiwi', value: 'kiwi' },
-  { label: 'Watermelon', value: 'watermelon' },
-  { label: 'Cantaloupe', value: 'cantaloupe' },
-  { label: 'Honeydew', value: 'honeydew' },
-  { label: 'Papaya', value: 'papaya' },
-  { label: 'Guava', value: 'guava' },
-  { label: 'Lychee', value: 'lychee' },
-  { label: 'Pomegranate', value: 'pomegranate' },
-  { label: 'Apricot', value: 'apricot' },
-  { label: 'Grapefruit', value: 'grapefruit' },
-  { label: 'Passionfruit', value: 'passionfruit' },
-]
