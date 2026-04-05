@@ -16,14 +16,18 @@ export const syncUpload = createServerFn({
       throw new Error('Unauthorized')
     }
 
-    await db.insert(images).values({
-      url: data.url,
-      key: data.key,
-      width: data.width,
-      height: data.height,
-    })
+    const [row] = await db
+      .insert(images)
+      .values({
+        url: data.url,
+        key: data.key,
+        width: data.width,
+        height: data.height,
+      })
+      .returning({ id: images.id })
 
     return {
       success: true,
+      id: row!.id,
     }
   })

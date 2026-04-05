@@ -11,6 +11,8 @@ interface UploadContextValue {
   setIsUploading: (isUploading: boolean) => void
   src: string
   setSrc: (src: string) => void
+  imageId: string
+  setImageId: (imageId: string) => void
   progress: number
   setProgress: (progress: number) => void
   handleReset: () => void
@@ -21,6 +23,8 @@ export const UploadContext = createContext<UploadContextValue>({
   setIsUploading: () => {},
   src: '',
   setSrc: () => {},
+  imageId: '',
+  setImageId: () => {},
   progress: 0,
   setProgress: () => {},
   handleReset: () => {},
@@ -30,10 +34,12 @@ export const UploadProvider = ({ children }: { children: ReactNode }) => {
   const [isUploading, setIsUploading] = useState(false)
   const [progress, setProgress] = useState(0)
   const [src, setSrc] = useState('')
+  const [imageId, setImageId] = useState('')
 
   const handleReset = useCallback(() => {
     setIsUploading(false)
     setProgress(0)
+    setImageId('')
   }, [])
 
   return (
@@ -43,6 +49,8 @@ export const UploadProvider = ({ children }: { children: ReactNode }) => {
         setIsUploading,
         src,
         setSrc,
+        imageId,
+        setImageId,
         progress,
         setProgress,
         handleReset,
