@@ -30,7 +30,7 @@ function Index() {
           {site.connections.map((connection) => {
             return (
               <Link
-                to={connection.url}
+                href={connection.url}
                 key={connection.title}
                 target="_blank"
                 className="py-1 first-of-type:pt-0"

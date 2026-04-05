@@ -13,7 +13,7 @@ const paths = Array.from(
 
 let cached: CanvasImage[] | null = null
 
-export const Route = createFileRoute('/menswear')({
+export const Route = createFileRoute('/style')({
   component: Index,
   loader: async () => {
     cached = await loadImages(paths)
@@ -27,16 +27,18 @@ function Index() {
 
   return (
     <Canvas columns={6} gap={40}>
-      {items.map((item) => (
-        <CanvasItem key={item.src} width={item.width} height={item.height}>
-          <img
-            src={item.src}
-            className="h-full w-full rounded-[3px] object-cover"
-            draggable={false}
-            alt={`CSMS ${item.src.split('/').pop()?.split('.').shift()}`}
-          />
-        </CanvasItem>
-      ))}
+      {items.map((item) => {
+        return (
+          <CanvasItem key={item.src} width={item.width} height={item.height}>
+            <img
+              src={item.src}
+              className="h-full w-full rounded-[3px] object-cover"
+              draggable={false}
+              alt={`CSMS ${item.src.split('/').pop()?.split('.').shift()}`}
+            />
+          </CanvasItem>
+        )
+      })}
     </Canvas>
   )
 }
