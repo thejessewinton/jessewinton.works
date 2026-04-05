@@ -45,8 +45,7 @@ export const Dropzone = () => {
 
 const DropzoneInner = () => {
   const [fileDragDepth, setFileDragDepth] = useState(0)
-  const { setIsUploading, setProgress, setSrc, setImageId } =
-    useUploadContext()
+  const { start, setProgress, complete } = useUploadContext()
 
   useEffect(() => {
     let depth = 0
@@ -103,6 +102,7 @@ const DropzoneInner = () => {
       setProgress(progress)
     },
     onClientUploadComplete: async (res) => {
+      let imageId = ''
       for (const file of res) {
         const dimensions = dimensionsRef.current.get(file.name)
         if (!dimensions) continue
@@ -110,16 +110,16 @@ const DropzoneInner = () => {
         const result = await syncUpload({
           data: { url: file.ufsUrl, key: file.key, ...dimensions },
         })
-        setImageId(result.id)
+        imageId = result.id
       }
-      setSrc(res[0]?.ufsUrl ?? '')
+      complete(res[0]?.ufsUrl ?? '', imageId)
     },
   })
 
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
       if (acceptedFiles.length === 0) return
-      setIsUploading(true)
+      start()
       const entries = await Promise.all(
         acceptedFiles.map(async (file) => {
           const dims = await getImageDimensions(file)
@@ -131,7 +131,7 @@ const DropzoneInner = () => {
       }
       void startUpload(acceptedFiles)
     },
-    [startUpload, setIsUploading],
+    [startUpload, start],
   )
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

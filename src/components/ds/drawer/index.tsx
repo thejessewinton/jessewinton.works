@@ -10,17 +10,21 @@ import styles from './drawer.module.css'
 
 export const Drawer = () => {
   const router = useRouter()
-  const { isUploading, handleReset, src, imageId } = useUploadContext()
+  const { upload, reset } = useUploadContext()
   const [availableTags, setAvailableTags] = useState<string[]>([])
   const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [saving, setSaving] = useState(false)
 
+  const isOpen = upload.status !== 'idle'
+  const src = upload.status === 'complete' ? upload.src : undefined
+  const imageId = upload.status === 'complete' ? upload.imageId : undefined
+
   useEffect(() => {
-    if (isUploading) {
+    if (isOpen) {
       getTags().then(setAvailableTags)
       setSelectedTags([])
     }
-  }, [isUploading])
+  }, [isOpen])
 
   const handleSave = useCallback(async () => {
     if (!imageId || selectedTags.length === 0) return
@@ -28,13 +32,13 @@ export const Drawer = () => {
     await updateImageTags({ data: { imageId, tags: selectedTags } })
     await router.invalidate()
     setSaving(false)
-    handleReset()
-  }, [imageId, selectedTags, router, handleReset])
+    reset()
+  }, [imageId, selectedTags, router, reset])
 
   return (
     <DrawerPrimitive.Root
-      open={isUploading}
-      onOpenChange={handleReset}
+      open={isOpen}
+      onOpenChange={reset}
       swipeDirection="right"
     >
       <DrawerPrimitive.Portal>
@@ -66,21 +70,23 @@ export const Drawer = () => {
                     draggable={false}
                   />
                 ) : null}
-                <div className="flex items-center gap-3">
-                  <DrawerTags
-                    tags={availableTags}
-                    selectedTags={selectedTags}
-                    onTagsChange={setSelectedTags}
-                  />
-                  <button
-                    type="button"
-                    onClick={handleSave}
-                    disabled={saving || selectedTags.length === 0}
-                    className="rounded-full bg-white px-4 py-1.5 font-medium text-neutral-900 text-sm transition-colors hover:bg-neutral-200 disabled:opacity-50"
-                  >
-                    {saving ? 'Saving...' : 'Save'}
-                  </button>
-                </div>
+                {imageId ? (
+                  <div className="flex items-center gap-3">
+                    <DrawerTags
+                      tags={availableTags}
+                      selectedTags={selectedTags}
+                      onTagsChange={setSelectedTags}
+                    />
+                    <button
+                      type="button"
+                      onClick={handleSave}
+                      disabled={saving || selectedTags.length === 0}
+                      className="rounded-full bg-white px-4 py-1.5 font-medium text-neutral-900 text-sm transition-colors hover:bg-neutral-200 disabled:opacity-50"
+                    >
+                      {saving ? 'Saving...' : 'Save'}
+                    </button>
+                  </div>
+                ) : null}
               </div>
             </DrawerPrimitive.Content>
           </DrawerPrimitive.Popup>
