@@ -4,24 +4,34 @@ import { cn } from '~/utils/cn'
 import styles from './drawer.module.css'
 
 export const Drawer = () => {
-  const { isUploading, setIsUploading } = useUploadContext()
+  const { isUploading, handleReset } = useUploadContext()
 
   return (
     <DrawerPrimitive.Root
       open={isUploading}
-      onOpenChange={setIsUploading}
+      onOpenChange={handleReset}
       swipeDirection="right"
     >
       <DrawerPrimitive.Portal>
-        <DrawerPrimitive.Backdrop className={styles.backdrop} />
-        <DrawerPrimitive.Viewport className={styles.viewport}>
+        <DrawerPrimitive.Backdrop
+          className={cn(
+            styles.backdrop,
+            'fixed inset-0 min-h-dvh bg-black backdrop-blur-lg',
+          )}
+        />
+        <DrawerPrimitive.Viewport
+          className={cn(
+            styles.viewport,
+            'fixed inset-0 flex items-stretch justify-end',
+          )}
+        >
           <DrawerPrimitive.Popup
             className={cn(
               styles.popup,
-              'rounded-l-2xl bg-neutral-900 text-white',
+              'relative box-border h-full overflow-y-auto overscroll-contain touch-auto rounded-2xl bg-neutral-900 p-8 text-white outline-none',
             )}
           >
-            <DrawerPrimitive.Content />
+            <DrawerPrimitive.Content>Content here</DrawerPrimitive.Content>
           </DrawerPrimitive.Popup>
         </DrawerPrimitive.Viewport>
       </DrawerPrimitive.Portal>

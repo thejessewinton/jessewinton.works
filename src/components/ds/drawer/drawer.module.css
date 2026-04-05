@@ -1,10 +1,5 @@
 .backdrop {
-  --backdrop-opacity: 0.2;
-  position: fixed;
-  inset: 0;
-  min-height: 100dvh;
-  background-color: black;
-  backdrop-filter: blur(16px);
+  --backdrop-opacity: 0.5;
   opacity: calc(var(--backdrop-opacity) * (1 - var(--drawer-swipe-progress)));
   transition: opacity 450ms cubic-bezier(0.32, 0.72, 0, 1);
 
@@ -23,28 +18,17 @@
 }
 
 .viewport {
-  --viewport-padding: 0px;
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: stretch;
-  justify-content: flex-end;
+  --viewport-padding: 0.5rem;
   padding: var(--viewport-padding);
 }
 
 .popup {
   --bleed: 3rem;
-  box-sizing: border-box;
   width: calc(33vw + var(--bleed));
   max-width: calc(100vw - 3rem + var(--bleed));
-  height: 100%;
   margin-right: calc(-1 * var(--bleed));
-  padding: 2rem;
+  right: var(--bleed);
   padding-right: calc(2rem + var(--bleed));
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  touch-action: auto;
-  outline: none;
   transform: translateX(var(--drawer-swipe-movement-x));
   transition: transform 450ms cubic-bezier(0.32, 0.72, 0, 1);
 
