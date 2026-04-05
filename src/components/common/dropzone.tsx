@@ -4,7 +4,7 @@ import {
   generateClientDropzoneAccept,
   generatePermittedFileTypes,
 } from 'uploadthing/client'
-import { useUploadContext } from '~/context/upload-context'
+import { useUploadContext } from '~/context/upload'
 import { syncUpload } from '~/server/api/sync-upload'
 import { cn } from '~/utils/cn'
 import { useUploadThing } from '~/utils/uploadthing'

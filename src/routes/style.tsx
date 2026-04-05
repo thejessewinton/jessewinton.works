@@ -4,7 +4,7 @@ import { Dropzone } from '~/components/common/dropzone'
 import { Teleport } from '~/components/common/teleport'
 import { Drawer } from '~/components/ds/drawer'
 import { Toolbar } from '~/components/ds/toolbar'
-import { UploadProvider } from '~/context/upload-context'
+import { UploadProvider } from '~/context/upload'
 import { getImages } from '~/server/api/get-images'
 import { getTags } from '~/server/api/get-tags'
 

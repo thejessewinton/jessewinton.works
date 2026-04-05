@@ -1,5 +1,5 @@
 import { Drawer as DrawerPrimitive } from '@base-ui/react/drawer'
-import { useUploadContext } from '~/context/upload-context'
+import { useUploadContext } from '~/context/upload'
 import { cn } from '~/utils/cn'
 import styles from './drawer.module.css'
 
@@ -16,7 +16,7 @@ export const Drawer = () => {
         <DrawerPrimitive.Backdrop
           className={cn(
             styles.backdrop,
-            'fixed inset-0 min-h-dvh bg-black backdrop-blur-lg',
+            'fixed inset-0 min-h-dvh backdrop-blur-xs',
           )}
         />
         <DrawerPrimitive.Viewport
@@ -28,7 +28,7 @@ export const Drawer = () => {
           <DrawerPrimitive.Popup
             className={cn(
               styles.popup,
-              'relative box-border h-full overflow-y-auto overscroll-contain touch-auto rounded-2xl bg-neutral-900 p-8 text-white outline-none',
+              'relative box-border h-full touch-auto overflow-y-auto overscroll-contain rounded-2xl bg-neutral-900 p-8 text-white outline-none',
             )}
           >
             <DrawerPrimitive.Content>Content here</DrawerPrimitive.Content>
