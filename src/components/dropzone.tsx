@@ -1,11 +1,30 @@
 import { useDropzone } from '@uploadthing/react'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   generateClientDropzoneAccept,
   generatePermittedFileTypes,
 } from 'uploadthing/client'
+import { useUploadContext } from '~/context/upload-context'
+import { syncUpload } from '~/server/api/sync-upload'
 import { cn } from '~/utils/cn'
 import { useUploadThing } from '~/utils/uploadthing'
+
+const getImageDimensions = (
+  file: File,
+): Promise<{ width: number; height: number }> =>
+  new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file)
+    const img = new Image()
+    img.onload = () => {
+      resolve({ width: img.naturalWidth, height: img.naturalHeight })
+      URL.revokeObjectURL(url)
+    }
+    img.onerror = (err) => {
+      URL.revokeObjectURL(url)
+      reject(err)
+    }
+    img.src = url
+  })
 
 const isFileDrag = (e: DragEvent) =>
   e.dataTransfer?.types.includes('Files') ?? false
@@ -26,6 +45,7 @@ export const Dropzone = () => {
 
 const DropzoneInner = () => {
   const [fileDragDepth, setFileDragDepth] = useState(0)
+  const { setIsUploading, setProgress } = useUploadContext()
 
   useEffect(() => {
     let depth = 0
@@ -73,25 +93,42 @@ const DropzoneInner = () => {
     }
   }, [])
 
+  const dimensionsRef = useRef<Map<string, { width: number; height: number }>>(
+    new Map(),
+  )
+
   const { startUpload, routeConfig } = useUploadThing('imageUploader', {
-    onClientUploadComplete: () => {
-      alert('uploaded successfully!')
+    onUploadProgress(progress) {
+      setProgress(progress)
     },
-    onUploadError: () => {
-      alert('error occurred while uploading')
-    },
-    onUploadBegin: (file) => {
-      console.log('upload has begun for', file)
+    onClientUploadComplete: (res) => {
+      for (const file of res) {
+        const dimensions = dimensionsRef.current.get(file.name)
+        if (!dimensions) continue
+        dimensionsRef.current.delete(file.name)
+        void syncUpload({
+          data: { url: file.ufsUrl, key: file.key, ...dimensions },
+        })
+      }
     },
   })
 
   const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      if (acceptedFiles.length > 0) {
-        void startUpload(acceptedFiles)
+    async (acceptedFiles: File[]) => {
+      if (acceptedFiles.length === 0) return
+      setIsUploading(true)
+      const entries = await Promise.all(
+        acceptedFiles.map(async (file) => {
+          const dims = await getImageDimensions(file)
+          return [file.name, dims] as const
+        }),
+      )
+      for (const [name, dims] of entries) {
+        dimensionsRef.current.set(name, dims)
       }
+      void startUpload(acceptedFiles)
     },
-    [startUpload],
+    [startUpload, setIsUploading],
   )
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -124,11 +161,7 @@ const DropzoneInner = () => {
     >
       <input className="sr-only" {...getInputProps()} />
       {showOverlay ? (
-        <div className="pointer-events-none flex size-full items-center justify-center p-8">
-          <p className="rounded-lg border border-white/20 bg-neutral-900/80 px-6 py-4 text-sm text-white/90 shadow-lg">
-            Drop image to upload
-          </p>
-        </div>
+        <div className="pointer-events-none flex size-full items-center justify-center bg-black/5 p-8 backdrop-blur-lg" />
       ) : null}
     </div>
   )

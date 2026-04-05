@@ -46,7 +46,6 @@ const computeLayout = (
   const n = items.length
   if (n === 0) return { items: [], tileWidth: 0, tileHeight: 0 }
 
-  // Pre-allocate pool and shuffle each segment in-place
   const poolSize = n * 3
   const pool = new Array<number>(poolSize)
   for (let pass = 0; pass < 3; pass++) {
@@ -89,19 +88,37 @@ const computeLayout = (
       height: scaledHeight,
       sourceIndex: idx,
     })
-    columnHeights[shortest] += scaledHeight + gap
+    columnHeights[shortest]! += scaledHeight + gap
   }
 
-  // Tile height from shortest column
+  // Tile height from tallest column
   let tileHeight = columnHeights[0]!
   for (let c = 1; c < columns; c++) {
-    if (columnHeights[c]! < tileHeight) tileHeight = columnHeights[c]!
+    if (columnHeights[c]! > tileHeight) tileHeight = columnHeights[c]!
   }
   tileHeight -= gap
 
+  // Fill shorter columns until they reach tileHeight
+  for (let c = 0; c < columns; c++) {
+    let fillIdx = 0
+    while (columnHeights[c]! < tileHeight) {
+      const item = items[fillIdx % n]!
+      const scaledHeight = (item.height / item.width) * columnWidth
+      columnItems[c]!.push({
+        x: c * (columnWidth + gap),
+        y: columnHeights[c]!,
+        width: columnWidth,
+        height: scaledHeight,
+        sourceIndex: fillIdx % n,
+      })
+      columnHeights[c]! += scaledHeight + gap
+      fillIdx++
+    }
+  }
+
   const tileWidth = columns * (columnWidth + gap)
 
-  // Flatten + clamp, reuse objects when no clamping needed
+  // Flatten + clamp
   const results: LayoutItem[] = []
   for (let c = 0; c < columns; c++) {
     const col = columnItems[c]!
@@ -336,7 +353,6 @@ const TileRenderer = ({
           transformOrigin: '0 0',
           willChange: 'transform',
         }}
-        className="animate-fade-in"
       >
         {tiles.map(({ key, ox, oy }) => (
           <TileGroup

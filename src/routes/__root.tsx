@@ -4,7 +4,6 @@ import {
   Scripts,
   createRootRoute,
 } from '@tanstack/react-router'
-import { Dropzone } from '~/components/dropzone'
 import appCss from '~/styles/globals.css?url'
 
 export const Route = createRootRoute({
@@ -60,7 +59,6 @@ function RootComponent() {
         <HeadContent />
       </head>
       <body className="flex min-h-dvh flex-col items-center justify-center bg-neutral-950 font-light text-white antialiased selection:bg-cyan-900 selection:text-white">
-        <Dropzone />
         <main className="w-full">
           <Outlet />
         </main>
