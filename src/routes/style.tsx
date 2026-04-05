@@ -2,6 +2,8 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Canvas } from '~/components/common/canvas'
 import { Drawer } from '~/components/common/drawer'
 import { Dropzone } from '~/components/common/dropzone'
+import { Teleport } from '~/components/common/teleport'
+import { Toolbar } from '~/components/ds/toolbar'
 import { UploadProvider } from '~/context/upload-context'
 import { getImages } from '~/server/api/get-images'
 
@@ -18,6 +20,9 @@ function Index() {
     <UploadProvider>
       <Dropzone />
       <Drawer />
+      <Teleport>
+        <Toolbar />
+      </Teleport>
       <Canvas columns={6} gap={40}>
         {(CanvasItem) => {
           return images.map((image) => {
