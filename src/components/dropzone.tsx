@@ -4,6 +4,7 @@ import {
   generateClientDropzoneAccept,
   generatePermittedFileTypes,
 } from 'uploadthing/client'
+import { syncUpload } from '~/server/api/sync-upload'
 import { cn } from '~/utils/cn'
 import { useUploadThing } from '~/utils/uploadthing'
 
@@ -74,14 +75,10 @@ const DropzoneInner = () => {
   }, [])
 
   const { startUpload, routeConfig } = useUploadThing('imageUploader', {
-    onClientUploadComplete: () => {
-      alert('uploaded successfully!')
-    },
-    onUploadError: () => {
-      alert('error occurred while uploading')
-    },
-    onUploadBegin: (file) => {
-      console.log('upload has begun for', file)
+    onClientUploadComplete: (res) => {
+      for (const file of res) {
+        void syncUpload({ data: { url: file.ufsUrl, key: file.key } })
+      }
     },
   })
 
