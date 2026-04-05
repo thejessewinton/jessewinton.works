@@ -1,4 +1,5 @@
 import { createServerFn } from '@tanstack/react-start'
+import { getCookie } from '@tanstack/react-start/server'
 import { db } from '../db'
 import { images } from '../db/schema'
 
@@ -9,6 +10,12 @@ export const syncUpload = createServerFn({
     (data: { url: string; key: string; width: number; height: number }) => data,
   )
   .handler(async ({ data }) => {
+    const token = getCookie('upload_token')
+
+    if (token !== process.env.UPLOAD_TOKEN) {
+      throw new Error('Unauthorized')
+    }
+
     await db.insert(images).values({
       url: data.url,
       key: data.key,
