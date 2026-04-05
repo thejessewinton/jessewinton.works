@@ -1,5 +1,12 @@
 import { relations } from 'drizzle-orm'
-import { boolean, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core'
+import {
+  boolean,
+  integer,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+} from 'drizzle-orm/pg-core'
 
 export const users = pgTable('users', {
   id: text('id').primaryKey(),
@@ -76,6 +83,8 @@ export const images = pgTable('images', {
   id: uuid('id').defaultRandom().primaryKey(),
   url: text('url').notNull(),
   key: text('key').notNull().unique(),
+  width: integer('width').notNull(),
+  height: integer('height').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 

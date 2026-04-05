@@ -8,6 +8,17 @@ import { syncUpload } from '~/server/api/sync-upload'
 import { cn } from '~/utils/cn'
 import { useUploadThing } from '~/utils/uploadthing'
 
+const getImageDimensions = (
+  url: string,
+): Promise<{ width: number; height: number }> =>
+  new Promise((resolve, reject) => {
+    const img = new Image()
+    img.onload = () =>
+      resolve({ width: img.naturalWidth, height: img.naturalHeight })
+    img.onerror = reject
+    img.src = url
+  })
+
 const isFileDrag = (e: DragEvent) =>
   e.dataTransfer?.types.includes('Files') ?? false
 
@@ -75,9 +86,12 @@ const DropzoneInner = () => {
   }, [])
 
   const { startUpload, routeConfig } = useUploadThing('imageUploader', {
-    onClientUploadComplete: (res) => {
+    onClientUploadComplete: async (res) => {
       for (const file of res) {
-        void syncUpload({ data: { url: file.ufsUrl, key: file.key } })
+        const { width, height } = await getImageDimensions(file.ufsUrl)
+        void syncUpload({
+          data: { url: file.ufsUrl, key: file.key, width, height },
+        })
       }
     },
   })
