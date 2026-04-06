@@ -31,7 +31,6 @@ interface CanvasProps {
   columns?: number
   gap?: number
   columnWidth?: number
-  minScale?: number
   maxScale?: number
   initialTransform?: Partial<CanvasTransform>
 }
@@ -44,10 +43,10 @@ interface LayoutItem {
   sourceIndex: number
 }
 
-interface TileLayout {
+interface Layout {
   items: LayoutItem[]
-  tileWidth: number
-  tileHeight: number
+  contentWidth: number
+  contentHeight: number
 }
 
 const computeLayout = (
@@ -55,35 +54,16 @@ const computeLayout = (
   columns: number,
   gap: number,
   columnWidth: number,
-): TileLayout => {
+): Layout => {
   const n = items.length
-  if (n === 0) return { items: [], tileWidth: 0, tileHeight: 0 }
-
-  const poolSize = n * 3
-  const pool = new Array<number>(poolSize)
-  for (let pass = 0; pass < 3; pass++) {
-    const offset = pass * n
-    for (let i = 0; i < n; i++) pool[offset + i] = i
-    let s = 42 + pass * 97
-    for (let i = n - 1; i > 0; i--) {
-      s = (s * 1664525 + 1013904223) & 0xffffffff
-      const j = (s >>> 0) % (i + 1)
-      const ai = offset + i
-      const aj = offset + j
-      const tmp = pool[ai]!
-      pool[ai] = pool[aj]!
-      pool[aj] = tmp
-    }
-  }
+  if (n === 0) return { items: [], contentWidth: 0, contentHeight: 0 }
 
   const columnHeights = new Float64Array(columns)
-  const columnItems: LayoutItem[][] = Array.from({ length: columns }, () => [])
+  const layoutItems: LayoutItem[] = []
 
-  for (let p = 0; p < poolSize; p++) {
-    const idx = pool[p]!
-    const item = items[idx]!
+  for (let i = 0; i < n; i++) {
+    const item = items[i]!
 
-    // Linear scan for shortest column
     let shortest = 0
     let shortestH = columnHeights[0]!
     for (let c = 1; c < columns; c++) {
@@ -94,69 +74,26 @@ const computeLayout = (
     }
 
     const scaledHeight = (item.height / item.width) * columnWidth
-    columnItems[shortest]!.push({
+    layoutItems.push({
       x: shortest * (columnWidth + gap),
       y: columnHeights[shortest]!,
       width: columnWidth,
       height: scaledHeight,
-      sourceIndex: idx,
+      sourceIndex: i,
     })
     columnHeights[shortest]! += scaledHeight + gap
   }
 
-  // Tile height from tallest column
-  let tileHeight = columnHeights[0]!
-  for (let c = 1; c < columns; c++) {
-    if (columnHeights[c]! > tileHeight) tileHeight = columnHeights[c]!
-  }
-  tileHeight -= gap
-
-  // Fill shorter columns until they reach tileHeight
+  let contentHeight = 0
   for (let c = 0; c < columns; c++) {
-    let fillIdx = 0
-    while (columnHeights[c]! < tileHeight) {
-      const item = items[fillIdx % n]!
-      const scaledHeight = (item.height / item.width) * columnWidth
-      columnItems[c]!.push({
-        x: c * (columnWidth + gap),
-        y: columnHeights[c]!,
-        width: columnWidth,
-        height: scaledHeight,
-        sourceIndex: fillIdx % n,
-      })
-      columnHeights[c]! += scaledHeight + gap
-      fillIdx++
-    }
+    if (columnHeights[c]! > contentHeight) contentHeight = columnHeights[c]!
   }
+  contentHeight -= gap
 
-  const tileWidth = columns * (columnWidth + gap)
+  const contentWidth = columns * (columnWidth + gap) - gap
 
-  // Flatten + clamp
-  const results: LayoutItem[] = []
-  for (let c = 0; c < columns; c++) {
-    const col = columnItems[c]!
-    for (let i = 0; i < col.length; i++) {
-      const item = col[i]!
-      if (item.y >= tileHeight) break
-      const maxH = tileHeight - item.y
-      if (item.height <= maxH) {
-        results.push(item)
-      } else {
-        results.push({
-          x: item.x,
-          y: item.y,
-          width: item.width,
-          height: maxH,
-          sourceIndex: item.sourceIndex,
-        })
-      }
-    }
-  }
-
-  return { items: results, tileWidth, tileHeight }
+  return { items: layoutItems, contentWidth, contentHeight }
 }
-
-const MAX_ITEMS = 1200
 
 const getResponsiveValues = (columns: number, columnWidth: number) => {
   if (typeof window === 'undefined') return { columns, columnWidth }
@@ -182,17 +119,34 @@ const useResponsiveColumns = (columns: number, columnWidth: number) => {
   return screen
 }
 
+const useViewportSize = () => {
+  const [size, setSize] = useState(() =>
+    typeof window !== 'undefined'
+      ? { width: window.innerWidth, height: window.innerHeight }
+      : { width: 1920, height: 1080 },
+  )
+
+  useEffect(() => {
+    const update = () =>
+      setSize({ width: window.innerWidth, height: window.innerHeight })
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [])
+
+  return size
+}
+
 export const Canvas = ({
   children,
   className,
   columns: columnsProp = 6,
   gap = 24,
   columnWidth: columnWidthProp = 300,
-  minScale = 0.75,
   maxScale = 5,
   initialTransform,
 }: CanvasProps) => {
-  const { columns, columnWidth } = useResponsiveColumns(
+  const viewport = useViewportSize()
+  const { columns: responsiveCols, columnWidth } = useResponsiveColumns(
     columnsProp,
     columnWidthProp,
   )
@@ -209,13 +163,22 @@ export const Canvas = ({
   }
   const items = childArrayRef.current
 
-  const tile = useMemo(() => {
+  const columns = responsiveCols
+
+  const layout = useMemo(() => {
     const dims = items.map((child) => ({
       width: child.props.width ?? 0,
       height: child.props.height ?? 0,
     }))
     return computeLayout(dims, columns, gap, columnWidth)
   }, [items, columns, gap, columnWidth])
+
+  const minScale = useMemo(() => {
+    if (layout.contentWidth === 0 || layout.contentHeight === 0) return 1
+    const scaleX = (viewport.width - 2 * gap) / layout.contentWidth
+    const scaleY = (viewport.height - 2 * gap) / layout.contentHeight
+    return Math.min(scaleX, scaleY)
+  }, [viewport, gap, layout.contentWidth, layout.contentHeight])
 
   const renderItem = useCallback(
     (sourceIndex: number) =>
@@ -236,130 +199,50 @@ export const Canvas = ({
         className,
       )}
     >
-      <TileRenderer
-        tile={tile}
+      <CanvasRenderer
+        layout={layout}
         renderItem={renderItem}
         cellClassName={cellClassName}
         minScale={minScale}
         maxScale={maxScale}
+        padding={gap}
         initialTransform={initialTransform}
       />
     </div>
   )
 }
 
-interface TileRendererProps {
-  tile: TileLayout
+interface CanvasRendererProps {
+  layout: Layout
   renderItem: (sourceIndex: number) => ReactNode
   cellClassName: (sourceIndex: number) => string | undefined
   minScale: number
   maxScale: number
+  padding: number
   initialTransform?: Partial<CanvasTransform>
 }
 
-const TileRenderer = ({
-  tile,
+const CanvasRenderer = ({
+  layout,
   renderItem,
   cellClassName,
   minScale,
   maxScale,
+  padding,
   initialTransform,
-}: TileRendererProps) => {
-  const tileRef = useRef(tile)
-  tileRef.current = tile
-
-  const [tileRange, setTileRange] = useState({
-    startCol: 0,
-    endCol: 1,
-    startRow: 0,
-    endRow: 1,
-  })
-  const prevRangeRef = useRef(tileRange)
-
-  const onTransformChange = useCallback(
-    (current: CanvasTransform, container: HTMLDivElement | null) => {
-      const t = tileRef.current
-      const rect = container?.getBoundingClientRect()
-      const vw = rect?.width ?? 1920
-      const vh = rect?.height ?? 1080
-
-      const tw = t.tileWidth
-      const th = t.tileHeight
-      if (tw === 0 || th === 0) return
-
-      const viewLeft = -current.x / current.scale
-      const viewTop = -current.y / current.scale
-      const viewRight = (vw - current.x) / current.scale
-      const viewBottom = (vh - current.y) / current.scale
-
-      const startCol = Math.floor(viewLeft / tw) - 1
-      const endCol = Math.ceil(viewRight / tw)
-      const startRow = Math.floor(viewTop / th) - 1
-      const endRow = Math.ceil(viewBottom / th)
-
-      const prev = prevRangeRef.current
-      if (
-        prev.startCol === startCol &&
-        prev.endCol === endCol &&
-        prev.startRow === startRow &&
-        prev.endRow === endRow
-      )
-        return
-
-      const next = { startCol, endCol, startRow, endRow }
-      prevRangeRef.current = next
-      setTileRange(next)
-    },
-    [],
+}: CanvasRendererProps) => {
+  const contentSize = useMemo(
+    () => ({ width: layout.contentWidth, height: layout.contentHeight }),
+    [layout.contentWidth, layout.contentHeight],
   )
 
   const { currentRef, containerRef, innerRef, handlers } = useCanvas({
     minScale,
     maxScale,
     initialTransform,
-    onTransformChange,
+    contentSize,
+    padding,
   })
-
-  const tiles = useMemo(() => {
-    const { startCol, endCol, startRow, endRow } = tileRange
-    const itemsPerTile = tile.items.length
-    if (itemsPerTile === 0) return []
-    const maxTiles = Math.max(1, Math.floor(MAX_ITEMS / itemsPerTile))
-    const totalTiles = (endCol - startCol + 1) * (endRow - startRow + 1)
-
-    // Fast path: no sorting needed when all tiles fit
-    if (totalTiles <= maxTiles) {
-      const result: { key: string; ox: number; oy: number }[] = []
-      for (let row = startRow; row <= endRow; row++) {
-        for (let col = startCol; col <= endCol; col++) {
-          result.push({
-            key: `${col},${row}`,
-            ox: col * tile.tileWidth,
-            oy: row * tile.tileHeight,
-          })
-        }
-      }
-      return result
-    }
-
-    // Slow path: sort by distance from center, keep closest
-    const centerCol = (startCol + endCol) / 2
-    const centerRow = (startRow + endRow) / 2
-    const all: { key: string; ox: number; oy: number; dist: number }[] = []
-    for (let row = startRow; row <= endRow; row++) {
-      for (let col = startCol; col <= endCol; col++) {
-        all.push({
-          key: `${col},${row}`,
-          ox: col * tile.tileWidth,
-          oy: row * tile.tileHeight,
-          dist: (col - centerCol) ** 2 + (row - centerRow) ** 2,
-        })
-      }
-    }
-    all.sort((a, b) => a.dist - b.dist)
-    all.length = maxTiles
-    return all
-  }, [tileRange, tile.tileWidth, tile.tileHeight, tile.items.length])
 
   return (
     <div
@@ -375,14 +258,10 @@ const TileRenderer = ({
           willChange: 'transform',
         }}
       >
-        {tiles.map(({ key, ox, oy }) => (
-          <TileGroup
-            key={key}
-            ox={ox}
-            oy={oy}
-            tw={tile.tileWidth}
-            th={tile.tileHeight}
-            layout={tile.items}
+        {layout.items.map((item, i) => (
+          <CanvasCell
+            key={i}
+            item={item}
             renderItem={renderItem}
             cellClassName={cellClassName}
           />
@@ -392,48 +271,25 @@ const TileRenderer = ({
   )
 }
 
-interface TileGroupProps {
-  ox: number
-  oy: number
-  tw: number
-  th: number
-  layout: LayoutItem[]
+interface CanvasCellProps {
+  item: LayoutItem
   renderItem: (sourceIndex: number) => ReactNode
   cellClassName: (sourceIndex: number) => string | undefined
 }
 
-const TileGroup = memo(
-  ({ ox, oy, tw, th, layout, renderItem, cellClassName }: TileGroupProps) => {
-    return (
-      <div
-        className="absolute overflow-hidden"
-        style={{
-          transform: `translate(${ox}px, ${oy}px)`,
-          width: tw,
-          height: th,
-        }}
-      >
-        {layout.map((layoutItem, i) => {
-          return (
-            <div
-              key={i}
-              className={cn(
-                'absolute overflow-hidden',
-                cellClassName(layoutItem.sourceIndex),
-              )}
-              style={{
-                transform: `translate(${layoutItem.x}px, ${layoutItem.y}px)`,
-                width: layoutItem.width,
-                height: layoutItem.height,
-              }}
-            >
-              {renderItem(layoutItem.sourceIndex)}
-            </div>
-          )
-        })}
-      </div>
-    )
-  },
+const CanvasCell = memo(
+  ({ item, renderItem, cellClassName }: CanvasCellProps) => (
+    <div
+      className={cn('absolute overflow-hidden', cellClassName(item.sourceIndex))}
+      style={{
+        transform: `translate(${item.x}px, ${item.y}px)`,
+        width: item.width,
+        height: item.height,
+      }}
+    >
+      {renderItem(item.sourceIndex)}
+    </div>
+  ),
 )
 
-TileGroup.displayName = 'TileGroup'
+CanvasCell.displayName = 'CanvasCell'
