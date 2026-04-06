@@ -1,5 +1,14 @@
 import { useAnimationFrame } from 'motion/react'
 import { useCallback, useEffect, useRef } from 'react'
+import type { Touch } from 'react'
+
+const getTouchDistance = (t1: Touch, t2: Touch) =>
+  Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY)
+
+const getTouchCenter = (t1: Touch, t2: Touch) => ({
+  x: (t1.clientX + t2.clientX) / 2,
+  y: (t1.clientY + t2.clientY) / 2,
+})
 
 export interface CanvasTransform {
   x: number
@@ -95,11 +104,7 @@ export const useCanvas = ({
     const dy = target.y - current.y
     const ds = target.scale - current.scale
 
-    if (
-      Math.abs(dx) < 0.01 &&
-      Math.abs(dy) < 0.01 &&
-      Math.abs(ds) < 0.0001
-    )
+    if (Math.abs(dx) < 0.01 && Math.abs(dy) < 0.01 && Math.abs(ds) < 0.0001)
       return
 
     current.x += dx * lerp
@@ -146,46 +151,46 @@ export const useCanvas = ({
     [clampScale],
   )
 
-  const getTouchDistance = (t1: React.Touch, t2: React.Touch) =>
-    Math.hypot(t2.clientX - t1.clientX, t2.clientY - t1.clientY)
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    velocity.current = { x: 0, y: 0 }
 
-  const getTouchCenter = (t1: React.Touch, t2: React.Touch) => ({
-    x: (t1.clientX + t2.clientX) / 2,
-    y: (t1.clientY + t2.clientY) / 2,
-  })
+    if (e.touches.length === 2) {
+      const t0 = e.touches[0]
+      const t1 = e.touches[1]
+      if (t0 === undefined || t1 === undefined) return
 
-  const onTouchStart = useCallback(
-    (e: React.TouchEvent) => {
-      velocity.current = { x: 0, y: 0 }
-
-      if (e.touches.length === 2) {
-        // Start pinch
-        const dist = getTouchDistance(e.touches[0], e.touches[1])
-        const center = getTouchCenter(e.touches[0], e.touches[1])
-        pinchRef.current = {
-          active: true,
-          startDist: dist,
-          startScale: targetRef.current.scale,
-          centerX: center.x,
-          centerY: center.y,
-        }
-        isPanning.current = false
-      } else if (e.touches.length === 1) {
-        isPanning.current = true
-        lastPointer.current = {
-          x: e.touches[0].clientX,
-          y: e.touches[0].clientY,
-        }
+      // Start pinch
+      const dist = getTouchDistance(t0, t1)
+      const center = getTouchCenter(t0, t1)
+      pinchRef.current = {
+        active: true,
+        startDist: dist,
+        startScale: targetRef.current.scale,
+        centerX: center.x,
+        centerY: center.y,
       }
-    },
-    [],
-  )
+      isPanning.current = false
+    } else if (e.touches.length === 1) {
+      const t = e.touches[0]
+      if (t === undefined) return
+
+      isPanning.current = true
+      lastPointer.current = {
+        x: t.clientX,
+        y: t.clientY,
+      }
+    }
+  }, [])
 
   const onTouchMove = useCallback(
     (e: React.TouchEvent) => {
       if (e.touches.length === 2 && pinchRef.current.active) {
-        const dist = getTouchDistance(e.touches[0], e.touches[1])
-        const center = getTouchCenter(e.touches[0], e.touches[1])
+        const t0 = e.touches[0]
+        const t1 = e.touches[1]
+        if (t0 === undefined || t1 === undefined) return
+
+        const dist = getTouchDistance(t0, t1)
+        const center = getTouchCenter(t0, t1)
         const rect = containerRef.current?.getBoundingClientRect()
         if (!rect) return
 
@@ -209,11 +214,11 @@ export const useCanvas = ({
           scale: newScale,
         }
       } else if (e.touches.length === 1 && isPanning.current) {
-        const dx = e.touches[0].clientX - lastPointer.current.x
-        const dy = e.touches[0].clientY - lastPointer.current.y
+        const dx = e.touches[0]!.clientX - lastPointer.current.x
+        const dy = e.touches[0]!.clientY - lastPointer.current.y
         lastPointer.current = {
-          x: e.touches[0].clientX,
-          y: e.touches[0].clientY,
+          x: e.touches[0]!.clientX,
+          y: e.touches[0]!.clientY,
         }
 
         velocity.current = { x: dx, y: dy }
@@ -233,10 +238,13 @@ export const useCanvas = ({
     }
     // If going from pinch to single finger, reset pan origin
     if (e.touches.length === 1) {
+      const t = e.touches[0]
+      if (t === undefined) return
+
       isPanning.current = true
       lastPointer.current = {
-        x: e.touches[0].clientX,
-        y: e.touches[0].clientY,
+        x: t.clientX,
+        y: t.clientY,
       }
     }
   }, [])

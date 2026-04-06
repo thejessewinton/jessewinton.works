@@ -4,7 +4,7 @@ import {
   generateClientDropzoneAccept,
   generatePermittedFileTypes,
 } from 'uploadthing/client'
-import { useUploadContext } from '~/context/upload-context'
+import { useUploadContext } from '~/context/upload'
 import { syncUpload } from '~/server/api/sync-upload'
 import { cn } from '~/utils/cn'
 import { useUploadThing } from '~/utils/uploadthing'
@@ -45,7 +45,7 @@ export const Dropzone = () => {
 
 const DropzoneInner = () => {
   const [fileDragDepth, setFileDragDepth] = useState(0)
-  const { setIsUploading, setProgress } = useUploadContext()
+  const { start, setProgress, complete } = useUploadContext()
 
   useEffect(() => {
     let depth = 0
@@ -101,22 +101,25 @@ const DropzoneInner = () => {
     onUploadProgress(progress) {
       setProgress(progress)
     },
-    onClientUploadComplete: (res) => {
+    onClientUploadComplete: async (res) => {
+      let imageId = ''
       for (const file of res) {
         const dimensions = dimensionsRef.current.get(file.name)
         if (!dimensions) continue
         dimensionsRef.current.delete(file.name)
-        void syncUpload({
+        const result = await syncUpload({
           data: { url: file.ufsUrl, key: file.key, ...dimensions },
         })
+        imageId = result.id
       }
+      complete(res[0]?.ufsUrl ?? '', imageId)
     },
   })
 
   const onDrop = useCallback(
     async (acceptedFiles: File[]) => {
       if (acceptedFiles.length === 0) return
-      setIsUploading(true)
+      start()
       const entries = await Promise.all(
         acceptedFiles.map(async (file) => {
           const dims = await getImageDimensions(file)
@@ -128,7 +131,7 @@ const DropzoneInner = () => {
       }
       void startUpload(acceptedFiles)
     },
-    [startUpload, setIsUploading],
+    [startUpload, start],
   )
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

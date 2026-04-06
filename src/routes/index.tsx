@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { Clock } from '~/components/clock'
-import { Link } from '~/components/link'
+import { Link } from '~/components/common/link'
+import { Clock } from '~/components/ds/clock'
 import { site } from '~/data/site'
 
 export const Route = createFileRoute('/')({

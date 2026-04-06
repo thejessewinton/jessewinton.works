@@ -2,7 +2,7 @@ import {
   type LinkComponentProps,
   Link as TanstackLink,
 } from '@tanstack/react-router'
-import { Arrow } from '~/components/icons'
+import { Arrow } from '~/components/ds/icons'
 import { cn } from '~/utils/cn'
 
 export const Link = ({
