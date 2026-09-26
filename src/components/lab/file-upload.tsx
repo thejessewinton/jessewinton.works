@@ -21,6 +21,9 @@ export const FileUpload = () => {
   const [progress, setProgress] = useState(0)
   const [dragging, setDragging] = useState(false)
   const frameRef = useRef<number | null>(null)
+  const [uploadingState, setUploadingState] = useState<
+    'initial' | 'uploading' | 'completed'
+  >('initial')
 
   useEffect(() => {
     return () => {
@@ -39,6 +42,7 @@ export const FileUpload = () => {
     if (frameRef.current !== null) cancelAnimationFrame(frameRef.current)
 
     setFile(file)
+    setUploadingState('uploading')
     setPreview(URL.createObjectURL(file))
     setProgress(1)
 
@@ -54,6 +58,7 @@ export const FileUpload = () => {
       }
 
       frameRef.current = null
+      setUploadingState('completed')
     }
 
     frameRef.current = requestAnimationFrame(tick)
@@ -84,41 +89,36 @@ export const FileUpload = () => {
         className="inset2 pointer-events-none absolute rounded-xl border-[0.5px] border-neutral-600 border-dashed opacity-0 transition-opacity duration-150 ease-[ease] group-hover:opacity-100 group-data-dragging:opacity-100"
       /> */}
 
-      <div className="pointer-events-none flex flex-col items-center gap-4 px-6 text-center">
-        <UploadIcon className="motion-safe:group-data-dragging:-translate-y-0.5 size-5 text-neutral-400 transition-transform duration-200 ease-out" />
+      <div className="pointer-events-none flex aspect-video min-w-1/2 flex-col items-center justify-center gap-4 rounded-xl border-[0.5px] border-neutral-600 bg-white/2 text-center backdrop-blur-sm">
+        <div className="flex items-center gap-3">
+          <UploadIcon className="motion-safe:group-data-dragging:-translate-y-0.5 size-5 text-neutral-400 transition-transform duration-200 ease-out" />
 
-        <div className="flex flex-col gap-1">
-          <span className="font-bold text-neutral-200 text-sm">
-            Drop to upload
-          </span>
+          <div className="flex flex-col gap-1">
+            <span className="font-bold text-neutral-200 text-sm">
+              <AnimatePresence initial={false} mode="popLayout">
+                <motion.span
+                  key={uploadingState}
+                  initial={{ opacity: 0, y: 4, filter: 'blur(2px)' }}
+                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                  exit={{ opacity: 0, y: -4, filter: 'blur(2px)' }}
+                  transition={{ type: 'spring', duration: 0.3, bounce: 0 }}
+                  className="block"
+                >
+                  {uploadingState === 'uploading'
+                    ? 'Uploading...'
+                    : uploadingState === 'completed'
+                      ? 'Upload completed'
+                      : 'Drop files here or click to browse'}
+                </motion.span>
+              </AnimatePresence>
+            </span>
+          </div>
         </div>
 
         {file && preview ? (
           <div className="flex w-56 items-center gap-2.5">
             <img src={preview} alt={file.name} className="size-8 rounded-md" />
-            <span className="relative flex-1 truncate text-left text-neutral-300 text-xs">
-              <AnimatePresence mode="popLayout">
-                {uploading ? (
-                  <motion.span
-                    key="uploading"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                  >
-                    Uploading...
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="completed"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                  >
-                    Upload completed
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </span>
+
             <span className="w-[4ch] text-right text-neutral-400 text-xs tabular-nums">
               <NumberFlow value={progress} suffix="%" />
             </span>
