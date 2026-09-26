@@ -13,7 +13,7 @@ export const Noise = ({
   shape = 'corners',
   intensity = 0.5,
   noise = 0.5,
-  speed = 0,
+  speed = 0.2,
   ...rest
 }: NoiseProps) => {
   return (

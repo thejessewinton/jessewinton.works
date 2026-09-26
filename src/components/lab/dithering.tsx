@@ -9,7 +9,7 @@ export const Dithering = ({
   height = 720,
   colorBack = '#000',
   colorFront = '#222',
-  speed = 0,
+  speed = 0.2,
   scale = 0.65,
   ...rest
 }: DitheringProps) => {
