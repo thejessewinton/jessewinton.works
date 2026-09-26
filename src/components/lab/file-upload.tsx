@@ -1,9 +1,9 @@
 import NumberFlow from '@number-flow/react'
-import { UploadIcon } from '@radix-ui/react-icons'
+import { CheckIcon, UploadIcon } from '@radix-ui/react-icons'
 import { AnimatePresence, motion } from 'motion/react'
 import { useEffect, useId, useRef, useState } from 'react'
 
-const UPLOAD_DURATION = 2000
+const UPLOAD_DURATION = 5000
 
 const ACCEPTED_TYPES = [
   'image/png',
@@ -64,8 +64,6 @@ export const FileUpload = () => {
     frameRef.current = requestAnimationFrame(tick)
   }
 
-  const uploading = progress > 0 && progress < 100
-
   return (
     <label
       htmlFor={id}
@@ -84,14 +82,13 @@ export const FileUpload = () => {
       className="group -outline-offset-1 relative flex size-full cursor-pointer flex-col items-center justify-center gap-4 rounded-[inherit] bg-clip-padding outline-none transition-colors duration-150 ease-[ease] focus-within:outline-[0.5px] focus-within:outline-neutral-400 hover:bg-white/2 data-dragging:bg-white/4"
       data-dragging={dragging || undefined}
     >
-      {/* <div
-        aria-hidden
-        className="inset2 pointer-events-none absolute rounded-xl border-[0.5px] border-neutral-600 border-dashed opacity-0 transition-opacity duration-150 ease-[ease] group-hover:opacity-100 group-data-dragging:opacity-100"
-      /> */}
-
       <div className="pointer-events-none flex aspect-video min-w-1/2 flex-col items-center justify-center gap-4 rounded-xl border-[0.5px] border-neutral-600 bg-white/2 text-center backdrop-blur-sm">
         <div className="flex items-center gap-3">
-          <UploadIcon className="motion-safe:group-data-dragging:-translate-y-0.5 size-5 text-neutral-400 transition-transform duration-200 ease-out" />
+          {uploadingState === 'initial' ? (
+            <UploadIcon className="motion-safe:group-data-dragging:-translate-y-0.5 size-5 text-neutral-400 transition-transform duration-200 ease-out" />
+          ) : uploadingState === 'completed' ? (
+            <CheckIcon className="size-5 text-neutral-400" />
+          ) : null}
 
           <div className="flex flex-col gap-1">
             <span className="font-bold text-neutral-200 text-sm">
