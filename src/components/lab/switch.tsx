@@ -1,78 +1,97 @@
-import { NumberField } from '@base-ui/react/number-field'
-import NumberFlow from '@number-flow/react'
-import { MinusIcon, PlusIcon } from '@radix-ui/react-icons'
-import { useCallback, useId, useRef, useState } from 'react'
-import { Chevron } from '../ds/chevron'
+import { Switch as SwitchPrimitive } from '@base-ui/react/switch'
+import { useRef, useState } from 'react'
+import { usePointerDrag } from '../../hooks/use-pointer-drag'
+
+const DRAG_THRESHOLD = 3
 
 export const Switch = () => {
-  const id = useId()
-  const [value, setValue] = useState<number | null>(100)
-  const [animated, setAnimated] = useState(true)
-  const stepperRef = useRef<HTMLDivElement>(null)
-  const [side, setSide] = useState<'left' | 'right'>('left')
+  const [checked, setChecked] = useState(true)
+  const thumbRef = useRef<HTMLSpanElement>(null)
+  const didDragRef = useRef(false)
+  const gestureRef = useRef({ startX: 0, startOffset: 0, travel: 0, offset: 0 })
 
-  const handleScrubStart = useCallback(() => {
-    const controller = new AbortController()
-    const { signal } = controller
+  const handleThumbDrag = usePointerDrag({
+    onStart: (event) => {
+      const thumb = thumbRef.current
+      const track = thumb?.parentElement
+      if (!thumb || !track) return false
 
-    window.addEventListener(
-      'pointermove',
-      (e) => {
-        if (e.movementX !== 0) setSide(e.movementX < 0 ? 'left' : 'right')
-      },
-      { signal },
-    )
-    window.addEventListener('pointerup', () => controller.abort(), { signal })
-  }, [])
+      const { paddingLeft, paddingRight } = getComputedStyle(track)
+      const travel =
+        track.clientWidth -
+        Number.parseFloat(paddingLeft) -
+        Number.parseFloat(paddingRight) -
+        thumb.offsetWidth
+
+      gestureRef.current = {
+        startX: event.clientX,
+        startOffset: checked ? travel : 0,
+        travel,
+        offset: checked ? travel : 0,
+      }
+      didDragRef.current = false
+    },
+    onMove: (event) => {
+      const thumb = thumbRef.current
+      const track = thumb?.parentElement
+      if (!thumb || !track) return
+
+      const gesture = gestureRef.current
+      const deltaX = event.clientX - gesture.startX
+      if (!didDragRef.current && Math.abs(deltaX) < DRAG_THRESHOLD) return
+
+      didDragRef.current = true
+      gesture.offset = Math.min(
+        Math.max(gesture.startOffset + deltaX, 0),
+        gesture.travel,
+      )
+      const progress = gesture.offset / gesture.travel
+
+      thumb.style.transitionProperty = 'transform, scale'
+      thumb.style.translate = `${gesture.offset}px 0`
+      thumb.style.transformOrigin = `${progress * 100}% 50%`
+      thumb.style.backgroundColor = `color-mix(in oklab, var(--color-neutral-500), var(--color-white) ${progress * 100}%)`
+
+      track.style.transitionProperty = 'none'
+      track.style.backgroundColor = `color-mix(in oklab, color-mix(in oklab, var(--color-white) 5%, transparent), var(--color-green-900) ${progress * 100}%)`
+    },
+    onEnd: () => {
+      const thumb = thumbRef.current
+      const track = thumb?.parentElement
+      if (!thumb || !track) return
+
+      thumb.style.removeProperty('transition-property')
+      thumb.style.removeProperty('translate')
+      thumb.style.removeProperty('transform-origin')
+      thumb.style.removeProperty('background-color')
+      track.style.removeProperty('transition-property')
+      track.style.removeProperty('background-color')
+
+      if (!didDragRef.current) return
+      setChecked(gestureRef.current.offset > gestureRef.current.travel / 2)
+      setTimeout(() => {
+        didDragRef.current = false
+      })
+    },
+  })
 
   return (
-    <NumberField.Root
-      id={id}
-      value={value}
-      min={0}
-      onValueChange={(value, details) => {
-        if (details.reason !== 'input-change') setAnimated(true)
-        setValue(value)
-      }}
-      name="quantity"
-      ref={stepperRef}
-      className="flex flex-col items-start gap-2"
-    >
-      <NumberField.ScrubArea
-        className="w-full cursor-ew-resize select-none"
-        onPointerDown={handleScrubStart}
+    <label className="group flex cursor-pointer items-center gap-2 font-bold text-neutral-200 text-sm">
+      Notifications
+      <SwitchPrimitive.Root
+        checked={checked}
+        onCheckedChange={(checked) => {
+          if (didDragRef.current) return
+          setChecked(checked)
+        }}
+        className="flex h-8 w-16 shrink-0 cursor-pointer items-center rounded-full border-[0.5px] border-neutral-700 bg-white/5 bg-clip-padding p-[3.5px] backdrop-blur-sm transition-colors duration-150 ease-[ease] focus-visible:outline-[0.5px] focus-visible:outline-neutral-400 data-checked:bg-green-900"
       >
-        <label htmlFor={id} className="font-bold text-neutral-200 text-sm">
-          Quantity
-        </label>
-        <NumberField.ScrubAreaCursor className="filter">
-          <Chevron side={side} size={24} />
-        </NumberField.ScrubAreaCursor>
-      </NumberField.ScrubArea>
-
-      <NumberField.Group className="flex h-12">
-        <NumberField.Decrement className="group flex size-12 cursor-pointer items-center justify-center rounded-l-md border-[0.5px] border-neutral-700 border-r-0 bg-white/5 bg-clip-padding backdrop-blur-sm">
-          <MinusIcon className="size-5 transition-transform group-active:scale-98" />
-        </NumberField.Decrement>
-        <div className="relative h-full text-md">
-          <NumberField.Input
-            onFocus={() => setAnimated(false)}
-            onInput={() => setAnimated(false)}
-            onBlur={() => setAnimated(true)}
-            className="focus:-outline-offset-[0.5px] h-full w-[7ch] border-[0.5px] border-neutral-700 bg-white/2 px-2.5 text-left font-normal any-pointer-coarse:text-base text-transparent tabular-nums caret-neutral-950 backdrop-blur-sm transition-all focus:z-1 focus:outline-[0.5px] focus:outline-neutral-400 dark:caret-white"
-            name="quantity"
-          />
-          <NumberFlow
-            value={value ?? 0}
-            animated={animated}
-            aria-hidden
-            className="pointer-events-none absolute inset-y-0 left-2.5 z-2 flex items-center any-pointer-coarse:text-base text-white tabular-nums"
-          />
-        </div>
-        <NumberField.Increment className="group flex size-12 cursor-pointer items-center justify-center rounded-r-md border-[0.5px] border-neutral-700 border-l-0 bg-white/5 bg-clip-padding backdrop-blur-sm">
-          <PlusIcon className="size-5 transition-transform group-active:scale-98" />
-        </NumberField.Increment>
-      </NumberField.Group>
-    </NumberField.Root>
+        <SwitchPrimitive.Thumb
+          className="h-6 w-8 origin-left touch-none rounded-full bg-neutral-500 transition-[translate,background-color,transform,scale] duration-200 ease-in-out group-active:scale-x-105 data-checked:origin-right data-checked:translate-x-[calc(100%-8px)] data-checked:bg-white"
+          ref={thumbRef}
+          onPointerDown={handleThumbDrag}
+        />
+      </SwitchPrimitive.Root>
+    </label>
   )
 }

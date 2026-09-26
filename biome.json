@@ -33,6 +33,9 @@
         "noAutofocus": {
           "level": "off"
         },
+        "noLabelWithoutControl": {
+          "level": "off"
+        },
         "useSemanticElements": {
           "level": "off"
         }
