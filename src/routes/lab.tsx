@@ -1,7 +1,9 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/lab')({
-  beforeLoad: () => {
-    throw redirect({ href: 'https://cosmos.so' })
-  },
+  component: Lab,
 })
+
+function Lab() {
+  return <div>LAB</div>
+}
