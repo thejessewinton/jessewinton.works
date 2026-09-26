@@ -15,7 +15,7 @@ function Lab() {
           to="/"
           className="-ml-5.5 group flex items-center gap-1 text-neutral-400 text-sm"
         >
-          <ChevronLeftIcon className="group-hover:-translate-x-0.5 size-4 transition-transform" />
+          <ChevronLeftIcon className="motion-safe:group-hover:-translate-x-0.5 size-4 transition-transform" />
           Go back
         </Link>
       </div>

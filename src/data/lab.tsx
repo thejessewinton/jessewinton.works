@@ -1,4 +1,4 @@
-import { Dithering } from '~/components/lab/dithering'
+import { FileUpload } from '~/components/lab/file-upload'
 import { Noise } from '~/components/lab/noise'
 import { QuantityStepper } from '~/components/lab/quantity-stepper'
 import { Switch } from '~/components/lab/switch'
@@ -10,8 +10,13 @@ export const LabComponents = [
     Background: Noise,
   },
   {
-    title: 'Dithering',
+    title: 'Switch',
     Component: Switch,
-    Background: Dithering,
+    Background: Noise,
+  },
+  {
+    title: 'File upload',
+    Component: FileUpload,
+    Background: Noise,
   },
 ]

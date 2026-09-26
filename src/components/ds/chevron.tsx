@@ -25,7 +25,7 @@ export const Chevron = ({ side, size = 16 }: ChevronProps) => {
       <motion.path
         initial={false}
         animate={{ d: path[side] }}
-        transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+        transition={{ duration: 0.2, ease: [0.645, 0.045, 0.355, 1] }}
       />
     </svg>
   )
