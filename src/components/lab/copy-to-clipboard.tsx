@@ -1,17 +1,21 @@
 import { CheckIcon, CopyIcon } from '@radix-ui/react-icons'
 import { AnimatePresence, motion } from 'motion/react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { TextMorph } from 'torph/react'
 
 export const CopyToClipboard = () => {
   const [copied, setCopied] = useState(false)
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)
+
+  useEffect(() => () => clearTimeout(timeoutRef.current), [])
 
   const handleCopy = () => {
     navigator.clipboard.writeText(
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ultrices turpis in purus tristique, ac tincidunt massa efficitur. Fusce vitae lacus neque.',
     )
     setCopied(true)
-    setTimeout(() => {
+    clearTimeout(timeoutRef.current)
+    timeoutRef.current = setTimeout(() => {
       setCopied(false)
     }, 4000)
   }
