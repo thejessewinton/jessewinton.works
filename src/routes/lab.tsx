@@ -9,7 +9,7 @@ export const Route = createFileRoute('/lab')({
 function Lab() {
   return (
     <div className="relative flex flex-col gap-12 md:flex-row">
-      <div className="sticky top-40 flex h-fit w-80 flex-col gap-2 self-start">
+      <div className="top-40 flex h-fit w-80 flex-col gap-2 self-start md:sticky">
         <h1 className="font-medium">Lab</h1>
         <Link
           to="/"
