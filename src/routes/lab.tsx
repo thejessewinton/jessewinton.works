@@ -26,7 +26,7 @@ function Lab() {
               <h2 className="sr-only">{title}</h2>
               <div
                 key={index}
-                className="relative flex aspect-2/1 w-full items-center justify-center overflow-hidden rounded-2xl border-[0.5px] border-neutral-700 bg-neutral-900/40"
+                className="relative flex aspect-2/1 w-full items-center justify-center overflow-hidden rounded-2xl border-[0.5px] border-neutral-800 bg-neutral-900/40"
               >
                 <Component />
                 <Background className="-z-10 absolute inset-0 animate-fade-in" />
