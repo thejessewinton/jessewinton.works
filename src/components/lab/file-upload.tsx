@@ -140,7 +140,7 @@ export const FileUpload = () => {
         setDragging(false)
         upload(event.dataTransfer.files)
       }}
-      className="group -outline-offset-1 relative flex aspect-video min-w-1/2 cursor-pointer flex-col items-center justify-center gap-4 rounded-[inherit] border-[0.5px] border-neutral-800 border-dashed bg-white/2 bg-clip-padding p-4 outline-none backdrop-blur-sm transition-colors duration-150 ease-[ease] focus-within:outline-[0.5px] focus-within:outline-neutral-400 hover:bg-white/2 hover:bg-white/5 data-dragging:bg-white/4"
+      className="group -outline-offset-1 relative flex aspect-video min-w-1/2 cursor-pointer flex-col items-center justify-center gap-4 rounded-[inherit] border-[0.5px] border-neutral-800 border-dashed bg-white/2 bg-clip-padding p-4 outline-none backdrop-blur-sm transition-colors duration-150 ease-[ease] focus-within:outline-[0.5px] focus-within:outline-neutral-400 hover:bg-white/5 data-dragging:bg-white/4"
       data-dragging={dragging || undefined}
     >
       <div className="pointer-events-none flex w-72 flex-col items-center justify-center gap-4 text-center">

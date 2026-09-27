@@ -52,7 +52,7 @@ export const QuantityStepper = () => {
             onFocus={() => setAnimated(false)}
             onInput={() => setAnimated(false)}
             onBlur={() => setAnimated(true)}
-            className="focus:-outline-offset-[0.5px] h-full w-[7ch] border-[0.5px] border-neutral-800 bg-white/2 px-2.5 text-left font-normal any-pointer-coarse:text-base text-transparent tabular-nums caret-neutral-950 backdrop-blur-sm focus:z-1 focus:outline-[0.5px] focus:outline-neutral-400 dark:caret-white"
+            className="h-full w-[7ch] border-[0.5px] border-neutral-800 bg-white/2 px-2.5 text-left font-normal any-pointer-coarse:text-base text-transparent tabular-nums caret-neutral-950 backdrop-blur-sm focus:z-1 focus:outline-[0.5px] focus:outline-neutral-400 focus:outline-offset-[-0.5px] dark:caret-white"
             name="quantity"
           />
           <NumberFlow
