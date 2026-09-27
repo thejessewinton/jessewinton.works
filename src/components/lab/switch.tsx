@@ -5,7 +5,7 @@ import { usePointerDrag } from '../../hooks/use-pointer-drag'
 const DRAG_THRESHOLD = 3
 
 export const Switch = () => {
-  const [checked, setChecked] = useState(true)
+  const [checked, setChecked] = useState(false)
   const thumbRef = useRef<HTMLSpanElement>(null)
   const didDragRef = useRef(false)
   const gestureRef = useRef({ startX: 0, startOffset: 0, travel: 0, offset: 0 })
@@ -84,10 +84,10 @@ export const Switch = () => {
           if (didDragRef.current) return
           setChecked(checked)
         }}
-        className="flex h-8 w-16 shrink-0 cursor-pointer items-center rounded-full border-[0.5px] border-neutral-800 bg-white/5 bg-clip-padding p-[3.5px] backdrop-blur-sm transition-colors duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] focus-visible:outline-[0.5px] focus-visible:outline-neutral-400 not-data-checked:group-hover:bg-white/8 data-checked:bg-green-900"
+        className="glow flex h-8 w-16 shrink-0 cursor-pointer items-center rounded-full border-[0.5px] border-neutral-800 bg-white/5 bg-clip-padding p-[3.5px] backdrop-blur-sm transition-colors duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] focus-visible:outline-[0.5px] focus-visible:outline-neutral-400 not-data-checked:group-hover:bg-white/8 data-checked:bg-green-900"
       >
         <SwitchPrimitive.Thumb
-          className="h-6 w-8 origin-left touch-none rounded-full bg-neutral-500 transition-[translate,background-color,transform,scale] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-active:scale-x-105 data-checked:origin-right data-checked:translate-x-[calc(100%-8px)] data-checked:bg-white motion-reduce:transition-[background-color]"
+          className="glow-light h-6 w-8 origin-left touch-none rounded-full bg-neutral-500 transition-[translate,background-color,transform,scale] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-active:scale-x-105 data-checked:origin-right data-checked:translate-x-[calc(100%-7.5px)] data-checked:bg-white motion-reduce:transition-[background-color]"
           ref={thumbRef}
           onPointerDown={handleThumbDrag}
         />
