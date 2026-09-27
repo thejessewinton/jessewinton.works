@@ -23,7 +23,10 @@ export const Route = createRootRoute({
         content:
           'NYC based frontend engineer. Specialized in creating exceptional, well-designed web experiences.',
       },
-      { property: 'og:image', content: 'https://jessewinton.works/opengraph-image.jpg' },
+      {
+        property: 'og:image',
+        content: 'https://jessewinton.works/opengraph-image.jpg',
+      },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
       { name: 'twitter:title', content: 'Jesse Winton' },
@@ -32,7 +35,10 @@ export const Route = createRootRoute({
         content:
           'NYC based frontend engineer. Specialized in creating exceptional, well-designed web experiences.',
       },
-      { name: 'twitter:image', content: 'https://jessewinton.works/opengraph-image.jpg' },
+      {
+        name: 'twitter:image',
+        content: 'https://jessewinton.works/opengraph-image.jpg',
+      },
     ],
     links: [
       { rel: 'stylesheet', href: appCss },
@@ -58,8 +64,8 @@ function RootComponent() {
       <head>
         <HeadContent />
       </head>
-      <body className="flex min-h-dvh flex-col items-center justify-center bg-neutral-950 font-light text-white antialiased selection:bg-cyan-900 selection:text-white">
-        <main className="w-full">
+      <body className="flex min-h-dvh flex-col items-center bg-neutral-950 font-light text-white antialiased selection:bg-cyan-900 selection:text-white">
+        <main className="h-full w-full px-12 py-40 lg:px-40">
           <Outlet />
         </main>
         <Scripts />
