@@ -1,6 +1,6 @@
 import NumberFlow from '@number-flow/react'
 import { CheckIcon, UploadIcon } from '@radix-ui/react-icons'
-import { AnimatePresence, motion, stagger } from 'motion/react'
+import { AnimatePresence, type Variants, motion } from 'motion/react'
 import { useEffect, useId, useRef, useState } from 'react'
 import { TextMorph } from 'torph/react'
 
@@ -23,6 +23,7 @@ type UploadItem = {
   progress: number
   startedAt: number
   duration: number
+  batchIndex: number
   state: 'uploading' | 'completed'
 }
 
@@ -30,18 +31,33 @@ const randomUploadDuration = () =>
   UPLOAD_DURATION_MIN +
   Math.random() * (UPLOAD_DURATION_MAX - UPLOAD_DURATION_MIN)
 
+const item: Variants = {
+  hidden: { opacity: 0, y: 4, filter: 'blur(2px)' },
+  show: (index: number) => ({
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: {
+      type: 'spring',
+      duration: 0.3,
+      bounce: 0,
+      delay: index * 0.1,
+    },
+  }),
+}
+
 export const FileUpload = () => {
   const id = useId()
-  const [items, setItems] = useState<UploadItem[]>([])
+  const [files, setFiles] = useState<UploadItem[]>([])
   const [dragging, setDragging] = useState(false)
   const itemsRef = useRef<UploadItem[]>([])
   const previewsRef = useRef<string[]>([])
   const frameRef = useRef<number | null>(null)
 
   const uploadingState =
-    items.length === 0
+    files.length === 0
       ? 'initial'
-      : items.some((item) => item.state === 'uploading')
+      : files.some((item) => item.state === 'uploading')
         ? 'uploading'
         : 'completed'
 
@@ -69,7 +85,7 @@ export const FileUpload = () => {
     })
 
     itemsRef.current = next
-    setItems(next)
+    setFiles(next)
 
     if (pending) {
       frameRef.current = requestAnimationFrame(tick)
@@ -86,7 +102,7 @@ export const FileUpload = () => {
     if (accepted.length === 0) return
 
     const startedAt = performance.now()
-    const incoming = accepted.map((file) => {
+    const incoming = accepted.map((file, batchIndex) => {
       const preview = URL.createObjectURL(file)
       previewsRef.current.push(preview)
 
@@ -97,12 +113,13 @@ export const FileUpload = () => {
         progress: 1,
         startedAt,
         duration: randomUploadDuration(),
+        batchIndex,
         state: 'uploading' as const,
       }
     })
 
     itemsRef.current = [...itemsRef.current, ...incoming]
-    setItems(itemsRef.current)
+    setFiles(itemsRef.current)
 
     if (frameRef.current === null) {
       frameRef.current = requestAnimationFrame(tick)
@@ -165,36 +182,34 @@ export const FileUpload = () => {
           </div>
         </div>
 
-        <motion.ul
-          className="pointer-events-auto flex h-30 w-full flex-col gap-3 overflow-y-auto"
-          transition={{ delayChildren: stagger(0.1, { from: 'first' }) }}
-        >
+        <ul className="pointer-events-auto flex h-30 w-full flex-col gap-3 overflow-y-auto">
           <AnimatePresence initial={false}>
-            {items.map((item) => {
+            {files.map((file) => {
               return (
                 <motion.li
-                  key={item.id}
-                  initial={{ opacity: 0, y: 4, filter: 'blur(2px)' }}
-                  animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                  transition={{ type: 'spring', duration: 0.3, bounce: 0 }}
+                  key={file.id}
+                  variants={item}
+                  custom={file.batchIndex}
+                  initial="hidden"
+                  animate="show"
                   className="inline-flex h-8 items-center gap-2.5"
                 >
                   <img
-                    src={item.preview}
+                    src={file.preview}
                     alt=""
                     className="size-8 shrink-0 rounded-md object-cover"
                   />
                   <span className="min-w-0 flex-1 truncate text-left text-neutral-400 text-xs">
-                    {item.file.name}
+                    {file.file.name}
                   </span>
                   <span className="shrink-0 text-right text-neutral-400 text-xs tabular-nums">
-                    <NumberFlow value={item.progress} suffix="%" />
+                    <NumberFlow value={file.progress} suffix="%" />
                   </span>
                 </motion.li>
               )
             })}
           </AnimatePresence>
-        </motion.ul>
+        </ul>
       </div>
 
       <input
