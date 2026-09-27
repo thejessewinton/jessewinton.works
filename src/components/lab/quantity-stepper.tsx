@@ -43,7 +43,7 @@ export const QuantityStepper = () => {
         </NumberField.ScrubAreaCursor>
       </NumberField.ScrubArea>
 
-      <NumberField.Group className="flex h-12">
+      <NumberField.Group className="glow flex h-12 rounded-md">
         <NumberField.Decrement className="group flex size-12 cursor-pointer items-center justify-center rounded-l-md border-[0.5px] border-neutral-800 border-r-0 bg-white/5 bg-clip-padding text-neutral-400 backdrop-blur-sm transition-colors duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-white/8 hover:text-neutral-200 focus-visible:z-1 focus-visible:outline-[0.5px] focus-visible:outline-neutral-400">
           <MinusIcon className="size-5 transition-transform duration-150 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-active:scale-90" />
         </NumberField.Decrement>
