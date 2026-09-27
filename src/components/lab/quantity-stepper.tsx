@@ -35,7 +35,7 @@ export const QuantityStepper = () => {
         className="w-full cursor-ew-resize select-none"
         onPointerDown={handleScrubStart}
       >
-        <label htmlFor={id} className="font-bold text-neutral-200 text-sm">
+        <label htmlFor={id} className="font-normal text-md text-neutral-200">
           Quantity
         </label>
         <NumberField.ScrubAreaCursor className="filter">
@@ -52,14 +52,14 @@ export const QuantityStepper = () => {
             onFocus={() => setAnimated(false)}
             onInput={() => setAnimated(false)}
             onBlur={() => setAnimated(true)}
-            className="h-full w-[7ch] border-[0.5px] border-neutral-800 bg-white/2 px-2.5 text-left font-normal any-pointer-coarse:text-base text-transparent tabular-nums caret-neutral-950 backdrop-blur-sm focus:z-1 focus:outline-[0.5px] focus:outline-neutral-400 focus:outline-offset-[-0.5px] dark:caret-white"
+            className="h-full w-[7ch] border-[0.5px] border-neutral-800 bg-white/2 px-3 text-left font-normal any-pointer-coarse:text-base text-transparent tabular-nums caret-neutral-950 backdrop-blur-sm focus:z-1 focus:outline-[0.5px] focus:outline-neutral-400 focus:outline-offset-[-0.5px] dark:caret-white"
             name="quantity"
           />
           <NumberFlow
             value={value ?? 0}
             animated={animated}
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 left-2.5 z-2 flex items-center any-pointer-coarse:text-base text-white tabular-nums"
+            className="pointer-events-none absolute inset-y-0 left-3 z-2 flex items-center any-pointer-coarse:text-base text-md text-white tabular-nums"
           />
         </div>
         <NumberField.Increment className="group flex size-12 cursor-pointer items-center justify-center rounded-r-md border-[0.5px] border-neutral-800 border-l-0 bg-white/5 bg-clip-padding backdrop-blur-sm">

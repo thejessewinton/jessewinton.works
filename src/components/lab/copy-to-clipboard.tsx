@@ -35,7 +35,7 @@ export const CopyToClipboard = () => {
           )}
         </motion.span>
       </AnimatePresence>
-      <span className="px-3 font-normal text-neutral-400 transition-colors duration-200 ease-out group-hover:text-neutral-200">
+      <span className="px-3 font-normal text-white transition-colors duration-200 ease-out group-hover:text-neutral-200">
         <TextMorph>
           {copied ? 'Copied to clipboard' : 'Copy to clipboard '}
         </TextMorph>

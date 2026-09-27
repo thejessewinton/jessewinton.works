@@ -1,5 +1,4 @@
 import { GrainGradient } from '@paper-design/shaders-react'
-import { useReducedMotion } from 'motion/react'
 import type { ComponentProps } from 'react'
 
 interface NoiseProps extends ComponentProps<typeof GrainGradient> {}
@@ -14,11 +13,9 @@ export const Noise = ({
   shape = 'corners',
   intensity = 0.5,
   noise = 0.5,
-  speed = 0.2,
+  speed = 0,
   ...rest
 }: NoiseProps) => {
-  const reducedMotion = useReducedMotion()
-
   return (
     <GrainGradient
       className={className}
@@ -30,7 +27,7 @@ export const Noise = ({
       intensity={intensity}
       noise={noise}
       shape={shape}
-      speed={reducedMotion ? 0 : speed}
+      speed={speed}
       {...rest}
     />
   )

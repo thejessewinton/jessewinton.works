@@ -14,5 +14,5 @@
     }
   }
 
-  --animate-fade-in: fade-in 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  --animate-fade-in: fade-in 0.5s ease-in-out;
 }
