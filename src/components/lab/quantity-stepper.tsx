@@ -44,7 +44,7 @@ export const QuantityStepper = () => {
       </NumberField.ScrubArea>
 
       <NumberField.Group className="flex h-12">
-        <NumberField.Decrement className="group flex size-12 cursor-pointer items-center justify-center rounded-l-md border-[0.5px] border-neutral-800 border-r-0 bg-white/5 bg-clip-padding backdrop-blur-sm">
+        <NumberField.Decrement className="group flex size-12 cursor-pointer items-center justify-center rounded-l-md border-[0.5px] border-neutral-800 border-r-0 bg-white/5 bg-clip-padding text-neutral-400 backdrop-blur-sm transition-colors duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-white/8 hover:text-neutral-200 focus-visible:z-1 focus-visible:outline-[0.5px] focus-visible:outline-neutral-400">
           <MinusIcon className="size-5 transition-transform duration-150 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-active:scale-90" />
         </NumberField.Decrement>
         <div className="relative h-full">
@@ -52,17 +52,17 @@ export const QuantityStepper = () => {
             onFocus={() => setAnimated(false)}
             onInput={() => setAnimated(false)}
             onBlur={() => setAnimated(true)}
-            className="h-full w-[7ch] border-[0.5px] border-neutral-800 bg-white/2 px-3 text-left any-pointer-coarse:text-base text-transparent tabular-nums selection:bg-white/20 selection:text-transparent! caret-neutral-950 backdrop-blur-sm focus:z-1 focus:outline-[0.5px] focus:outline-neutral-400 focus:outline-offset-[-0.5px] dark:caret-white"
+            className="h-full w-[7ch] border-[0.5px] border-neutral-800 bg-white/2 px-3 text-left font-normal any-pointer-coarse:text-base text-transparent tabular-nums caret-neutral-950 backdrop-blur-sm selection:bg-white/20 selection:text-transparent! focus:z-1 focus:outline-[0.5px] focus:outline-neutral-400 focus:outline-offset-[-0.5px] dark:caret-white"
             name="quantity"
           />
           <NumberFlow
             value={value ?? 0}
             animated={animated}
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 left-3 z-2 flex items-center any-pointer-coarse:text-base text-white tabular-nums"
+            className="pointer-events-none absolute inset-y-0 left-3 z-2 flex items-center font-normal any-pointer-coarse:text-base text-white tabular-nums"
           />
         </div>
-        <NumberField.Increment className="group flex size-12 cursor-pointer items-center justify-center rounded-r-md border-[0.5px] border-neutral-800 border-l-0 bg-white/5 bg-clip-padding backdrop-blur-sm">
+        <NumberField.Increment className="group flex size-12 cursor-pointer items-center justify-center rounded-r-md border-[0.5px] border-neutral-800 border-l-0 bg-white/5 bg-clip-padding text-neutral-400 backdrop-blur-sm transition-colors duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] hover:bg-white/8 hover:text-neutral-200 focus-visible:z-1 focus-visible:outline-[0.5px] focus-visible:outline-neutral-400">
           <PlusIcon className="size-5 transition-transform duration-150 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] group-active:scale-90" />
         </NumberField.Increment>
       </NumberField.Group>
