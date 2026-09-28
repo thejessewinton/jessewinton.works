@@ -24,7 +24,7 @@ export const CopyToClipboard = () => {
     <button
       onClick={handleCopy}
       type="button"
-      className="glow group flex h-10 cursor-pointer items-center justify-center rounded-md bg-white/5 bg-clip-padding backdrop-blur-sm transition-colors duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] focus-visible:outline-[0.5px] focus-visible:outline-neutral-400"
+      className="glow group flex h-10 cursor-pointer items-center justify-center rounded-md bg-white/5 bg-clip-padding backdrop-blur-sm transition-[colors,transform] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] focus-visible:outline-[0.5px] focus-visible:outline-neutral-400 active:scale-99"
     >
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.span
