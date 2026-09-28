@@ -19,8 +19,6 @@ export const Noise = ({
   return (
     <GrainGradient
       className={className}
-      width={width}
-      height={height}
       colors={colors}
       colorBack={colorBack}
       softness={softness}
