@@ -32,7 +32,7 @@ export const CopyToClipboard = () => {
           initial={{ opacity: 0, scale: 0.8, filter: 'blur(4px)' }}
           animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
           exit={{ opacity: 0, scale: 0.8, filter: 'blur(4px)' }}
-          className="relative flex h-full w-10 items-center justify-center text-neutral-400 after:absolute after:top-px after:right-0 after:bottom-0 after:w-[0.5px] after:bg-neutral-800 transition-colors duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:text-neutral-200"
+          className="relative flex h-full w-10 items-center justify-center text-neutral-400 transition-colors duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] after:absolute after:top-px after:right-0 after:bottom-0 after:w-[0.5px] after:bg-neutral-800 group-hover:text-neutral-200"
         >
           {copied ? (
             <CheckIcon className="size-6" strokeWidth={1} />

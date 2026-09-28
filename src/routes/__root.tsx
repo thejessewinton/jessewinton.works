@@ -4,6 +4,7 @@ import {
   Scripts,
   createRootRoute,
 } from '@tanstack/react-router'
+import { Analytics } from '@vercel/analytics/react'
 import appCss from '~/styles/globals.css?url'
 
 export const Route = createRootRoute({
@@ -69,6 +70,7 @@ function RootComponent() {
           <Outlet />
         </main>
         <Scripts />
+        <Analytics />
       </body>
     </html>
   )
