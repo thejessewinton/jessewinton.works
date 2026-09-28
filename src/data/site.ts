@@ -8,6 +8,7 @@ export const site = {
     url: 'https://cosmos.so',
   },
   connections: [
+    { title: 'Lab', url: '/lab' },
     { title: 'GitHub', url: 'https://github.com/thejessewinton' },
     { title: 'Twitter', url: 'https://x.com/thejessewinton' },
     { title: 'Spotify', url: 'https://open.spotify.com/user/jrandallw' },
