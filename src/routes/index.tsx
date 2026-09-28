@@ -36,7 +36,7 @@ function Index() {
               <Link
                 to={connection.url}
                 key={connection.title}
-                target="_blank"
+                target={connection.url.includes('http') ? '_blank' : undefined}
                 className="py-1 decoration-[1.15px] underline-offset-6 first-of-type:pt-0 hover:underline"
               >
                 {connection.title}
