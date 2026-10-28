@@ -65,7 +65,7 @@ function RootComponent() {
       <head>
         <HeadContent />
       </head>
-      <body className="flex min-h-dvh flex-col items-center bg-neutral-950 font-light text-white antialiased selection:bg-cyan-900 selection:text-white">
+      <body className="flex min-h-dvh flex-col items-center bg-neutral-950 font-light text-base text-white antialiased selection:bg-cyan-900 selection:text-white">
         <main className="h-full w-full px-12 py-40 lg:px-40">
           <Outlet />
         </main>

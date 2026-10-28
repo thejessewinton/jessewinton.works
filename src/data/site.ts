@@ -1,16 +1,15 @@
 export const site = {
   title: 'Jesse Winton',
   description:
-    'NYC based frontend engineer. Specialized in creating exceptional, well-designed web experiences.',
+    'Staff Design Engineer at Collectors. Building exceptional products and web experiences.',
   now: {
-    title: 'Senior Frontend Engineer',
-    company: 'Cosmos',
-    url: 'https://cosmos.so',
+    title: 'Staff Design Engineer',
+    company: 'Collectors',
+    url: 'https://collectors.com',
   },
+  prev: ['Cosmos', 'Appwrite', 'PlanetScale'],
   connections: [
-    { title: 'Lab', url: '/lab' },
-    { title: 'GitHub', url: 'https://github.com/thejessewinton' },
-    { title: 'Twitter', url: 'https://x.com/thejessewinton' },
+    { title: 'Cosmos', url: 'https://cosmos.so/thejessewinton' },
     { title: 'Spotify', url: 'https://open.spotify.com/user/jrandallw' },
     { title: 'Letterboxd', url: 'https://letterboxd.com/thejessewinton' },
   ],
