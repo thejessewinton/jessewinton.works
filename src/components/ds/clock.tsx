@@ -42,5 +42,5 @@ export const Clock = () => {
     return () => clearTimeout(timeoutId)
   }, [])
 
-  return <span className="tabular-nums tracking-tighter">{display}</span>
+  return <span>{display}</span>
 }
