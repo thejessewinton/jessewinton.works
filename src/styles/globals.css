@@ -2,4 +2,14 @@
 
 @theme {
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --animate-fade-in: fade-in 0.3s ease-in-out;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 }
