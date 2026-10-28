@@ -1,4 +1,5 @@
 import { use } from 'react'
+
 import type { getNowPlaying } from '~/utils/now-playing.functions'
 
 export const NowPlaying = ({

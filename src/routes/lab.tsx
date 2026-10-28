@@ -1,5 +1,6 @@
 import { ChevronLeftIcon } from '@radix-ui/react-icons'
 import { Link, createFileRoute } from '@tanstack/react-router'
+
 import { LabComponents } from '~/data/lab'
 
 export const Route = createFileRoute('/lab')({
@@ -13,9 +14,9 @@ function Lab() {
         <h1 className="font-medium">Lab</h1>
         <Link
           to="/"
-          className="-ml-5.5 group flex items-center gap-1 text-neutral-400 text-sm"
+          className="group -ml-5.5 flex items-center gap-1 text-sm text-neutral-400"
         >
-          <ChevronLeftIcon className="motion-safe:group-hover:-translate-x-0.5 size-4 transition-transform" />
+          <ChevronLeftIcon className="size-4 transition-transform motion-safe:group-hover:-translate-x-0.5" />
           Go back
         </Link>
       </div>
@@ -29,7 +30,7 @@ function Lab() {
                 className="relative flex aspect-2/1 w-full items-center justify-center overflow-hidden rounded-2xl border-[0.5px] border-neutral-800 bg-neutral-900/40"
               >
                 <Component />
-                <Background className="-z-10 absolute inset-0 animate-fade-in" />
+                <Background className="absolute inset-0 -z-10 animate-fade-in" />
               </div>
             </div>
           )

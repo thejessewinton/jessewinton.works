@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Link } from '@tanstack/react-router'
 import { Suspense } from 'react'
+
 import { Clock } from '~/components/ds/clock'
 import { NowPlaying } from '~/components/ds/now-playing'
 import { site } from '~/data/site'
@@ -22,7 +23,7 @@ function Index() {
         <span className="block uppercase">Jesse Winton</span>
         <span className="block uppercase">
           {site.now.title} ~{' '}
-          <Link to={site.now.url} target="_blank" className="hover:underline">
+          <Link to={site.now.url} target="_blank">
             {site.now.company}
           </Link>
         </span>
@@ -40,9 +41,9 @@ function Index() {
               to={connection.url}
               target="_blank"
               key={connection.title}
-              className="w-fit hover:underline"
+              className="w-fit"
             >
-              [{connection.title}]
+              {connection.title}
             </Link>
           )
         })}

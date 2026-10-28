@@ -1,5 +1,6 @@
 import { createServerFn } from '@tanstack/react-start'
 import { setResponseHeaders } from '@tanstack/react-start/server'
+
 import { fetchNowPlaying } from './now-playing.server'
 
 export const getNowPlaying = createServerFn({ method: 'GET' }).handler(

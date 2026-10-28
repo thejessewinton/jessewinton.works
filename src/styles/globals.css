@@ -1,7 +1,7 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
   --animate-fade-in: fade-in 0.3s ease-in-out;
 
   @keyframes fade-in {
@@ -10,6 +10,22 @@
     }
     to {
       opacity: 1;
+    }
+  }
+}
+
+@layer base {
+  a {
+    &:before {
+      content: '[';
+    }
+
+    &:after {
+      content: ']';
+    }
+
+    &:hover {
+      @apply underline;
     }
   }
 }
