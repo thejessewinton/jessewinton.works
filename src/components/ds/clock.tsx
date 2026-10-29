@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import NumberFlow from '@number-flow/react'
+import { useEffect, useRef, useState } from 'react'
 
 declare global {
   interface Window {
@@ -8,22 +9,33 @@ declare global {
 
 const CLOCK_ID = 'clock'
 
-// Stringified into the inline script below, so it may only reference globals.
-const formatTime = (time: number) => {
-  return new Date(time).toLocaleTimeString('en-US', {
+const getTimeParts = (time: number) => {
+  const parts = new Intl.DateTimeFormat('en-US', {
     timeZone: 'America/New_York',
     hour: 'numeric',
     minute: '2-digit',
     second: '2-digit',
-  })
+  }).formatToParts(time)
+
+  const get = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find((part) => part.type === type)?.value ?? ''
+
+  return {
+    hour: Number(get('hour')),
+    minute: Number(get('minute')),
+    second: Number(get('second')),
+    period: get('dayPeriod'),
+  }
 }
 
-// Prerendered HTML holds the build-time value. This runs before first paint
-// to show the real time, and saves it so hydration renders the same text.
+// Prerendered HTML holds the build-time value. NumberFlow digits live in a
+// shadow root this script can't reach, so it hides the clock until mount,
+// fixes the period text, and saves the time so hydration renders the same.
 const paintScript = `(() => {
   const time = Date.now()
   window.__CLOCK_TIME__ = time
-  document.getElementById('${CLOCK_ID}').textContent = (${formatTime})(time)
+  const clock = document.getElementById('${CLOCK_ID}')
+  clock.querySelector('[data-unit="period"]').textContent = (${getTimeParts})(time).period
 })()`
 
 const getInitialTime = () => {
@@ -34,6 +46,8 @@ const getInitialTime = () => {
 }
 
 const msUntilNextSecond = () => 1000 - (Date.now() % 1000)
+
+const twoDigits = { minimumIntegerDigits: 2 }
 
 export const Clock = () => {
   const [time, setTime] = useState(getInitialTime)
@@ -51,9 +65,16 @@ export const Clock = () => {
     return () => clearTimeout(timeoutId)
   }, [])
 
+  const { hour, minute, second, period } = getTimeParts(time)
+
   return (
     <>
-      <span id={CLOCK_ID}>{formatTime(time)}</span>
+      <span id={CLOCK_ID}>
+        <NumberFlow value={hour} data-unit="hour" />:
+        <NumberFlow value={minute} format={twoDigits} data-unit="minute" />:
+        <NumberFlow value={second} format={twoDigits} data-unit="second" />{' '}
+        <span data-unit="period">{period}</span>
+      </span>
       <script dangerouslySetInnerHTML={{ __html: paintScript }} />
     </>
   )

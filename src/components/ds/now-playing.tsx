@@ -1,5 +1,6 @@
 import { use } from 'react'
 
+import { Marquee } from '~/components/ds/marquee'
 import type { getNowPlaying } from '~/utils/now-playing.functions'
 
 export const NowPlaying = ({
@@ -12,9 +13,12 @@ export const NowPlaying = ({
   if (!nowPlaying) return null
 
   return (
-    <p className="line-clamp-1 animate-fade-in uppercase">
-      Now Playing ~ <cite className="not-italic">{nowPlaying.title}</cite> by{' '}
-      <span className="text-sm">{nowPlaying.artist}</span>
+    <p className="flex animate-fade-in uppercase">
+      <span className="shrink-0 whitespace-pre">Now Playing ~ </span>
+      <Marquee>
+        <cite className="not-italic">{nowPlaying.title}</cite> by{' '}
+        <span className="text-sm">{nowPlaying.artist}</span>
+      </Marquee>
     </p>
   )
 }
