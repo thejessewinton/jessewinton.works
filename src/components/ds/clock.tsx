@@ -1,39 +1,48 @@
 import { useEffect, useState } from 'react'
-import { Temporal } from 'temporal-polyfill'
 
-const TIME_ZONE = 'America/New_York'
-
-const formatOptions = {
-  hour: 'numeric',
-  minute: '2-digit',
-  second: '2-digit',
-  hour12: true,
-} as const
-
-const getNewYorkTime = () => {
-  return Temporal.Now.zonedDateTimeISO(TIME_ZONE).toLocaleString(
-    'en-US',
-    formatOptions,
-  )
+declare global {
+  interface Window {
+    __CLOCK_TIME__?: number
+  }
 }
 
-const msUntilNextSecond = () => {
-  const now = Temporal.Now.zonedDateTimeISO(TIME_ZONE)
-  const nextSecond = now
-    .round({ smallestUnit: 'second', roundingMode: 'floor' })
-    .add({ seconds: 1 })
+const CLOCK_ID = 'clock'
 
-  return now.until(nextSecond).total({ unit: 'milliseconds' })
+// Stringified into the inline script below, so it may only reference globals.
+const formatTime = (time: number) => {
+  return new Date(time).toLocaleTimeString('en-US', {
+    timeZone: 'America/New_York',
+    hour: 'numeric',
+    minute: '2-digit',
+    second: '2-digit',
+  })
 }
+
+// Prerendered HTML holds the build-time value. This runs before first paint
+// to show the real time, and saves it so hydration renders the same text.
+const paintScript = `(() => {
+  const time = Date.now()
+  window.__CLOCK_TIME__ = time
+  document.getElementById('${CLOCK_ID}').textContent = (${formatTime})(time)
+})()`
+
+const getInitialTime = () => {
+  if (typeof window === 'undefined') return Date.now()
+
+  const isHydrating = document.getElementById(CLOCK_ID) !== null
+  return (isHydrating && window.__CLOCK_TIME__) || Date.now()
+}
+
+const msUntilNextSecond = () => 1000 - (Date.now() % 1000)
 
 export const Clock = () => {
-  const [display, setDisplay] = useState(getNewYorkTime)
+  const [time, setTime] = useState(getInitialTime)
 
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout>
 
     const tick = () => {
-      setDisplay(getNewYorkTime())
+      setTime(Date.now())
       timeoutId = setTimeout(tick, msUntilNextSecond())
     }
 
@@ -42,5 +51,10 @@ export const Clock = () => {
     return () => clearTimeout(timeoutId)
   }, [])
 
-  return <span>{display}</span>
+  return (
+    <>
+      <span id={CLOCK_ID}>{formatTime(time)}</span>
+      <script dangerouslySetInnerHTML={{ __html: paintScript }} />
+    </>
+  )
 }
