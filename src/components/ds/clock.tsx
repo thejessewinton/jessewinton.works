@@ -70,9 +70,19 @@ export const Clock = () => {
   return (
     <>
       <span id={CLOCK_ID}>
-        <NumberFlow value={hour} data-unit="hour" />:
-        <NumberFlow value={minute} format={twoDigits} data-unit="minute" />:
-        <NumberFlow value={second} format={twoDigits} data-unit="second" />{' '}
+        <NumberFlow value={hour} data-unit="hour" suffix=":" />
+        <NumberFlow
+          value={minute}
+          format={twoDigits}
+          data-unit="minute"
+          suffix=":"
+        />
+        <NumberFlow
+          value={second}
+          format={twoDigits}
+          data-unit="second"
+          suffix=" "
+        />
         <span data-unit="period">{period}</span>
       </span>
       <script dangerouslySetInnerHTML={{ __html: paintScript }} />
