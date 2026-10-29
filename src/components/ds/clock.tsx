@@ -1,5 +1,5 @@
 import NumberFlow from '@number-flow/react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 declare global {
   interface Window {
