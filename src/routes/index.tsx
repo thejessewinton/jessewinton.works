@@ -1,50 +1,58 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { Link } from '@tanstack/react-router'
-import { Clock } from '~/components/ds/clock'
-import { site } from '~/data/site'
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Suspense } from "react";
 
-export const Route = createFileRoute('/')({
-  component: Index,
-})
+import { Clock } from "~/components/ds/clock";
+import { NowPlaying } from "~/components/ds/now-playing";
+import { site } from "~/data/site";
+import { getNowPlaying } from "~/utils/now-playing.functions";
+
+export const Route = createFileRoute("/")({
+	loader: () => {
+		return { nowPlaying: getNowPlaying() };
+	},
+	component: Index,
+});
 
 function Index() {
-  return (
-    <div className="relative flex h-full w-full gap-16 self-center pt-40 leading-tight md:gap-48">
-      <div className="flex flex-col gap-8">
-        <span className="font-medium">Jesse Winton</span>
-        <span className="flex flex-col gap-1 md:flex-row">
-          {site.now.title}
-          <span className="hidden md:inline">&mdash;</span>
-          <Link
-            to={site.now.url}
-            target="_blank"
-            className="decoration-[1.15px] underline-offset-6 hover:underline"
-          >
-            {site.now.company}
-          </Link>
-        </span>
-      </div>
+	const { nowPlaying } = Route.useLoaderData();
 
-      <div className="flex flex-col gap-8">
-        <span className="font-medium">NYC</span>
+	return (
+		<div className="m-0 flex h-full max-w-120 flex-1 flex-col gap-20">
+			<div className="flex flex-col">
+				<span className="block uppercase">Jesse Winton</span>
+				<span className="block uppercase">
+					{site.now.title} ~{" "}
+					<Link to={site.now.url} target="_blank">
+						{site.now.company}
+					</Link>
+				</span>
+				<span className="block uppercase">
+					NYC ~ <Clock />
+				</span>
+			</div>
 
-        <Clock />
+			<p dangerouslySetInnerHTML={{ __html: site.bio }} />
 
-        <div className="flex flex-col">
-          {site.connections.map((connection) => {
-            return (
-              <Link
-                to={connection.url}
-                key={connection.title}
-                target={connection.url.includes('http') ? '_blank' : undefined}
-                className="py-1 decoration-[1.15px] underline-offset-6 first-of-type:pt-0 hover:underline"
-              >
-                {connection.title}
-              </Link>
-            )
-          })}
-        </div>
-      </div>
-    </div>
-  )
+			<div className="flex flex-col">
+				{site.connections.map((connection) => {
+					return (
+						<Link
+							to={connection.url}
+							target="_blank"
+							key={connection.title}
+							className="w-fit py-1"
+						>
+							{connection.title}
+						</Link>
+					);
+				})}
+			</div>
+
+			<div className="mt-auto mb-0">
+				<Suspense>
+					<NowPlaying track={nowPlaying} />
+				</Suspense>
+			</div>
+		</div>
+	);
 }

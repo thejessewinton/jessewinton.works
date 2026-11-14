@@ -5,6 +5,9 @@ import {
   createRootRoute,
 } from '@tanstack/react-router'
 import { Analytics } from '@vercel/analytics/react'
+
+import { NotFound } from '~/components/common/not-found'
+
 import appCss from '~/styles/globals.css?url'
 
 export const Route = createRootRoute({
@@ -51,12 +54,13 @@ export const Route = createRootRoute({
       },
       {
         rel: 'stylesheet',
-        href: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;500&display=optional',
+        href: 'https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@200;300;400&display=swap',
       },
       { rel: 'icon', href: '/favicon.ico' },
     ],
   }),
   component: RootComponent,
+  notFoundComponent: NotFound,
 })
 
 function RootComponent() {
@@ -65,8 +69,8 @@ function RootComponent() {
       <head>
         <HeadContent />
       </head>
-      <body className="flex min-h-dvh flex-col items-center bg-neutral-950 font-light text-white antialiased selection:bg-cyan-900 selection:text-white">
-        <main className="h-full w-full px-12 py-40 lg:px-40">
+      <body className="flex min-h-dvh flex-col bg-olive-100 p-12 font-mono text-sm text-neutral-900 antialiased selection:bg-olive-200 dark:bg-olive-950 dark:text-white dark:selection:text-olive-950">
+        <main className="flex flex-1 flex-col">
           <Outlet />
         </main>
         <Scripts />
